@@ -1,0 +1,106 @@
+/* Estilos generales */
+.main {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.container-main {
+    background: #2f3d8fd2;
+    border-radius: 15px;
+    width: 280px;
+    min-height: 100vh;
+    padding: 30px 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Perfil */
+.container-main__profile {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.container-main__photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #06005e;
+    margin-bottom: 15px;
+}
+
+/* Nombre de usuario */
+.container-main__usser-name {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.container-main__name-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ecf0f1;
+    margin: 0;
+}
+
+/* Lista de opciones */
+.container__options {
+    margin-bottom: 30px;
+}
+
+.container-mian__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container-main__option1,
+.container-main__option2,
+.container-main__option3,
+.container-main__option4 {
+    margin-bottom: 5px;
+}
+
+.container-main__link {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 850;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.container-main__link:hover {
+    background: #9fb1c4;
+    color: #ecf0f1;
+}
+
+/* Botón Salir */
+.container-main__btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 14px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #1a3f8a 0%, #1f2c7a 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(26,63,138,0.4);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+.container-main__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(26,63,138,0.5);
+}
+.container-main__btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(26,63,138,0.4);
+}

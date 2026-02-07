@@ -1,0 +1,257 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: Inter, Roboto, Arial, sans-serif;
+  background: #dbe5f3; /* tono suave similar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  width: 100%;
+  max-width: 520px;
+  padding: 24px;
+}
+
+.container-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Tarjeta central con bordes redondeados y sombra suave */
+.container-main__form {
+  width: 100%;
+  background: #e3f0fa;
+  padding: 28px 26px;
+  border-radius: 28px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+.container-main__profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* avatares superpuestos como en la maqueta */
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #d9dee6;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border: 6px solid #f2f5fb;
+  position: relative;
+  z-index: 2;
+}
+.container-main__profile-record {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px; /* avatares superpuestos como en la maqueta */
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #d9dee6;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border: 6px solid #f2f5fb;
+  position: relative;
+  z-index: 2;
+}
+.container-main__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Estilo de labels y inputs para registro */
+.container-main__form label {
+  display: block;
+  font-size: 14px;
+  color: #1f2a37;
+  margin: 8px 4px 6px;
+}
+.container-login__usser,
+.container-main__password,
+.container-main__create-password,
+.container-main__name,
+.container-main__last-name,
+.container-main__ced,
+.container-main__phone,
+.container-main__address,
+.container-main__email,
+.container-main__usser {
+  width: 100%;
+  padding: 14px 14px 14px 44px; 
+  border-radius: 999px;
+  border: 2px solid #cbd8e6;
+  background: #ffffff;
+  outline: none;
+  font-size: 15px;
+  color: #22313f;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+/* Botones */
+.container-main__btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 14px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #1a3f8a 0%, #1f2c7a 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(26,63,138,0.4);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+.container-main__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(26,63,138,0.5);
+}
+.container-main__btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(26,63,138,0.4);
+}
+
+/* Indicaciones de validación visual (opcional) */
+.container-main__form input:invalid {
+  border: 2px solid #cbd8e6;
+}
+.container-main__form input:valid {
+  border: 2px solid #cbd8e6;
+}
+
+/*Titulo crear contraseña*/
+.container-main__txt-password,
+.container-main__text-code,
+.container-text__password{
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  text-align: center;
+}
+.container-main__information{
+  margin-top: 5%;
+  color: rgb(32, 32, 32);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;          
+  text-transform: uppercase; 
+  font-weight: 600;    
+  font-size: 13px;               
+  letter-spacing: 0.5px;        
+  line-height: 1.25;
+  text-align: center;
+}
+/*Botones para enviar por sms o email*/
+.container-main__send-sms,
+.container-main__send-email {
+    display: inline-block;
+    margin: 0 45px;
+}
+.container__sms,
+.container__email {
+    display: none;
+}
+.container-main__send-sms label,
+.container-main__send-email label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+.container__sms:checked + label,
+.container__email:checked + label {
+    background-color: rgba(26,63,138,0.5);
+    border-color: rgba(26,63,138,0.5);
+    color: white;
+}
+.container-main__send-sms label:hover,
+.container-main__send-email label:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+.container-main__send-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+/*Botones para los digitos del codigo de recuperación*/
+/* Contenedor principal de los dígitos */
+.container-main__code {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+/* Estilo para cada contenedor de dígito */
+.container__code-digit1,
+.container-main__code-digit2,
+.container-main__code-digit3,
+.container-main__code-digit4 {
+    width: 60px;
+    height: 60px;
+}
+
+/* Estilo para los inputs de dígitos */
+.container-main__digit {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: white;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Efecto cuando el input está enfocado */
+.container-main__digit:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Ocultar las flechas de los inputs number*/ 
+.container-main__digit::-webkit-outer-spin-button,
+.container-main__digit::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container-main {
+        padding: 20px;
+    }
+    
+    .container-main__photo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .container-main__name-text {
+        font-size: 1.2rem;
+    }
+}
