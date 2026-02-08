@@ -25,4 +25,12 @@ class Medico extends Model
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * Relación con el modelo User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'cedula', 'cedula');
+    }
 }

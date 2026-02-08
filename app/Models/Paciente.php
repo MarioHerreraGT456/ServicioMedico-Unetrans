@@ -9,12 +9,13 @@ class Paciente extends Model
 {
     use HasFactory;
 
-    protected $table = 'pacientes'; // Le decimos qué tabla usar
+    protected $table = 'pacientes';
 
     protected $fillable = [
         'nombre',
         'cedula',
         'estado_civil',
+        'tipo',
         'correo',
         'direccion',
         'telefono',
@@ -26,4 +27,12 @@ class Paciente extends Model
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * Relación con el modelo User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'cedula', 'cedula');
+    }
 }

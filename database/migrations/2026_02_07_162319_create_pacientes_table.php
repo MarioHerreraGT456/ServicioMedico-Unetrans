@@ -16,6 +16,7 @@ return new class extends Migration
         $table->string('nombre');
         $table->integer('cedula')->unique();
         $table->string('estado_civil');
+        $table->enum('tipo', ['paciente', 'estudiante']);
         $table->string('correo')->unique();
         $table->string('direccion');
         $table->string('telefono', 11); // Longitud fija de 11
