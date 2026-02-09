@@ -7,30 +7,40 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MedicoController extends Controller
 {
+    // Vista del Dashboard (protegida)
+    public function index()
+    {
+        $user = Auth::user();
+        $medico = $user->medico;
+        return view('medico', compact('user', 'medico'));
+    }
+
+    // Lógica de registro completa
     public function store(Request $request)
     {
-        // 1. Validar
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'cedula' => 'required|integer|unique:users,cedula|unique:medicos,cedula',
-            'correo' => 'required|email|unique:medicos,correo',
-            'cargo' => 'required|in:jefe,asistente',
+            'nombre'       => 'required|string|max:255',
+            'cedula'       => 'required|integer|unique:users,cedula',
+            'password'     => 'required|min:8|confirmed',
+            // Específicos médico
+            'correo'       => 'required|email|unique:medicos,correo',
+            'cargo'        => 'required|in:jefe,asistente',
             'especialidad' => 'required|in:medicina general,odontologia,psiquiatria',
-            'password' => 'required|min:8|confirmed',
-            'foto' => 'nullable|image|max:2048',
+            'foto'         => 'nullable|image|max:2048',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // 2. Crear usuario
+            // 2. Crear User
             $user = User::create([
-                'nombre' => $request->nombre,
-                'cedula' => $request->cedula,
-                'rol' => 'medico',
+                'nombre'   => $request->nombre,
+                'cedula'   => $request->cedula,
+                'rol'      => 'medico',
                 'password' => Hash::make($request->password),
             ]);
 
@@ -40,24 +50,27 @@ class MedicoController extends Controller
                 $path = $request->file('foto')->store('fotos_medicos', 'public');
             }
 
-            // 4. Crear médico
+            // 4. Crear Medico
             Medico::create([
-                'nombre' => $request->nombre,
-                'cedula' => $request->cedula,
-                'correo' => $request->correo,
-                'cargo' => $request->cargo,
+                'nombre'       => $request->nombre,
+                'cedula'       => $request->cedula,
+                'correo'       => $request->correo,
+                'cargo'        => $request->cargo,
                 'especialidad' => $request->especialidad,
-                'foto' => $path,
-                'password' => Hash::make($request->password),
+                'foto'         => $path,
+                'password'     => Hash::make($request->password),
             ]);
 
             DB::commit();
 
-            return back()->with('success', 'Médico registrado correctamente');
+            // 5. Autenticar y Redirigir
+            Auth::login($user);
+
+            return redirect()->route('medico.dashboard');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Error al registrar el médico']);
+            return back()->withErrors(['error' => 'Error al registrar médico: ' . $e->getMessage()])->withInput();
         }
     }
 }
