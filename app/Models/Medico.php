@@ -31,6 +31,6 @@ class Medico extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'cedula', 'cedula');
+        return $this->belongsTo(Persona::class, 'cedula', 'cedula');
     }
 }

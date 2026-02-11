@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medico;
-use App\Models\User;
+use App\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +37,7 @@ class MedicoController extends Controller
 
         try {
             // 2. Crear User
-            $user = User::create([
+            $user = Persona::create([
                 'nombre'   => $request->nombre,
                 'cedula'   => $request->cedula,
                 'rol'      => 'medico',
