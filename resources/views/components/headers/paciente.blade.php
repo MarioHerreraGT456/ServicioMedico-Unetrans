@@ -37,7 +37,10 @@
 <aside id="sidebarPaciente" class="sidebar">
   <div class="sidebar__header">
     <img src="img/perfil.jpg" alt="Perfil">
-    <span class="sidebar__name">Paciente</span>
+    @auth
+      
+    <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
+    @endauth
   </div>
 
   <nav class="sidebar__nav">
