@@ -14,14 +14,19 @@
       Inicio
     </button>
 
-     <button class="sidebar__item" data-view="perfil">
+    <button class="sidebar__item" data-view="perfil">
       <span class="material-symbols-outlined">person</span>
       Perfil
     </button>
-    
+
     <button class="sidebar__item" data-view="historias">
       <span class="material-symbols-outlined">folder</span>
       Historias
+    </button>
+
+    <button class="sidebar__item" data-view="solicitar">
+      <span class="material-symbols-outlined">lock_open</span>
+      Registrar Familiar
     </button>
 
     <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
@@ -255,31 +260,118 @@
 
 </section>
 
-  <!-- ===== SOLICITAR ACCESO ===== -->
-  <section id="view-solicitar" class="view hidden">
-      <main class="main">
-        <div class="container-main__request-access">
-        <div class="container-main__profile">
-        <img alt="foto de perfil" class="container-main__photo" onerror="this.style.display='none'" src="img/perfil.jpg"/>
-        </div>
-        <div class="container__text">
-        <p class="container__paragraph">
-                            Si desea registrar una persona que no es miembro de la comunidad universitaria, 
-                            debe realizar una petición de aceptación al jefe del servicio médico
-                        </p>
-        </div>
-        <div class="container__application">
-        <div class="container__application-dates">
-        <label for="ced">Cédula:</label>
-        <input class="container__application-ced" id="ced" maxlength="9" name="ced" pattern="^[VJEG]{1}[0-9]{7,8}$" required="" type="text"/>
-        <label for="reasons">Exposición de Motivos:</label>
-        <input class="container-application__reasons" id="reasons" maxlength="5000" name="reasons" required="" type="text"/>
-        <button class="container-main__btn" type="submit">Enviar</button>
-        </div>
-        </div>
-        </div>
-      </main>
-  </section>
+<!-- =======REGISTRAR FAMILIARES========= -->
+<section id="crearFamiliarOverlay" class="oai-backdrop oai-hidden">
+
+  <button id="btnCerrarCrearFamiliar" class="btn-cerrar-overlay" type="button">
+      ✕
+  </button>
+
+  <div class="oai-frame-drawer auth-box">
+
+    <!-- TITULO -->
+    <h2 style="text-align:center;margin-bottom:6px;">
+      Registro de Familiares
+    </h2>
+
+    <!-- FORMULARIO -->
+    <form
+      id="formCrearFamiliar"
+      data-form="crear-familiar"
+      method="POST" 
+      action="{{ route('pacientePersonal') }}"
+    >
+
+      <!-- IDENTIFICADOR PARA BACKEND -->
+      <input type="hidden" name="form_tipo" value="CREAR_FAMILIAR">
+
+      <label for="fam_nombre">Nombre:</label>
+      <input
+        type="text"
+        name="fam_nombre"
+        required
+      >
+
+      <label for="fam_apellido">Apellido:</label>
+      <input
+        type="text"
+        name="fam_apellido"
+        required
+      >
+    
+      <label for="fam_cedula">Cédula:</label>
+      <input
+        type="text"
+        name="fam_cedula"
+        placeholder="V12345678"
+        pattern="[VvEeJjPp]{1}[0-9]{5,9}"
+        title="Formato válido: V12345678"
+        required
+      >
+    
+      <label for="fam_correo">Correo:</label>
+      <input
+        type="email"
+        name="fam_correo"
+        required
+      >
+
+      <label for="fam_direccion">Dirección:</label>
+      <input
+        type="text"
+        name="fam_direccion"
+        required
+      >
+        
+      <label for="fam_telefono">Teléfono:</label>
+      <input
+        type="tel"
+        name="fam_telefono"
+        required
+      >
+      
+      <label for="fam_fecha_nacimiento">Fecha de Nacimiento:</label>
+      <input
+        type="date"
+        name="fam_fecha_nacimiento"
+        required
+      >
+
+      <label for="selectSexofamiliar">Sexo:</label>
+      <select id="selectSexofamiliar" name="fam_sexo" class="select-placeholder" required>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Otro">Otro</option>
+      </select>
+
+      <label for="selectEstadoCivilfamiliar">Estado Civil:</label>
+      <select id="selectEstadoCivilfamiliar" name="fam_estado_civil" class="select-placeholder" required>
+        <option value="Soltero(a)">Soltero(a)</option>
+        <option value="Casado(a)">Casado(a)</option>
+        <option value="Divorciado(a)">Divorciado(a)</option>
+        <option value="Viudo(a)">Viudo(a)</option>
+      </select>
+
+      <div id="crearFamiliarMsg" class="form-msg oai-hidden">
+
+      </div>
+      <!-- BOTONES -->
+      <div style="display:flex;gap:12px;margin-top:18px;">
+
+        <button
+          id="registrarEspecialidad"
+          type="submit"
+          class="btn-primario"
+        >
+          Registrar Familiar
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</section>
 
 </main>
 

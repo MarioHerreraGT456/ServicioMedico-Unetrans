@@ -1,4 +1,9 @@
 /*******************************************************
+ * ESTADO GLOBAL DEL REGISTRO DE PACIENTE
+ *******************************************************/
+let cedulaRegistroPaciente = null;
+
+/*******************************************************
  * UTILIDADES
  *******************************************************/
 function qs(sel, root = document) {
@@ -17,175 +22,72 @@ function escapeHTML(str) {
 }
 
 /*******************************************************
- * AUTH (LOGIN / REGISTRO / RECUPERACIÓN)
- * NO DEPENDE DEL MENÚ
+ * AUTH DINÁMICO (WELCOME)
  *******************************************************/
-(function () {
-  const AUTH_IDS = [
-    "loginOverlay",
-    "registroOverlay",
-    "recuperarOverlay",
-    "codigoOverlay",
-    "nuevaClaveOverlay",
-  ];
+document.addEventListener("DOMContentLoaded", () => {
 
-  function hideAllAuth() {
-    AUTH_IDS.forEach((id) => {
-      qs(`#${id}`)?.classList.add("oai-hidden");
-    });
+  const container = document.getElementById("authOverlayContainer");
+  if (!container) return;
+
+  async function abrirAuth(url) {
+    try {
+      const res = await fetch(url);
+      const html = await res.text();
+
+      container.innerHTML = `
+        <div class="oai-backdrop">
+          <div class="oai-frame-drawer auth-box">
+            ${html}
+          </div>
+        </div>
+      `;
+
+      document.body.style.overflow = "hidden";
+
+      // Cerrar con X
+      container.querySelectorAll(".btn-cerrar-overlay")
+        .forEach(btn => {
+          btn.addEventListener("click", cerrarAuth);
+        });
+
+    } catch (err) {
+      console.error("Error cargando auth:", err);
+    }
   }
 
-  function openAuth(id) {
-    hideAllAuth();
-    qs(`#${id}`)?.classList.remove("oai-hidden");
+  function cerrarAuth() {
+    container.innerHTML = "";
+    document.body.style.overflow = "";
   }
 
-  function inputsVacios(container) {
-    if (!container) return true;
-    return [...container.querySelectorAll("input")].some((i) => !i.value.trim());
-  }
+  // 🔥 INTERCEPTAR LINKS AUTH (LOGIN / REGISTER / RECUPERAR)
+    document.querySelectorAll(`
+      a[href*='login'],
+      a[href*='register'],
+      a[href*='passwordRequest'],
+      a[href*='forgot']
+    `).forEach(link => {
 
-  /* ===== NAV INDEX ===== */
-  qsa(".main-header__link").forEach((link) => {
-    const txt = (link.textContent || "").toLowerCase();
+      link.addEventListener("click", function(e) {
 
-    if (txt.includes("iniciar")) {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        openAuth("loginOverlay");
-      });
-    }
+        const url = this.getAttribute("href");
 
-    if (txt.includes("registr")) {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        openAuth("registroOverlay");
-      });
-    }
-  });
-
-  /* ===== LOGIN ===== */
-  qs("#goRegistro")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    openAuth("registroOverlay");
-  });
-
-  qs("#goRecuperar")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    openAuth("recuperarOverlay");
-  });
-
-  qs("#loginOverlay button")?.addEventListener("click", () => {
-    const box = qs("#loginOverlay");
-    if (inputsVacios(box)) {
-      alert("Complete usuario y contraseña");
-      return;
-    }
-
-    const usuario = box.querySelector('input[type="text"]')?.value.trim() || "";
-
-    // SIMULACIÓN DE ROL
-    /*if (usuario.toUpperCase().startsWith("M")) {
-      location.href = "inicioMedico.html";
-    } else {
-      location.href = "inicioPaciente.html";
-    }*/
-
-    
-  });
-
-  /* ===== REGISTRO ===== */
-qs("#btnRegistroContinuar")?.addEventListener("click", (e) => {
-  // Si el botón está dentro de un <form>, evitamos submit real (por ahora es frontend)
-  e.preventDefault();
-
-  const overlay = qs("#registroOverlay");
-    if (!overlay) return;
-
-    // 1) Ideal: validar con HTML5
-    const form = overlay.querySelector("form");
-
-    if (form) {
-      // Esto obliga al navegador a revisar required/pattern/type/etc
-      if (!form.checkValidity()) {
-        form.reportValidity(); // muestra los mensajes nativos
-        return;
-      }
-    } else {
-      // 2) Si NO hay <form>, validamos igual con checkValidity() por input
-      const fields = [...overlay.querySelectorAll("input, select, textarea")];
-      for (const el of fields) {
-        if (typeof el.checkValidity === "function" && !el.checkValidity()) {
-          el.reportValidity?.();
-          return;
+        // Solo interceptamos si es ruta de auth
+        if (
+          url.includes("login") ||
+          url.includes("register") ||
+          url.includes("passwordRequest") ||
+          url.includes("forgot")
+        ) {
+          e.preventDefault();
+          abrirAuth(url);
         }
-      }
-    }
 
-    // Si todo OK, entonces sí cambia de pantalla
-    openAuth("nuevaClaveOverlay");
-  });
+      });
 
-  /* ===== RECUPERAR ===== */
-  qs("#btnEnviarCodigo")?.addEventListener("click", () => {
-    if (!qs("#recUsuario")?.value.trim()) {
-      alert("Ingrese su usuario");
-      return;
-    }
+    });
 
-    const metodo = qs('input[name="metodoRecuperacion"]:checked');
-    if (!metodo) {
-      alert("Seleccione un método de recuperación");
-      return;
-    }
-
-    openAuth("codigoOverlay");
-  });
-
-  qs("#btnCodigoContinuar")?.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const inputs = qsa("#codigoOverlay input");
-    let codigo = "";
-
-    for (let input of inputs) {
-      const val = (input.value || "").trim();
-      if (!val) {
-        alert("Debe completar los 4 dígitos");
-        return;
-      }
-      if (!/^\d$/.test(val)) {
-        alert("Solo números");
-        return;
-      }
-      codigo += val;
-    }
-
-    if (codigo !== "1234") {
-      alert("Código incorrecto");
-      return;
-    }
-
-    openAuth("nuevaClaveOverlay");
-  });
-
-  /* ===== NUEVA CLAVE ===== */
-  qs("#btnEstablecerClave")?.addEventListener("click", () => {
-    const p1 = qs("#newPass");
-    const p2 = qs("#confirmPass");
-
-    if (!p1?.value || !p2?.value) {
-      alert("Complete ambos campos");
-      return;
-    }
-    if (p1.value !== p2.value) {
-      alert("Las contraseñas no coinciden");
-      return;
-    }
-
-    openAuth("loginOverlay");
-  });
-})();
+});
 
 /*******************************************************
  * MENÚ LATERAL PUSH (PACIENTE Y MÉDICO)
@@ -200,45 +102,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!menuBtn || !sidebar) return;
 
-  // Abrir / cerrar menú
   menuBtn.addEventListener("click", () => {
     body.classList.toggle("menu-open");
   });
 
-  // Navegación entre vistas
-  qsa(".sidebar__item").forEach((btn) => {
+  //ESTO ES NUEVO (PARA CERRAR EL MENU)
+  const btnCerrarMenu = document.getElementById("btnCerrarMenu");
+
+  btnCerrarMenu?.addEventListener("click", () => {
+    body.classList.remove("menu-open");
+  });
+
+  qsa(".sidebar__item", sidebar).forEach((btn) => {
     btn.addEventListener("click", () => {
+      if (btn.classList.contains("sidebar__item-action")) return;
+
       const view = btn.dataset.view;
       if (!view) return;
 
-      qsa(".sidebar__item").forEach((b) => b.classList.remove("active"));
+      qsa(".sidebar__item", sidebar).forEach((b) =>
+        b.classList.remove("active")
+      );
       btn.classList.add("active");
 
-      qsa(".view").forEach((v) => v.classList.add("hidden"));
-      qs(`#view-${view}`)?.classList.remove("hidden");
+      const main = btn.closest("main") || document;
+
+      main.querySelectorAll(".view").forEach((v) =>
+        v.classList.add("hidden")
+      );
+
+      main.querySelector(`#view-${view}`)?.classList.remove("hidden");
+
+      if(view ==="perfil"){
+        cargarMiPerfil();
+      }
 
       body.classList.remove("menu-open");
-
-      // Si vuelves a Historias (PACIENTE) y tu sistema usa los contenedores,
-      // lo reseteamos SIN ROMPER nada (solo si existen)
-      if (view === "historias") {
-        const modulesView = qs("#histories-modules");
-        const emptyView = qs("#histories-empty");
-        const listView = qs("#histories-list");
-        if (modulesView && emptyView && listView) {
-          modulesView.classList.remove("hidden");
-          emptyView.classList.add("hidden");
-          listView.classList.add("hidden");
-        }
-      }
     });
   });
 
-  // Logout (si existe en tu menú)
   qs(".sidebar__logout")?.addEventListener("click", () => {
     location.href = "index.html";
   });
 });
+
+// 👇 funciones del perfil (fuera)
+async function cargarMiPerfil() {
+  try {
+    const res = await fetch("backend/controllers/obtenerMiPerfil.php");
+    const data = await res.json();
+
+    if (!data.success) {
+      alert(data.message || "No se pudo cargar el perfil");
+      return;
+    }
+
+    inyectarPerfil(data.data);
+
+  } catch (err) {
+    console.error(err);
+    alert("Error al cargar perfil");
+  }
+}
+
+function inyectarPerfil(p) {
+  document.getElementById("perfilNombre").textContent =
+    p.nombre + " " + p.apellido;
+
+  document.getElementById("perfilCedula").textContent = p.cedula;
+  document.getElementById("perfilCorreo").textContent = p.correo;
+  document.getElementById("perfilTelefono").textContent = p.telefono;
+  document.getElementById("perfilDireccion").textContent = p.direccion;
+  document.getElementById("perfilFechaNacimiento").textContent = p.fecha_nacimiento;
+  document.getElementById("perfilEdad").textContent = p.edad ?? "—";
+  document.getElementById("perfilSexo").textContent = p.sexo;
+  document.getElementById("perfilEstadoCivil").textContent = p.estado_civil;
+  document.getElementById("perfilFechaRegistro").textContent = p.fecha_registro;
+  document.getElementById("perfilEstadoCuenta").textContent = p.estado;
+  document.getElementById("perfilRolSistema").textContent = p.rol ?? "—";
+  // Si el rol no viene, asumir paciente
+  if (!p.rol) {
+    document.getElementById("perfilRolSistema").textContent = "Paciente";
+  }
+  //mostrar los datos de arriba
+  document.getElementById("perfilRol").textContent = p.rol ?? "—";
+  document.getElementById("perfilEstado").textContent = p.estado;
+}
 
 /*******************************************************
  * HISTORIAS CLÍNICAS – PACIENTE (POR MÓDULO)
@@ -933,43 +882,464 @@ function wireHistoriaOdontologia(modal) {
 }
 
 /*ESTO CONTROLA EL SELECT DEL REGISTRO*/
-const tipoPaciente = document.getElementById("tipoPaciente");
-const selectCarrera = document.getElementById("selectCarrera");
-const selectPersonal = document.getElementById("selectPersonal");
+document.addEventListener("DOMContentLoaded", () => {
 
-tipoPaciente.addEventListener("change", () => {
-  // resetear todo
-  selectCarrera.classList.add("hidden");
-  selectPersonal.classList.add("hidden");
-  selectCarrera.value = "";
-  selectPersonal.value = "";
+  /* ===== LOGIN CON FETCH (SIN RECARGA) ===== */
+  const loginForm = document.querySelector("#loginForm");
 
-  tipoPaciente.classList.add("active");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  if (tipoPaciente.value === "estudiante") {
-    selectCarrera.classList.remove("hidden");
+      const loginError = document.getElementById("loginError");
+      if (loginError) {
+        loginError.classList.add("oai-hidden");
+      }
+
+      const formData = new FormData(loginForm);
+      console.log("Enviando login...");
+      try {
+        const response = await fetch("backend/controllers/login.php", {
+        method: "POST",
+        body: formData
+      });
+      console.log("Respuesta recibida", response);
+      const data = await response.json();
+
+      if (!data.success) {
+        if (loginError) {
+          loginError.textContent = data.message;
+          loginError.classList.remove("oai-hidden");
+        }
+        return;
+        }
+
+        window.location.href = data.redirect;
+
+      } catch (err) {
+        if (loginError) {
+          loginError.textContent = "Error de conexión con el servidor";
+          loginError.classList.remove("oai-hidden");
+        }
+      }
+    });
   }
 
-  if (tipoPaciente.value === "personal") {
-    selectPersonal.classList.remove("hidden");
-  }
+  /* ===== EL RESTO DE TU JS SIGUE NORMAL ===== */
+
 });
 
-// para que el texto pase de gris a negro
-[selectCarrera, selectPersonal].forEach(select => {
-  select.addEventListener("change", () => {
-    select.classList.add("active");
+// ================================
+// OVERLAY CREAR MÉDICO (JEFE MÉDICO)
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+  const btnAbrirCrearMedico = document.getElementById("btnAbrirCrearMedico");
+  const crearMedicoOverlay = document.getElementById("crearMedicoOverlay");
+  const btnCerrarCrearMedico = document.getElementById("btnCerrarCrearMedico");
+  const btnCancelarCrearMedico = document.getElementById("btnCancelarCrearMedico");
+
+  if (!btnAbrirCrearMedico || !crearMedicoOverlay) return;
+
+  btnAbrirCrearMedico.addEventListener("click", (e) => {
+    e.preventDefault();
+    crearMedicoOverlay.classList.remove("oai-hidden");
+  });
+
+  function cerrarOverlay() {
+    crearMedicoOverlay.classList.add("oai-hidden");
+  }
+
+  btnCerrarCrearMedico?.addEventListener("click", (e) => {
+    e.preventDefault();
+    cerrarOverlay();
+  });
+
+  btnCancelarCrearMedico?.addEventListener("click", (e) => {
+    e.preventDefault();
+    cerrarOverlay();
   });
 });
 
-//PARA ERRORES DE LOGIN
-document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
+//=======CERRAR OVERLAYS=======
+document.getElementById("btnCerrarCrearMedico")?.addEventListener("click", () => {
+  document.getElementById("crearMedicoOverlay")?.classList.add("oai-hidden");
+});
 
-  if (params.get("error") === "login") {
-    const overlay = document.getElementById("loginOverlay");
-    if (overlay) {
-      overlay.classList.remove("oai-hidden");
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.getElementById("btnCerrarLogin")?.addEventListener("click", () => {
+    document.getElementById("loginOverlay")?.classList.add("oai-hidden");
+  });
+
+  document.getElementById("btnCerrarRegistro")?.addEventListener("click", () => {
+    document.getElementById("registroOverlay")?.classList.add("oai-hidden");
+  });
+
+  document.getElementById("btnCerrarRecuperar")?.addEventListener("click", () => {
+    document.getElementById("recuperarOverlay")?.classList.add("oai-hidden");
+  });
+
+  document.getElementById("btnCerrarCodRecuperacion")?.addEventListener("click", () => {
+    document.getElementById("codigoOverlay")?.classList.add("oai-hidden");
+  });
+
+  document.getElementById("btnCerrarNuevaClave")?.addEventListener("click", () => {
+    document.getElementById("nuevaClaveOverlay")?.classList.add("oai-hidden");
+  });
+
+});
+
+
+/* =======FORMULARIO PARA CREAR MEDICOS========= */
+const formCrearMedico = document.querySelector("#formCrearMedico");
+const msgCrearMedico  = document.querySelector("#crearMedicoMsg");
+const overlayCrearMedico = document.querySelector("#crearMedicoOverlay");
+
+if (formCrearMedico) {
+  formCrearMedico.addEventListener("submit", async (e) => {
+    e.preventDefault(); // ⛔ clave
+
+    msgCrearMedico.classList.add("oai-hidden");
+    msgCrearMedico.classList.remove("error", "success");
+
+    const formData = new FormData(formCrearMedico);
+
+    try {
+      const response = await fetch("backend/controllers/registrarMedico.php", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!data.ok) {
+        msgCrearMedico.textContent = data.mensaje || "Error al registrar médico";
+        msgCrearMedico.classList.add("error");
+        msgCrearMedico.classList.remove("oai-hidden");
+        return;
+      }
+
+      // ✅ Éxito
+      msgCrearMedico.textContent = "Especialista registrado correctamente";
+      msgCrearMedico.classList.add("success");
+      msgCrearMedico.classList.remove("oai-hidden");
+
+      // limpiar form
+      formCrearMedico.reset();
+
+      // cerrar overlay luego de 1.5s
+      setTimeout(() => {
+        overlayCrearMedico.classList.add("oai-hidden");
+        msgCrearMedico.classList.add("oai-hidden");
+      }, 1500);
+
+    } catch (err) {
+      msgCrearMedico.textContent = "Error de conexión con el servidor";
+      msgCrearMedico.classList.add("error");
+      msgCrearMedico.classList.remove("oai-hidden");
+      console.error(err);
+    }
+  });
+} 
+
+/* ========REGISTRAR PACIENTE (REAL)========
+   - Mantiene tu overlay de registro
+   - Evita que el navegador bloquee el submit por campos ocultos (estudiante/personal)
+   - Llama al backend real: backend/controllers/registrarPaciente.php
+*/
+
+document.addEventListener("DOMContentLoaded", () => {
+  const registroOverlay = document.getElementById("registroOverlay");
+  const formPaciente = document.querySelector("#formRegistroPaciente");
+
+  // Si no estamos en index o no existe el form, salir sin romper nada
+  if (!registroOverlay || !formPaciente) return;
+
+  const tipoPaciente = document.getElementById("tipoPaciente");
+  const selectCarrera = document.getElementById("selectCarrera");
+  const selectPersonal = document.getElementById("selectPersonal");
+
+  // Desactiva validación nativa (porque un select hidden + required bloquea el submit ANTES del JS)
+  formPaciente.noValidate = true;
+
+  function resetSelects() {
+    if (selectCarrera) {
+      selectCarrera.classList.add("hidden");
+      selectCarrera.required = false;
+      selectCarrera.value = "";
+      selectCarrera.classList.remove("active");
+    }
+    if (selectPersonal) {
+      selectPersonal.classList.add("hidden");
+      selectPersonal.required = false;
+      selectPersonal.value = "";
+      selectPersonal.classList.remove("active");
     }
   }
+
+  // Estado inicial (por si el overlay se abre con valores previos)
+  resetSelects();
+
+  // Mostrar/ocultar según tipo (esto reemplaza la lógica anterior)
+  tipoPaciente?.addEventListener("change", () => {
+    resetSelects();
+
+    const value = tipoPaciente.value;
+
+    if (value === "estudiante" && selectCarrera) {
+      selectCarrera.classList.remove("hidden");
+      selectCarrera.required = true;
+    }
+
+    if (value === "personal" && selectPersonal) {
+      selectPersonal.classList.remove("hidden");
+      selectPersonal.required = true;
+    }
+  });
+
+  // Submit real
+  formPaciente.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Validación mínima manual para los campos condicionales
+    const tipo = (tipoPaciente?.value || "").trim();
+
+    if (!tipo) {
+      alert("Seleccione el tipo de paciente");
+      return;
+    }
+
+    if (tipo === "estudiante" && selectCarrera && !selectCarrera.value) {
+      alert("Seleccione la carrera");
+      return;
+    }
+
+    if (tipo === "personal" && selectPersonal && !selectPersonal.value) {
+      alert("Seleccione el tipo de personal");
+      return;
+    }
+
+    const formData = new FormData(formPaciente);
+
+    try {
+      const res = await fetch("backend/controllers/registrarPaciente.php", {
+        method: "POST",
+        body: formData
+      });
+
+      // Leemos texto primero por si el PHP imprime algo extra
+      const text = await res.text();
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Respuesta NO JSON en registrarPaciente.php:", text);
+        alert("Error: el servidor no devolvió JSON válido.");
+        return;
+      }
+
+      if (!data.success) {
+        mostrarMensajeRegistroPaciente(data.message || "Error al registrar", "error");
+        return;
+      }
+
+      // ✅ ÉXITO
+      cedulaRegistroPaciente = formPaciente.querySelector('[name="cedula"]').value;
+
+      mostrarMensajeRegistroPaciente(
+        "Registro exitoso. Ahora establezca su contraseña.",
+        "success"
+      );
+
+      // Esperar un momento y pasar a nueva contraseña
+      setTimeout(() => {
+        registroOverlay.classList.add("oai-hidden");
+        document.getElementById("nuevaClaveOverlay")?.classList.remove("oai-hidden");
+      }, 1200);
+
+    } catch (err) {
+      console.error(err);
+      alert("Error de conexión");
+    }
+  });
+});
+
+
+/* ===== SELECTS CON PLACEHOLDER GRIS / TEXTO NEGRO ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("select").forEach(select => {
+    select.addEventListener("change", () => {
+      if (select.value) {
+        select.classList.add("active");
+      } else {
+        select.classList.remove("active");
+      }
+    });
+  });
+});
+
+/* ========= MOSTRAR MENSAJES EN EL REGISTRO (PACIENTE)=============*/
+function mostrarMensajeRegistroPaciente(texto, tipo) {
+  let msg = document.getElementById("registroPacienteMsg");
+
+  if (!msg) return;
+
+  msg.textContent = texto;
+  msg.classList.remove("oai-hidden", "error", "success");
+  msg.classList.add(tipo);
+}
+/* ================================================
+ESTO ES PARA LA RECUPERACION DE CONTRASEÑA
+===================================================*/
+
+/*******************************************************
+ * PASO 2 — CREAR USUARIO (NUEVA CONTRASEÑA)
+ * Usa submit REAL (type="submit")
+ *******************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  const nuevaClaveOverlay = document.getElementById("nuevaClaveOverlay");
+  const formNuevaClave = document.getElementById("formNuevaClave");
+
+  if (!nuevaClaveOverlay || !formNuevaClave) return;
+
+  // Contenedor de mensaje (se crea si no existe)
+  let nuevaClaveMsg = document.getElementById("nuevaClaveMsg");
+  if (!nuevaClaveMsg) {
+    nuevaClaveMsg = document.createElement("div");
+    nuevaClaveMsg.id = "nuevaClaveMsg";
+    nuevaClaveMsg.className = "form-msg oai-hidden";
+    formNuevaClave.appendChild(nuevaClaveMsg);
+  }
+
+  function mostrarMsg(texto, tipo) {
+    nuevaClaveMsg.textContent = texto;
+    nuevaClaveMsg.classList.remove("oai-hidden", "error", "success");
+    nuevaClaveMsg.classList.add(tipo);
+  }
+
+  function ocultarMsg() {
+    nuevaClaveMsg.classList.add("oai-hidden");
+    nuevaClaveMsg.classList.remove("error", "success");
+  }
+
+  formNuevaClave.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    ocultarMsg();
+
+    // La cédula viene del PASO 1
+    if (!cedulaRegistroPaciente) {
+      mostrarMsg("Error interno: no se encontró la cédula.", "error");
+      return;
+    }
+
+    const pass1 = document.getElementById("newPass")?.value || "";
+    const pass2 = document.getElementById("confirmPass")?.value || "";
+
+    if (!pass1 || !pass2) {
+      mostrarMsg("Debe completar ambos campos.", "error");
+      return;
+    }
+
+    if (pass1 !== pass2) {
+      mostrarMsg("Las contraseñas no coinciden.", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("cedula", cedulaRegistroPaciente);
+    formData.append("clave", pass1);
+
+    try {
+      const response = await fetch(
+        "backend/controllers/crearPasswordPaciente.php",
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Respuesta no JSON:", text);
+        mostrarMsg("Error del servidor.", "error");
+        return;
+      }
+
+      if (!data.success) {
+        mostrarMsg(data.message || "No se pudo crear la contraseña.", "error");
+        return;
+      }
+
+      // ✅ ÉXITO
+      mostrarMsg("Contraseña creada correctamente.", "success");
+
+      // Limpiar estado
+      cedulaRegistroPaciente = null;
+      formNuevaClave.reset();
+
+      // Pasar al login
+      setTimeout(() => {
+        nuevaClaveOverlay.classList.add("oai-hidden");
+        document.getElementById("loginOverlay")?.classList.remove("oai-hidden");
+      }, 1000);
+
+    } catch (err) {
+      console.error(err);
+      mostrarMsg("Error de conexión con el servidor.", "error");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const formEmail = document.getElementById("formRecuperarEmail");
+  const formCodigo = document.getElementById("formRecuperarCodigo");
+  const paso1 = document.getElementById("recuperarPaso1");
+  const paso2 = document.getElementById("recuperarPaso2");
+
+  const contadorEl = document.getElementById("contadorTiempo");
+  const btnReenviar = document.getElementById("btnReenviar");
+
+  let tiempo = 120;
+  let intervalo = null;
+
+  function iniciarContador() {
+    tiempo = 120;
+    contadorEl.textContent = tiempo;
+    btnReenviar.disabled = true;
+
+    intervalo = setInterval(() => {
+      tiempo--;
+      contadorEl.textContent = tiempo;
+
+      if (tiempo <= 0) {
+        clearInterval(intervalo);
+        btnReenviar.disabled = false;
+        contadorEl.textContent = 0;
+      }
+    }, 1000);
+  }
+
+  formEmail?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Simular envío de correo
+    paso1.classList.add("oai-hidden");
+    paso2.classList.remove("oai-hidden");
+
+    iniciarContador();
+  });
+
+  btnReenviar?.addEventListener("click", () => {
+    iniciarContador();
+    console.log("Reenviar código...");
+  });
+
 });
