@@ -24,7 +24,7 @@ class MedicoController extends Controller
     {
         $request->validate([
             'nombre'       => 'required|string|max:255',
-            'cedula'       => 'required|integer|unique:users,cedula',
+            'cedula'       => 'required|integer|unique:personas,cedula',
             'password'     => 'required|min:8|confirmed',
             // Específicos médico
             'correo'       => 'required|email|unique:medicos,correo',

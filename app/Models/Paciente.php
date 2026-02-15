@@ -13,7 +13,10 @@ class Paciente extends Model
 
     protected $fillable = [
         'nombre',
+        'apellido',
         'cedula',
+        'fecha_nacimiento',
+        'sexo',
         'estado_civil',
         'tipo',
         'correo',

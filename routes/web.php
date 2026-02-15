@@ -11,6 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//esto nada mas ees para probar --NAHARA
+Route::view('/jefeMedico', 'jefeMedico')->name('jefeMedico');
+Route::view('/pacientePersonal', 'pacientePersonal')->name('pacientePersonal');
+Route::view('/passwordRequest', 'passwordRequest')->name('passwordRequest');
+
 // Autenticación (Login / Logout)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

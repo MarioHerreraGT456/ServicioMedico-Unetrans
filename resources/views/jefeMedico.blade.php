@@ -1,50 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
- <!-- ================= MENU LATERAL MÉDICO ================= -->
-  <aside id="sidebarMedico" class="sidebar">
+<!-- ================= MENU LATERAL MÉDICO ================= -->
+<aside id="sidebarMedico" class="sidebar">
 
-    <div class="sidebar__header">
-      <img src="img/perfil.jpg" alt="Perfil">
-      <span class="sidebar__name">Médico</span>
-    </div>
+  <div class="sidebar__header">
+    <img src="img/perfil.jpg" alt="Perfil">
+    <span class="sidebar__name">Médico</span>
+  </div>
 
-    <nav class="sidebar__nav">
+  <nav class="sidebar__nav">
 
-      <button class="sidebar__item active" data-view="inicio">
-        <span class="material-symbols-outlined">home</span>
-        Inicio
-      </button>
+    <button class="sidebar__item active" data-view="inicio">
+      <span class="material-symbols-outlined">home</span>
+      Inicio
+    </button>
 
-      <button class="sidebar__item" data-view="perfil">
-        <span class="material-symbols-outlined">person</span>
-        Perfil
-      </button>
+    <button class="sidebar__item" data-view="perfil">
+      <span class="material-symbols-outlined">person</span>
+      Perfil
+    </button>
 
-      <button class="sidebar__item" data-view="consultas">
-        <span class="material-symbols-outlined">search</span>
-        Consultas
-      </button>
+    <button class="sidebar__item" data-view="consultas">
+      <span class="material-symbols-outlined">search</span>
+      Consultas
+    </button>
 
-      <button class="sidebar__item" data-view="historial">
-        <span class="material-symbols-outlined">folder</span>
-        Historial
-      </button>
+    <button class="sidebar__item" data-view="historial">
+      <span class="material-symbols-outlined">folder</span>
+      Historial
+    </button>
 
-      <button class="sidebar__item" data-view="solicitar">
-        <span class="material-symbols-outlined">lock_open</span>
-        Registrar Familiar
-      </button>
+    <button class="sidebar__item" data-view="estadisticas">
+      <span class="material-symbols-outlined">bar_chart</span>
+      Estadísticas
+    </button>
 
-      <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
-        <span class="material-symbols-outlined">close</span>
-        Cerrar Menú
-      </button>
+    <button id="btnAbrirCrearMedico" class="sidebar__item sidebar__item-action" type="button">
+        <span class="material-symbols-outlined">person_add</span>
+        Crear Médico
+    </button>
 
-    </nav>
+    <button class="sidebar__item" data-view="solicitar">
+      <span class="material-symbols-outlined">lock_open</span>
+      Registrar Familiar
+    </button>
 
-  </aside>
-  
+    <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
+      <span class="material-symbols-outlined">close</span>
+      Cerrar Menú
+    </button>
+
+  </nav>
+
+</aside>
+
+<!-- ================= CONTENIDO ================= -->
 <main class="main-content" id="viewsMedico">
 
   <!-- ===== INICIO ===== -->
@@ -101,124 +112,120 @@
     </div>
   </section>
 
-  <!-- ===== PERFIL MÉDICO ===== -->
-    <section id="view-perfil" class="view hidden">
+  <!-- ===== PERFIL ===== -->
+  <section id="view-perfil" class="view hidden">
 
-  <!-- ===== PERFIL HEADER ===== -->
-  <div class="profile-header-card">
-    <div class="profile-avatar">
-      <img src="img/perfil.jpg" alt="Foto de perfil"
-           onerror="this.style.display='none'">
-    </div>
-
-    <div class="profile-main-info">
-      <h2 class="profile-name">Juan Pérez</h2>
-      <span class="profile-role">Médico
-      </span>
-      <span class="profile-status active">Activo</span>
-    </div>
-  </div>
-
-  <!-- ===== DATOS PERSONALES ===== -->
-  <div class="profile-card">
-    <h3 class="profile-card-title">Datos personales</h3>
-
-    <div class="profile-grid">
-      <div class="profile-item">
-        <span class="label">Cédula</span>
-        <span class="value">V-12.345.678</span>
+    <!-- ===== PERFIL HEADER ===== -->
+    <div class="profile-header-card">
+      <div class="profile-avatar">
+        <img src="img/perfil.jpg" alt="Foto de perfil"
+            onerror="this.style.display='none'">
       </div>
 
-      <div class="profile-item">
-        <span class="label">Fecha de nacimiento</span>
-        <span class="value">12/05/1999</span>
-      </div>
-
-      <div class="profile-item">
-        <span class="label">Edad</span>
-        <span class="value">25 años</span>
-      </div>
-
-      <div class="profile-item">
-        <span class="label">Sexo</span>
-        <span class="value">Masculino</span>
-      </div>
-
-      <div class="profile-item">
-        <span class="label">Estado civil</span>
-        <span class="value">Soltero</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== CONTACTO ===== -->
-<div class="profile-card">
-  <h3 class="profile-card-title">Contacto</h3>
-
-  <div class="profile-contact-list">
-
-    <div class="profile-contact-item">
-      <span class="contact-label">Correo</span>
-
-      <div class="contact-value">
-        <span>paciente@email.com</span>
-        <span class="material-symbols-outlined contact-edit"
-              title="Próximamente editable">
-          edit
-        </span>
+      <div class="profile-main-info">
+        <h2 class="profile-name" id="perfilNombre"></h2>
+        <span class="profile-role" id="perfilRol"></span>
+        <span class="profile-status active" id="perfilEstado"></span>
       </div>
     </div>
 
-    <div class="profile-contact-item">
-      <span class="contact-label">Teléfono</span>
+    <!-- ===== DATOS PERSONALES ===== -->
+    <div class="profile-card">
+      <h3 class="profile-card-title">Datos personales</h3>
 
-      <div class="contact-value">
-        <span>0412-1234567</span>
-        <span class="material-symbols-outlined contact-edit"
-              title="Próximamente editable">
-          edit
-        </span>
+      <div class="profile-grid">
+        <div class="profile-item">
+          <span class="label">Cédula</span>
+          <span class="value" id="perfilCedula"></span>
+        </div>
+
+        <div class="profile-item">
+          <span class="label">Fecha de nacimiento</span>
+          <span class="value" id="perfilFechaNacimiento"></span>
+        </div>
+
+        <div class="profile-item">
+          <span class="label">Edad</span>
+          <span class="value" id="perfilEdad"></span>
+        </div>
+
+        <div class="profile-item">
+          <span class="label">Sexo</span>
+          <span class="value" id="perfilSexo"></span>
+        </div>
+
+        <div class="profile-item">
+          <span class="label">Estado civil</span>
+          <span class="value" id="perfilEstadoCivil"></span>
+        </div>
       </div>
     </div>
 
-    <div class="profile-contact-item">
-      <span class="contact-label">Dirección</span>
+    <!-- ===== CONTACTO ===== -->
+    <div class="profile-card">
+      <h3 class="profile-card-title">Contacto</h3>
 
-      <div class="contact-value">
-        <span>Caracas, Venezuela</span>
-        <span class="material-symbols-outlined contact-edit"
-              title="Próximamente editable">
-          edit
-        </span>
+      <div class="profile-contact-list">
+
+        <div class="profile-contact-item">
+          <span class="contact-label">Correo</span>
+          <div class="contact-value">
+            <span id="perfilCorreo"></span>
+            <span class="material-symbols-outlined contact-edit"
+                  title="Próximamente editable">
+              edit
+            </span>
+          </div>
+        </div>
+
+        <div class="profile-contact-item">
+          <span class="contact-label">Teléfono</span>
+          <div class="contact-value">
+            <span id="perfilTelefono"></span>
+            <span class="material-symbols-outlined contact-edit"
+                  title="Próximamente editable">
+              edit
+            </span>
+          </div>
+        </div>
+
+        <div class="profile-contact-item">
+          <span class="contact-label">Dirección</span>
+          <div class="contact-value">
+            <span id="perfilDireccion"></span>
+            <span class="material-symbols-outlined contact-edit"
+                  title="Próximamente editable">
+              edit
+            </span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-  </div>
-</div>
+    <!-- ===== SISTEMA ===== -->
+    <div class="profile-card">
+      <h3 class="profile-card-title">Información del sistema</h3>
 
-  <!-- ===== SISTEMA ===== -->
-  <div class="profile-card">
-    <h3 class="profile-card-title">Información del sistema</h3>
+      <div class="profile-grid">
+        <div class="profile-item">
+          <span class="label">Rol</span>
+          <span class="value" id="perfilRolSistema"></span>
+        </div>
 
-    <div class="profile-grid">
-      <div class="profile-item">
-        <span class="label">Rol</span>
-        <span class="value">Médico</span>
-      </div>
+        <div class="profile-item">
+          <span class="label">Fecha de registro</span>
+          <span class="value" id="perfilFechaRegistro"></span>
+        </div>
 
-      <div class="profile-item">
-        <span class="label">Fecha de registro</span>
-        <span class="value">10/01/2024</span>
-      </div>
-
-      <div class="profile-item">
-        <span class="label">Estado de cuenta</span>
-        <span class="value status-active">Activa</span>
+        <div class="profile-item">
+          <span class="label">Estado de cuenta</span>
+          <span class="value status-active" id="perfilEstadoCuenta"></span>
+        </div>
       </div>
     </div>
-  </div>
 
-</section>
+  </section>
 
   <!-- ===== PERFIL DEL PACIENTE (SIMULADO) ===== -->
   <section id="view-perfil-paciente" class="view hidden">
@@ -464,6 +471,124 @@
 
   </div>
 
+  <!-- =======REGISTRAR MEDICOS (ESPECIALISTAS)========= -->
+<!-- OVERLAY REGISTRO DE ESPECIALISTAS (JEFE MÉDICO) -->
+<section id="crearMedicoOverlay" class="oai-backdrop oai-hidden">
+
+  <button id="btnCerrarCrearMedico" class="btn-cerrar-overlay" type="button">
+      ✕
+  </button>
+  
+  <div class="oai-frame-drawer auth-box">
+
+    <!-- TITULO -->
+    <h2 style="text-align:center;margin-bottom:6px;">
+      Registro de Médicos
+    </h2>
+
+    <!-- FORMULARIO -->
+    <form
+      id="formCrearMedico"
+      data-form="crear-medico"
+      method="POST"
+      action="{{ route('jefeMedico') }}"
+    >
+    @csrf
+      <!-- IDENTIFICADOR PARA BACKEND -->
+      <input type="hidden" name="form_tipo" value="CREAR_MEDICO">
+
+      <label for="med_nombre">Nombre:</label>
+      <input
+        type="text"
+        name="med_nombre"
+        required
+      >
+
+      <label for="med_apellido">Apellido:</label>
+      <input
+        type="text"
+        name="med_apellido"
+        required
+      >
+
+      <label for="med_cedula">Cédula:</label>
+      <input
+        type="text"
+        name="med_cedula"
+        placeholder="V12345678"
+        pattern="[VvEeJjPp]{1}[0-9]{5,9}"
+        title="Formato válido: V12345678"
+        required
+      >
+
+      <label for="med_correo">Correo:</label>
+      <input
+        type="email"
+        name="med_correo"
+        required
+      >
+
+      <label for="med_direccion">Dirección:</label>
+      <input
+        type="text"
+        name="med_direccion"
+        required
+      >
+
+      <label for="med_telefono">Teléfono:</label>
+      <input
+        type="tel"
+        name="med_telefono"
+        required
+      >
+      <label for="med_fecha_nacimiento">Fecha de Nacimiento:</label>
+      <input
+        type="date"
+        name="med_fecha-nacimiento"
+        required
+      >
+    
+      <label for="selectSexoMedico">Sexo:</label>
+      <select id="selectSexoMedico" name="med_sexo" class="select-placeholder" required>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Otro">Otro</option>
+      </select>
+
+      <label for="selectEstadoCivilMedico">Estado Civil:</label>
+      <select id="selectEstadoCivilMedico" name="med_estado_civil" class="select-placeholder" required>
+        <option value="Soltero(a)">Soltero(a)</option>
+        <option value="Casado(a)">Casado(a)</option>
+        <option value="Divorciado(a)">Divorciado(a)</option>
+        <option value="Viudo(a)">Viudo(a)</option>
+      </select>
+
+      <label for="selectEspecialidad">Especialidad:</label>
+      <select id="selectEspecialidad" name="med_especialidad" class="select-placeholder" required>
+        <option value="1">Medicina General</option>
+        <option value="2">Odontología</option>
+        <option value="3">Psiquiatría</option>
+        <option value="4">Traumatología</option>
+      </select>
+
+      <div id="crearMedicoMsg" class="form-msg oai-hidden">
+
+      </div>
+      <!-- BOTONES -->
+      <div style="display:flex;gap:12px;margin-top:18px;">
+
+        <button
+          id="registrarEspecialidad"
+          type="submit"
+          class="btn-primario"
+        >
+          Registrar Especialista
+        </button>
+      </div>
+
+    </form>
+    
+  </div>
 </section>
 
 <!-- =======REGISTRAR FAMILIARES========= -->
@@ -581,7 +706,8 @@
 
 </main>
 
-<script src="js/app.js"></script>
+<!-- ================= JS ================= -->
+<script src="js/app_unificado.js"></script>
 
 <!-- ===== Overlays base (NO se tocan) ===== -->
 <div class="oai-backdrop oai-hidden" id="oaiBackdrop"></div>
@@ -591,4 +717,5 @@
 <div class="oai-frame-modal oai-hidden" id="oaiModalWrap">
   <iframe id="oaiModalFrame" title="Formulario"></iframe>
 </div>
+
 @endsection

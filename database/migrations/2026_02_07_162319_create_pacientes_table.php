@@ -14,14 +14,17 @@ return new class extends Migration
     Schema::create('pacientes', function (Blueprint $table) {
         $table->id();
         $table->string('nombre');
+        $table->string('apellido'); // Nuevo campo
         $table->integer('cedula')->unique();
-        $table->string('estado_civil');
+        $table->date('fecha_nacimiento'); // Nuevo campo
+        $table->enum('sexo', ['Masculino', 'Femenino']); // Nuevo campo (solo esos valores)
+        $table->enum('estado_civil', ['Casado(a)', 'Soltero(a)', 'Divorciado(a)', 'Viudo(a)']);
         $table->enum('tipo', ['paciente', 'estudiante']);
         $table->string('correo')->unique();
         $table->string('direccion');
-        $table->string('telefono', 11); // Longitud fija de 11
+        $table->string('telefono', 11);
         $table->string('foto')->nullable();
-        $table->string('password'); 
+        $table->string('password');
         $table->string('sesion')->nullable();
         $table->timestamps();
     });

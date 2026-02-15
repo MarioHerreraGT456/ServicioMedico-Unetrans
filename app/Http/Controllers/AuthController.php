@@ -25,7 +25,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return $this->redirectByRole();
         }
-
+        
+        
         return back()->withErrors([
             'cedula' => 'Credenciales incorrectas.',
         ])->onlyInput('cedula');

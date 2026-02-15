@@ -1,8 +1,8 @@
 @auth
     {{-- Usuario autenticado --}}
-    @if(auth()->user()->role === 'medico')
+    @if(auth()->user()->rol === 'medico')
         @include('components.headers.medico')
-    @elseif(auth()->user()->role === 'paciente')
+    @elseif(auth()->user()->rol === 'paciente')
         @include('components.headers.paciente')
     @endif
 @else

@@ -11,36 +11,38 @@ use Illuminate\Support\Facades\Auth;
 
 class PacienteController extends Controller
 {
-    // Vista del Dashboard (protegida)
     public function index()
     {
         $user = Auth::user();
-        // Usamos la relación del modelo User
         $paciente = $user->paciente; 
         return view('paciente', compact('user', 'paciente'));
     }
 
-    // Lógica de registro completa
     public function store(Request $request)
     {
-        // 1. Validar todo (Usuario + Paciente)
+        // ✅ Validación con los nuevos campos
         $request->validate([
-            'nombre'       => 'required|string|max:255',
-            'cedula'       => 'required|integer|unique:users,cedula',
-            'password'     => 'required|min:8|confirmed',
-            // Datos específicos
-            'estado_civil' => 'required|string',
-            'tipo'         => 'required|in:paciente,estudiante', // Ojo con el espacio en tu enum original
-            'correo'       => 'required|email|unique:pacientes,correo',
-            'direccion'    => 'required|string',
-            'telefono'     => 'required|string|size:11',
-            'foto'         => 'nullable|image|max:2048',
+            // Datos de Persona (tabla users)
+            'nombre'            => 'required|string|max:255',
+            'apellido'          => 'required|string|max:255',      // <-- NUEVO
+            'cedula'            => 'required|integer|unique:personas,cedula',
+            'password'          => 'required|min:8|confirmed',
+            // Datos específicos de Paciente
+            'fecha_nacimiento'  => 'required|date',                // <-- NUEVO
+            'sexo'              => 'required|in:Masculino,Femenino', // <-- NUEVO
+            'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
+            'tipo'              => 'required|in:paciente,estudiante',
+            'correo'            => 'required|email|unique:pacientes,correo',
+            'direccion'         => 'required|string',
+            'telefono'          => 'required|string|size:11',
+            // 'foto' => 'nullable|image|max:2048',
         ]);
+        $tipo = $request->tipo === 'personal' ? 'paciente' : $request->tipo;
 
         DB::beginTransaction();
 
         try {
-            // 2. Crear User
+            // 1. Crear User (Persona) - SOLO con datos de autenticación
             $user = Persona::create([
                 'nombre'   => $request->nombre,
                 'cedula'   => $request->cedula,
@@ -48,30 +50,31 @@ class PacienteController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            // 3. Foto
+            // 2. Manejo de foto (opcional)
             $path = null;
             if ($request->hasFile('foto')) {
                 $path = $request->file('foto')->store('fotos_pacientes', 'public');
             }
 
-            // 4. Crear Paciente
+            // 3. Crear Paciente con TODOS los datos (incluyendo los nuevos)
             Paciente::create([
-                'nombre'       => $request->nombre,
-                'cedula'       => $request->cedula, // Clave foránea lógica
-                'estado_civil' => $request->estado_civil,
-                'tipo'         => $request->tipo,
-                'correo'       => $request->correo,
-                'direccion'    => $request->direccion,
-                'telefono'     => $request->telefono,
-                'foto'         => $path,
-                'password'     => Hash::make($request->password), // Si la tabla pacientes tiene pass redundante
+                'nombre'           => $request->nombre,
+                'apellido'         => $request->apellido,               // <-- NUEVO
+                'cedula'           => $request->cedula,
+                'fecha_nacimiento' => $request->fecha_nacimiento,       // <-- NUEVO
+                'sexo'             => $request->sexo,                   // <-- NUEVO
+                'estado_civil'     => $request->estado_civil,
+                'tipo'             => $request->tipo,
+                'correo'           => $request->correo,
+                'direccion'        => $request->direccion,
+                'telefono'         => $request->telefono,
+                // 'foto'          => $path,
+                'password'         => Hash::make($request->password),   // Si la tabla pacientes guarda password
             ]);
 
             DB::commit();
 
-            // 5. Autenticar y Redirigir
             Auth::login($user);
-            
             return redirect()->route('paciente.dashboard');
 
         } catch (\Exception $e) {

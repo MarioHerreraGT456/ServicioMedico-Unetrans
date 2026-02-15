@@ -40,6 +40,7 @@
       
     <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
     @endauth
+<
   </div>
 
   <nav class="sidebar__nav">

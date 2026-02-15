@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <main class="home-main">
+<main class="home-main">
 <section class="hero">
 <div class="hero__container-text">
 <p class="hero__title">Bienvenido al Servicio Médico de la UNETRANS</p>
@@ -99,5 +99,6 @@
 </div>
 </div>
 </section>
+<div id="authOverlayContainer"></div>
 </main>
 @endsection

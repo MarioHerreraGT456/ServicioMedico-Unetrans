@@ -1,4 +1,3 @@
-
 /* Utilities added for overlays without touching existing styles */
 .oai-hidden{display:none !important;}
 
@@ -63,10 +62,11 @@ footer, .footer{
 
 .oai-drawer iframe{ overflow:hidden !important; }
 
-
 /* Force drawer to be non-scrollable */
+/*
 .oai-frame-drawer, .oai-frame-drawer *{ overflow:hidden !important; }
 .oai-frame-drawer iframe{ overflow:hidden !important; }
+*/
 
 /* ================= AUTH FORMS (OVERLAYS) ================= */
 
@@ -98,6 +98,7 @@ footer, .footer{
   border: 1px solid #ccc;
   font-size: 0.95rem;
 }
+
 /*Simulacion de placehoder en select y comportamiento*/
 .hidden {
   display: none;
@@ -125,7 +126,7 @@ select.active {
 }
 
 /* Botón principal */
-.oai-frame-drawer.auth-box button {
+.oai-frame-drawer.auth-box button[type="submit"] {
   width: 100%;
   padding: 0.8rem;
   background: #1f3c88;
@@ -989,7 +990,6 @@ body.menu-open .main-content {
   color: #b02a37;
 }
 
-
 /* CONTENEDOR FOOTER */
 .historia-footer {
   padding: 20px 40px 30px;
@@ -1259,9 +1259,288 @@ body.menu-open .main-content {
 }
 
 /*ESTOS SON LOS ETILOS PARA LOS ERRORES DE LOGIN*/
-.auth-error {
+.error-text{
   margin-top: 10px;
+  font-size: 14px;
   color: #b02a37;
+  text-align: center;
+}
+
+/*======BOTON DE CERRAR X EN FORMS=======*/
+.btn-cerrar-overlay {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+/* Mantener hover */
+.btn-cerrar-overlay:hover {
+  color: #b02a37;
+}
+
+/* =========CLASES PARA LOS MENSAJES DE EL REGISTRO DE MEDICOS==========*/
+.form-msg {
+  margin-top: 10px;
   font-size: 14px;
   text-align: center;
 }
+.form-msg.error {
+  color: #dc3545;
+}
+.form-msg.success {
+  color: #198754;
+}
+
+/* =====================================================
+   FIX DEFINITIVO DE SCROLL PARA OVERLAYS DE FORMULARIO
+   - NO rompe lo que ya funciona
+   - Paciente y Médico scrollean dentro del FORM
+   ===================================================== */
+
+/* Solo el overlay del registro de paciente puede "desbloquear" overflow visible
+   (esto ayuda si tienes layouts antiguos allí). */
+#registroOverlay .oai-frame-drawer,
+#registroOverlay .oai-frame-drawer * {
+  overflow: visible !important;
+}
+
+/* Posicionar la X dentro del overlay (no fixed) */
+#registroOverlay .btn-cerrar-overlay,
+#crearMedicoOverlay .btn-cerrar-overlay {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+}
+
+/* Caja del formulario: limita altura y crea layout flexible */
+#registroOverlay .auth-box,
+#crearMedicoOverlay .auth-box {
+  height: 85vh;
+  max-height: 85vh;
+  overflow: hidden !important;        /* clave: el box NO scrollea */
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+}
+
+/* Form: único que hace scroll */
+#registroOverlay form,
+#crearMedicoOverlay form {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-right: 8px;
+  padding-bottom: 22px;              /* para que el botón no quede pegado */
+}
+
+/* Scrollbar elegante (Chrome/Edge) */
+#registroOverlay form::-webkit-scrollbar,
+#crearMedicoOverlay form::-webkit-scrollbar {
+  width: 6px;
+}
+#registroOverlay form::-webkit-scrollbar-track,
+#crearMedicoOverlay form::-webkit-scrollbar-track {
+  background: transparent;
+}
+#registroOverlay form::-webkit-scrollbar-thumb,
+#crearMedicoOverlay form::-webkit-scrollbar-thumb {
+  background-color: rgba(31, 60, 136, 0.45);
+  border-radius: 10px;
+}
+#registroOverlay form::-webkit-scrollbar-thumb:hover,
+#crearMedicoOverlay form::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(31, 60, 136, 0.75);
+}
+
+/* Firefox */
+#registroOverlay form,
+#crearMedicoOverlay form {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(31, 60, 136, 0.45) transparent;
+}
+
+/* ===== FIX DEFINITIVO X ===== */
+
+button.btn-cerrar-overlay {
+  position: fixed !important;
+  top: 22px !important;
+  right: 35px !important;
+
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  width: auto !important;
+  height: auto !important;
+
+  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+
+  cursor: pointer;
+  z-index: 2000;
+}
+
+button.btn-cerrar-overlay:hover,
+button.btn-cerrar-overlay:focus,
+button.btn-cerrar-overlay:active {
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* =====================================================
+   REGISTRO – 2 COLUMNAS OPTIMIZADO Y ESTÉTICO
+   ===================================================== */
+
+.oai-frame-drawer.auth-box:has(#formRegistroPaciente),
+.oai-frame-drawer.auth-box:has(#formRegistroMedico),
+.aoi-frame-drawer.auth-box:has(#formCrearFamiliar){
+  width: 840px;
+  max-width: 95%;
+  padding: 30px 40px 28px 40px;
+}
+
+/* Título */
+.oai-frame-drawer.auth-box h2 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Grid principal */
+#formRegistroPaciente,
+#formRegistroMedico,
+#formCrearFamiliar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 26px;
+  row-gap: 8px;
+}
+
+/* Eliminar márgenes globales que inflaban el espacio */
+.oai-frame-drawer.auth-box:has(#formRegistroPaciente) input,
+.oai-frame-drawer.auth-box:has(#formRegistroPaciente) select,
+.oai-frame-drawer.auth-box:has(#formRegistroMedico) input,
+.oai-frame-drawer.auth-box:has(#formRegistroMedico) select,
+.oai-frame-drawer.auth-box:has(#formCrearFamiliar) input,
+.oai-frame-drawer.auth-box:has(#formCrearFamiliar) select {
+  margin-bottom: 0 !important;
+}
+
+/* Bloque de cada campo */
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.campo label {
+  margin-bottom: 3px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Inputs y selects – un poco más altos y modernos */
+.campo input,
+.campo select {
+  width: 100%;
+  height: 42px;
+  padding: 9px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #d0d5dd;
+  transition: all 0.2s ease;
+}
+
+/* Focus elegante */
+.campo input:focus,
+.campo select:focus {
+  outline: none;
+  border-color: #2f4c8f;
+  box-shadow: 0 0 0 2px rgba(47, 76, 143, 0.15);
+}
+
+/* Elementos que ocupan ambas columnas */
+#formRegistroPaciente .form-msg,
+#formRegistroMedico .form-msg,
+#formCrearFamiliar .form-msg {
+  grid-column: 1 / -1;
+}
+
+/* Botón elegante centrado */
+#btnRegistroContinuar {
+  grid-column: 1 / -1;
+  margin-top: 18px;
+  width: 240px;
+  height: 44px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  background: #2f4c8f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  transition: all 0.2s ease;
+}
+
+/* Hover suave */
+#btnRegistroContinuar:hover {
+  background: #243b6d;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #formRegistroPaciente,
+  #formRegistroMedico,
+  #formCrearFamiliar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===============================
+   RECUPERAR CONTRASEÑA
+   =============================== */
+
+.contador {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+#btnReenviar {
+  background: transparent;
+  border: none;
+  color: #2f4c8f;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+#btnReenviar:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn-principal {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  background: #2f4c8f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-principal:hover {
+  background: #243b6d;
+}
+

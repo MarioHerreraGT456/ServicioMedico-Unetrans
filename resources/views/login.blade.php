@@ -1,23 +1,27 @@
-@extends('layouts.app')
+  <button type="button" id="btnCerrarLogin" class="btn-cerrar-overlay">
+    ✕
+  </button>
 
-@section('content')
-{{-- ejemplo de como hacer el formulario solo debes precuparte por poner el nombre bien de la ruta para que guarde y el method siempre debe ser post --}}
-<form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div>
-        <label for="cedula">Cédula:</label>
-        <input type="text" id="cedula" name="cedula" required>
+    <h2>Inicia Sesión</h2>
+
+    <form id="loginForm" method="POST" action="{{ route('login') }}">
+      @csrf
+      <label for="cedula">Cédula:</label>
+      <input id="cedula" name="cedula" type="text" placeholder="V12345678" required>
+
+      <label for="password">Contraseña:</label>
+      <input id="password" name="password" type="password" required>
+
+      <button type="submit">Iniciar sesión</button>
+    </form>
+
+    <!-- ESTE TEXTO SE MUESTRA SOLO SI HAY ERROR -->
+    <div id="loginError" class="error-text oai-hidden">
+      Cédula o contraseña incorrecta
     </div>
 
-    <br>
-
-    <div>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" required>
+    <div class="auth-links">
+      <a href="{{ route('register') }}" id="goRegistro">Registrarme</a>
+      <a href="{{ route('passwordRequest') }}" id="goRecuperar">¿Olvidaste tu contraseña?</a>
     </div>
-
-    <br>
-
-    <button type="submit">Enviar</button>
-        </form>
-@endsection
+     
