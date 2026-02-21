@@ -25,10 +25,14 @@ function escapeHTML(str) {
  * AUTH DINÁMICO (WELCOME)
  *******************************************************/
 document.addEventListener("DOMContentLoaded", () => {
+    // Auth overlay deshabilitado: login/registro son pantallas separadas
     const container = document.getElementById("authOverlayContainer");
-    if (!container) return;
-
-    async function abrirAuth(url) {
+    if (container) { container.innerHTML = ""; }
+    // No hacemos fetch/overlay, dejamos navegación normal
+    // return para evitar lógica vieja de modal
+    // (Las demás secciones del app.js se cargan en otros DOMContentLoaded separados)
+    return;
+async function abrirAuth(url) {
         try {
             const res = await fetch(url);
             const html = await res.text();
@@ -1388,3 +1392,381 @@ ESTO ES PARA LA RECUPERACION DE CONTRASEÑA
         });
     });
 });
+
+
+/*******************************************************
+ * RECUPERACIÓN DE CONTRASEÑA (CONTADOR FRONTEND)
+ *******************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  const countdownEl = document.getElementById("reenvioCountdown");
+  const countdownBtnEl = document.getElementById("reenvioCountdownBtn");
+  const btnReenviar = document.getElementById("btnReenviar");
+  const form = document.getElementById("formRecuperarEmail");
+  if (!countdownEl || !countdownBtnEl || !btnReenviar || !form) return;
+
+  let seconds = 120;
+  btnReenviar.disabled = true;
+
+  const tick = () => {
+    countdownEl.textContent = String(seconds);
+    countdownBtnEl.textContent = String(seconds);
+    if (seconds <= 0) {
+      btnReenviar.disabled = false;
+      btnReenviar.textContent = "Reenviar correo";
+      return;
+    }
+    seconds -= 1;
+    setTimeout(tick, 1000);
+  };
+  tick();
+
+  btnReenviar.addEventListener("click", () => {
+    // Solo UI: reenviar = reenviar submit
+    seconds = 120;
+    btnReenviar.disabled = true;
+    btnReenviar.innerHTML = 'Reenviar correo (<span id="reenvioCountdownBtn">120</span>s)';
+    // re-bind countdownBtnEl reference
+    const newCountdownBtn = document.getElementById("reenvioCountdownBtn");
+    if (newCountdownBtn) {
+      // update variable in closure by reading from DOM each tick
+    }
+    form.requestSubmit();
+    setTimeout(() => {
+      const el = document.getElementById("reenvioCountdownBtn");
+      if (el) el.textContent = "120";
+    }, 0);
+    // start ticking again
+    const tick2 = () => {
+      const el1 = document.getElementById("reenvioCountdown");
+      const el2 = document.getElementById("reenvioCountdownBtn");
+      if (!el1 || !el2) return;
+      el1.textContent = String(seconds);
+      el2.textContent = String(seconds);
+      if (seconds <= 0) {
+        btnReenviar.disabled = false;
+        btnReenviar.textContent = "Reenviar correo";
+        return;
+      }
+      seconds -= 1;
+      setTimeout(tick2, 1000);
+    };
+    tick2();
+  });
+});
+
+//=========================================================================
+//ESTO ES NEUEVO
+//=========================================================================
+
+(function () {
+  "use strict";
+
+  function qs(sel, root = document) { return root.querySelector(sel); }
+  function qsa(sel, root = document) { return Array.from(root.querySelectorAll(sel)); }
+
+  function setActiveButton(btn) {
+    const nav = btn.closest("nav");
+    if (!nav) return;
+    qsa(".nav-btn", nav).forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+
+  function showView(container, viewName) {
+    const views = qsa(".view", container);
+    views.forEach(v => v.classList.add("hidden"));
+    const target = qs(`#view-${viewName}`, container);
+    if (target) target.classList.remove("hidden");
+  }
+
+  function initSidebarNavigation() {
+    const sidebars = qsa(".sidebar");
+
+    sidebars.forEach(sidebar => {
+      const containerId = sidebar.id === "sidebarJefeMedico" ? "viewsJefeMedico" : "viewsMedico";
+      const container = qs(`#${containerId}`);
+      if (!container) return;
+
+      qsa("[data-view]", sidebar).forEach(btn => {
+        btn.addEventListener("click", () => {
+          const view = btn.getAttribute("data-view");
+          setActiveButton(btn);
+
+          // Registrar Familiar: mostrar overlay si existe
+          if (view === "solicitar") {
+            const overlay = qs("#crearFamiliarOverlay", container) || qs("#crearFamiliarOverlay");
+            if (overlay) {
+              overlay.classList.remove("hidden");
+              // Si el overlay vive dentro de una vista, también podrías mostrar esa vista aquí.
+            }
+            return;
+          }
+
+          // Normal
+          showView(container, view);
+        });
+      });
+    });
+  }
+
+  function startReportsCountdown() {
+    const el = qs("#reportsCountdown");
+    if (!el) return;
+
+    function nextMonthStart(now) {
+      const y = now.getFullYear();
+      const m = now.getMonth(); // 0-11
+      return new Date(y, m + 1, 1, 0, 0, 0);
+    }
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    function tick() {
+      const now = new Date();
+      const target = nextMonthStart(now);
+      const diff = target.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        el.textContent = "00:00:00";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      // Si quieres días, lo agregas, pero por ahora HH:MM:SS es suficiente
+      el.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  function monthName(m) {
+    const names = [
+      "ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO",
+      "JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"
+    ];
+    const idx = Number(m) - 1;
+    return names[idx] || "MES";
+  }
+
+  function openPrintableReportTemplate({ mes, anio }) {
+    // Basado en el formato institucional del Word, pero SIN datos.
+    // Solo estructura + placeholders.
+    const MES = mes ? monthName(mes) : "MES";
+    const ANIO = anio ? String(anio) : "AÑO";
+
+    const html = `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Informe Mensual - ${MES} ${ANIO}</title>
+  <style>
+    body{font-family: Arial, sans-serif; color:#111; margin:24px;}
+    .center{text-align:center;}
+    .muted{color:#555;}
+    h1,h2,h3{margin:10px 0;}
+    .hr{height:1px; background:#ddd; margin:18px 0;}
+    table{width:100%; border-collapse:collapse; margin:12px 0;}
+    th,td{border:1px solid #999; padding:8px; font-size:12px;}
+    th{background:#f3f4f6;}
+    .sig{margin-top:28px;}
+    .sig .line{margin-top:50px; border-top:1px solid #111; width:320px;}
+    .block{margin:14px 0;}
+  </style>
+</head>
+<body>
+
+  <div class="block">
+    <p><b>Para:</b> Profesora Claudia De Andrade</p>
+    <p>Jefa de Departamento de Desarrollo y Bienestar Estudiantil</p>
+    <p><b>De:</b> Dra. Yuderkys Torres</p>
+    <p>Jefa del Servicio Médico</p>
+    <div class="hr"></div>
+    <p class="muted">
+      (Este documento es una plantilla. Los datos serán inyectados por el backend.)
+    </p>
+  </div>
+
+  <div class="center">
+    <h2>INFORME MENSUAL DE ACTIVIDADES ASISTENCIALES DEL SERVICIO MÉDICO</h2>
+    <h3>UNETRANS - Dr. Federico Rivero Palacio</h3>
+    <h3>${MES} ${ANIO}</h3>
+  </div>
+
+  <div class="block">
+    <p>
+      El presente resumen informativo se emite a partir de la prestación del servicio de un equipo multidisciplinario...
+      <span class="muted">(texto completo puede mantenerse aquí o lo puede inyectar backend)</span>
+    </p>
+  </div>
+
+  <div class="block">
+    <h3>PACIENTES (Distribución)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ESTUDIANTE</th>
+          <th>PERSONAL ADMINISTRATIVO</th>
+          <th>PERSONAL OBRERO</th>
+          <th>DOCENTE</th>
+          <th>PRE-ESCOLAR</th>
+          <th>VISITANTE</th>
+          <th>TOTAL PACIENTES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ estudiantes }}</td>
+          <td>{{ administrativo }}</td>
+          <td>{{ obrero }}</td>
+          <td>{{ docente }}</td>
+          <td>{{ preescolar }}</td>
+          <td>{{ visitante }}</td>
+          <td>{{ total_pacientes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block">
+    <h3>MEDICINA GENERAL</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>TOTAL DE CONSULTAS REALIZADAS</th>
+          <th>CONTROL DE NIÑOS SANOS</th>
+          <th>CONSULTA PARTO HUMANIZADO</th>
+          <th>PLANIFICACIÓN FAMILIAR / PESQUISA</th>
+          <th>PACIENTES DE APOYO VITAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ total_consultas_mg }}</td>
+          <td>{{ control_ninos }}</td>
+          <td>{{ parto_humanizado }}</td>
+          <td>{{ planificacion }}</td>
+          <td>{{ apoyo_vital }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block">
+    <h3>ACTIVIDADES REALIZADAS POR ENFERMERÍA</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>TOTAL ACTIVIDADES</th>
+          <th>CURAS</th>
+          <th>TRATAMIENTOS</th>
+          <th>NEBULIZACIONES</th>
+          <th>CONTROL GLICEMIA CAPILAR</th>
+          <th>CONTROL TENSIÓN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ total_enfermeria }}</td>
+          <td>{{ curas }}</td>
+          <td>{{ tratamientos }}</td>
+          <td>{{ nebulizaciones }}</td>
+          <td>{{ glicemia }}</td>
+          <td>{{ tension }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block">
+    <h3>ESPECIALIDADES</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>TRAUMATOLOGÍA</th>
+          <th>PSIQUIATRÍA</th>
+          <th>FISIATRÍA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ total_trauma }}</td>
+          <td>{{ total_psiq }}</td>
+          <td>{{ total_fisiatria }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sig">
+    <div class="line"></div>
+    <p><b>Dra. Yuderkys Torres</b><br>Jefa del Servicio Médico</p>
+  </div>
+
+  <script>
+    // Si quieres imprimir automático, descomenta:
+    // window.onload = () => window.print();
+  </script>
+</body>
+</html>`;
+
+    const w = window.open("", "_blank");
+    if (!w) {
+      alert("El navegador bloqueó la ventana emergente. Permite pop-ups para descargar el reporte.");
+      return;
+    }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+  }
+
+  function initReportTemplateButton() {
+    const btn = qs('[data-action="download-report-template"]');
+    if (!btn) return;
+
+    btn.addEventListener("click", () => {
+      openPrintableReportTemplate({
+        mes: btn.getAttribute("data-mes"),
+        anio: btn.getAttribute("data-anio"),
+      });
+    });
+  }
+
+  function initUIActions() {
+    // Botones genéricos
+    qsa('[data-action="back"]').forEach(b => {
+      b.addEventListener("click", () => history.back());
+    });
+
+    const openConsulta = qs('[data-action="open-consulta-form"]');
+    const closeConsulta = qs('[data-action="close-consulta-form"]');
+    const wrapConsulta = qs("#consultaFormWrap");
+    if (openConsulta && wrapConsulta) {
+      openConsulta.addEventListener("click", () => wrapConsulta.classList.remove("hidden"));
+    }
+    if (closeConsulta && wrapConsulta) {
+      closeConsulta.addEventListener("click", () => wrapConsulta.classList.add("hidden"));
+    }
+
+    const openHistoria = qs('[data-action="open-historia-form"]');
+    const closeHistoria = qs('[data-action="close-historia-form"]');
+    const wrapHistoria = qs("#historiaFormWrap");
+    if (openHistoria && wrapHistoria) {
+      openHistoria.addEventListener("click", () => wrapHistoria.classList.remove("hidden"));
+    }
+    if (closeHistoria && wrapHistoria) {
+      closeHistoria.addEventListener("click", () => wrapHistoria.classList.add("hidden"));
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initSidebarNavigation();
+    startReportsCountdown();
+    initReportTemplateButton();
+    initUIActions();
+  });
+
+})();

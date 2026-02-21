@@ -1,64 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- ================= MENU LATERAL MÉDICO ================= -->
-<aside id="sidebarMedico" class="sidebar">
+<div class="dashboard">
 
-  <div class="sidebar__header">
-    <img src="img/perfil.jpg" alt="Perfil">
-    <span class="sidebar__name">Médico</span>
-  </div>
+  <!-- ================= MENU LATERAL JEFE MÉDICO ================= -->
+  <aside id="sidebarMedico" class="sidebar">
 
-  <nav class="sidebar__nav">
+    <div class="sidebar__header">
+      <img src="img/perfil.jpg" alt="Perfil">
+      <span class="sidebar__name"></span>
+    </div>
 
-    <button class="sidebar__item active" data-view="inicio">
-      <span class="material-symbols-outlined">home</span>
-      Inicio
-    </button>
+    <nav class="sidebar__nav">
 
-    <button class="sidebar__item" data-view="perfil">
-      <span class="material-symbols-outlined">person</span>
-      Perfil
-    </button>
+      <button class="sidebar__item active" data-view="inicio">
+        <span class="material-symbols-outlined">home</span>
+        Inicio
+      </button>
 
-    <button class="sidebar__item" data-view="consultas">
-      <span class="material-symbols-outlined">search</span>
-      Consultas
-    </button>
+      <button class="sidebar__item" data-view="perfil">
+        <span class="material-symbols-outlined">person</span>
+        Perfil
+      </button>
 
-    <button class="sidebar__item" data-view="historial">
-      <span class="material-symbols-outlined">folder</span>
-      Historial
-    </button>
+      <button class="sidebar__item" data-view="consultas">
+        <span class="material-symbols-outlined">search</span>
+        Consultas
+      </button>
 
-    <button class="sidebar__item" data-view="estadisticas">
-      <span class="material-symbols-outlined">bar_chart</span>
-      Estadísticas
-    </button>
+      <button class="sidebar__item" data-view="historial">
+        <span class="material-symbols-outlined">folder</span>
+        Historial
+      </button>
 
-    <button id="btnAbrirCrearMedico" class="sidebar__item sidebar__item-action" type="button">
-        <span class="material-symbols-outlined">person_add</span>
-        Crear Médico
-    </button>
+      <button class="sidebar__item" data-view="estadisticas">
+        <span class="material-symbols-outlined">bar_chart</span>
+        Estadísticas
+      </button>
 
-    <button class="sidebar__item" data-view="solicitar">
-      <span class="material-symbols-outlined">lock_open</span>
-      Registrar Familiar
-    </button>
+      <button id="btnAbrirCrearMedico" class="sidebar__item sidebar__item-action" type="button">
+          <span class="material-symbols-outlined">person_add</span>
+          Crear Médico
+      </button>
 
-    <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
-      <span class="material-symbols-outlined">close</span>
-      Cerrar Menú
-    </button>
+      <button class="sidebar__item" data-view="solicitar">
+        <span class="material-symbols-outlined">lock_open</span>
+        Registrar Familiar
+      </button>
 
-  </nav>
+      <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
+        <span class="material-symbols-outlined">close</span>
+        Cerrar Menú
+      </button>
 
-</aside>
+    </nav>
 
-<!-- ================= CONTENIDO ================= -->
-<main class="main-content" id="viewsMedico">
+  </aside>
 
-  <!-- ===== INICIO ===== -->
+  <main class="main-content" id="viewsJefeMedico">
+
+    <!-- ===== INICIO ===== -->
   <section id="view-inicio" class="view">
 
     <div class="container-search">
@@ -227,251 +228,430 @@
 
   </section>
 
-  <!-- ===== PERFIL DEL PACIENTE (SIMULADO) ===== -->
-  <section id="view-perfil-paciente" class="view hidden">
-  
-    <!-- ===== PERFIL PACIENTE (REUTILIZABLE) ===== -->
-    <div id="perfilPacienteContainer">
-      <!-- aquí el JS inyecta el mismo perfil que ya usas en paciente -->
-    </div>
-
-  </section>
-
-  <!-- ===== CONSULTAS ===== -->
   <section id="view-consultas" class="view hidden">
-    <main class="main">
-    <div class="container-main__title">
-    <h1 class="container-main__title-text">
-                    Consultas
-                </h1>
-    </div>
-    <div class="container-patient">
-    <p class="container-patient__patient-dates">1. Nombre, Apellido, Cédula, Rol</p>
-    <input class="container-patient__served" id="served" name="served" type="checkbox"/>
-    </div>
-    <div class="container-patient">
-    <p class="container-patient__patient-dates">2. Nombre, Apellido, Cédula, Rol</p>
-    <input class="container-patient__served" id="served" name="served" type="checkbox"/>
-    </div>
-    <div class="container-patient">
-    <p class="container-patient__patient-dates">3. Nombre, Apellido, Cédula, Rol</p>
-    <input class="container-patient__served" id="served" name="served" type="checkbox"/>
-    </div>
-    <div class="container-patient">
-    <p class="container-patient__patient-dates">4. Nombre, Apellido, Cédula, Rol</p>
-    <input class="container-patient__served" id="served" name="served" type="checkbox"/>
-    </div>
-    <div class="container-patient">
-    <p class="container-patient__patient-dates">5. Nombre, Apellido, Cédula, Rol</p>
-    <input class="container-patient__served" id="served" name="served" type="checkbox"/>
-    </div>
-    <button class="add-patient">
-    <p class="add-patient__text">Agregar nuevo paciente</p>
+
+  <div class="section-header">
+    <h2>Consultas</h2>
+    <button type="button" class="btn-primary" data-action="open-consulta-form">
+      Nueva Consulta
     </button>
-    </main>
-  </section>
+  </div>
 
-  <!-- ===== HISTORIAL ===== -->
-  <section id="view-historial" class="view hidden">
-      <main class="main">
-      <div class="container-main__title">
-      <h1 class="container-main__title-text">Historial</h1>
-      </div>
-      <div class="container-search">
-        <span class="container-search__icon material-symbols-outlined">search</span>
-        <input class="container-search__bar" id="search" name="search"/ type="date" placeholder="Filtrar por fecha"/>
-      </div>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Odontología</p>
-      </div>
-      </section>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Medicina General</p>
-      </div>
-      </section>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Medicina General</p>
-      </div>
-      </section>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Psiquiatría</p>
-      </div>
-      </section>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Odontologia</p>
-      </div>
-      </section>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Psiquiatría</p>
-      </div>
-      </section>
-      <section class="medical-history-data">
-      <div class="medical-history-data__dates">
-      <p class="medical-history-data__date">09/11/2025</p>
-      </div>
-      <div class="medical-history-data__hours">
-      <p class="medical-history-data__hour">9:30 a.m</p>
-      </div>
-      <div class="medical-history-data__ceds">
-      <p class="medical-history-data__ced">v-12345678</p>
-      </div>
-      <div class="medical-history-data__modules">
-      <p class="medical-history-data__module">Medicina general</p>
-      </div>
-      </section>
-      </main>
-  </section>
+  {{-- FILTROS --}}
+  <form method="GET" action="{{ url()->current() }}" class="toolbar">
 
-  <!-- ===== ESTADÍSTICAS ===== -->
-  <section id="view-estadisticas" class="view hidden">
-
-  <div class="stats-container">
-
-    <!-- FILTRO POR MES -->
-    <div class="stats-filter-card">
-      <div class="stats-filter">
-        <label for="statsMonth">Filtrar por mes</label>
-        <input type="month" id="statsMonth">
-      </div>
+    <div class="tool">
+      <label>Desde</label>
+      <input type="date" name="desde" value="{{ request('desde') }}">
     </div>
 
-    <!-- ENCABEZADO -->
-    <div class="stats-header">
-      <h1>Estadísticas</h1>
-      <p>Resumen general de la actividad médica</p>
+    <div class="tool">
+      <label>Hasta</label>
+      <input type="date" name="hasta" value="{{ request('hasta') }}">
     </div>
 
-    <!-- CONTENEDOR DE KPIs (FONDO) -->
-    <div class="stats-kpi-wrapper">
-
-      <div class="stats-kpi-grid">
-
-        <div class="stats-kpi-card">
-          <span class="stats-kpi-number">42</span>
-          <span class="stats-kpi-label">Consultas realizadas</span>
-        </div>
-
-        <div class="stats-kpi-card">
-          <span class="stats-kpi-number">37</span>
-          <span class="stats-kpi-label">Historias clínicas</span>
-        </div>
-
-        <div class="stats-kpi-card">
-          <span class="stats-kpi-number">18</span>
-          <span class="stats-kpi-label">Pacientes activos</span>
-        </div>
-
-      </div>
-
+    <div class="tool tool-actions">
+      <button type="submit" class="btn-primary">Buscar</button>
+      <a class="btn-secondary" href="{{ url()->current() }}">Limpiar</a>
     </div>
 
-    <!-- DISTRIBUCIÓN POR MÓDULO -->
-    <div class="stats-card">
+  </form>
 
-      <h2>Historias por módulo</h2>
+  {{-- LISTA DE CONSULTAS --}}
+  <div class="consultas-container">
 
-      <div class="stats-bar">
-        <span>Medicina General</span>
-        <div class="bar">
-          <div class="bar-fill" style="width: 55%"></div>
+    @if(isset($consultas) && $consultas->isEmpty())
+      <div class="empty-state">
+        <p>No hay consultas registradas.</p>
+      </div>
+    @endif
+
+    @if(isset($consultas))
+      @foreach($consultas as $consulta)
+
+        <div class="consulta-row">
+
+          <div class="consulta-col">
+            <strong>{{-- {{ $consulta->fecha }} --}}</strong>
+            <p>{{-- {{ $consulta->nombres }} --}} {{-- {{ $consulta->apellidos }} --}}</p>
+          </div>
+
+          <div class="consulta-col">
+            <p>Cédula: {{-- {{ $consulta->cedula }} --}}</p>
+            <p>Edad: {{-- {{ $consulta->edad }} --}}</p>
+          </div>
+
+          <div class="consulta-col">
+            <p>Sexo: {{-- {{ $consulta->sexo }} --}}</p>
+            <p>Médico: {{-- {{ $consulta->doctor->nombre ?? '' }} --}}</p>
+          </div>
+
+          <div class="consulta-actions">
+            <a
+              href="#"
+              {{-- href="{{ route('consultas.show', $consulta->id) }}" --}}
+              class="btn-secondary"
+            >
+              Ver Detalle
+            </a>
+          </div>
+
         </div>
-        <span class="bar-value">18</span>
+
+      @endforeach
+    @endif
+
+  </div>
+
+  {{-- FORMULARIO OCULTO NUEVA CONSULTA --}}
+  <div id="consultaFormWrap" class="modal-wrap hidden">
+
+    <div class="modal-card">
+
+      <div class="modal-header">
+        <h3>Nueva Consulta</h3>
+        <button type="button" class="btn-secondary" data-action="close-consulta-form">
+          Cerrar
+        </button>
       </div>
 
-      <div class="stats-bar">
-        <span>Psiquiatría</span>
-        <div class="bar">
-          <div class="bar-fill" style="width: 30%"></div>
+      <form method="POST" action="{{-- route('consultas.store') --}}" class="form-grid">
+        @csrf
+
+        <div class="form-group">
+          <label>Nombres</label>
+          <input type="text" name="nombres" required>
         </div>
-        <span class="bar-value">11</span>
-      </div>
 
-      <div class="stats-bar">
-        <span>Odontología</span>
-        <div class="bar">
-          <div class="bar-fill" style="width: 20%"></div>
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input type="text" name="apellidos" required>
         </div>
-        <span class="bar-value">8</span>
-      </div>
 
-    </div>
+        <div class="form-group">
+          <label>Cédula</label>
+          <input type="text" name="cedula" required>
+        </div>
 
-    <!-- ACTIVIDAD RECIENTE -->
-    <div class="stats-card">
+        <div class="form-group">
+          <label>Edad</label>
+          <input type="number" name="edad" required>
+        </div>
 
-      <h2>Actividad reciente</h2>
+        <div class="form-group">
+          <label>Sexo</label>
+          <select name="sexo" required>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
 
-      <ul class="stats-activity-list">
-        <li>Historia clínica – María González (Hoy)</li>
-        <li>Consulta atendida – José Rodríguez (Ayer)</li>
-        <li>Historia odontológica – Ana Pérez (Ayer)</li>
-      </ul>
+        <div class="form-group">
+          <label>Peso</label>
+          <input type="text" name="peso">
+        </div>
+
+        <div class="form-group">
+          <label>Talla</label>
+          <input type="text" name="talla">
+        </div>
+
+        <div class="form-group">
+          <label>Tensión Arterial</label>
+          <input type="text" name="ta">
+        </div>
+
+        <div class="form-group full">
+          <label>Motivo de Consulta</label>
+          <textarea name="motivo" rows="3"></textarea>
+        </div>
+
+        <div class="form-group full">
+          <label>Tratamiento</label>
+          <textarea name="tratamiento" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="date" name="fecha" required>
+        </div>
+
+        <div class="form-group">
+          <label>Doctor</label>
+          <input type="text" name="doctor" required>
+        </div>
+
+        <div class="form-actions full">
+          <button type="submit" class="btn-primary">Guardar Consulta</button>
+        </div>
+
+      </form>
 
     </div>
 
   </div>
 
-  <!-- =======REGISTRAR MEDICOS (ESPECIALISTAS)========= -->
+</section>
+
+  <section id="view-historial" class="view hidden">
+
+  <div class="section-header">
+    <h2>Historial</h2>
+  </div>
+
+  {{-- FILTROS --}}
+  <form method="GET" action="{{ url()->current() }}" class="toolbar">
+
+    <div class="tool">
+      <label>Desde</label>
+      <input type="date" name="desde" value="{{ request('desde') }}">
+    </div>
+
+    <div class="tool">
+      <label>Hasta</label>
+      <input type="date" name="hasta" value="{{ request('hasta') }}">
+    </div>
+
+    <div class="tool">
+      <label>Tipo</label>
+      <select name="tipo">
+        <option value="" {{ request('tipo')=='' ? 'selected' : '' }}>Todos</option>
+        <option value="consulta" {{ request('tipo')=='consulta' ? 'selected' : '' }}>Consultas</option>
+        <option value="historia" {{ request('tipo')=='historia' ? 'selected' : '' }}>Historias</option>
+      </select>
+    </div>
+
+    <div class="tool tool-actions">
+      <button type="submit" class="btn-primary">Buscar</button>
+      <a class="btn-secondary" href="{{ url()->current() }}">Limpiar</a>
+    </div>
+
+  </form>
+
+  {{-- LISTA REAL DEL HISTORIAL --}}
+  <div class="history-container">
+
+    {{-- CUANDO NO HAY DATOS --}}
+    @if(isset($historial) && $historial->isEmpty())
+      <div class="empty-state">
+        <p>No hay elementos para mostrar.</p>
+      </div>
+    @endif
+
+    {{-- CUANDO HAY DATOS --}}
+    @if(isset($historial))
+      @foreach($historial as $item)
+
+        <div class="history-card">
+
+          <div class="history-main">
+            <h4>
+              {{-- {{ ucfirst($item->tipo) }} --}}
+              Tipo
+            </h4>
+
+            <p>
+              Fecha:
+              {{-- {{ $item->fecha }} --}}
+            </p>
+
+            <p>
+              Paciente:
+              {{-- {{ $item->paciente->nombre ?? '' }} --}}
+            </p>
+          </div>
+
+          <div class="history-actions">
+            <a
+              href="#"
+              {{-- href="{{ route('detalle.show', $item->id) }}" --}}
+              class="btn-secondary"
+            >
+              Ver Detalle
+            </a>
+          </div>
+
+        </div>
+
+      @endforeach
+    @endif
+
+  </div>
+
+</section>
+
+    <section id="view-reportes" class="view hidden">
+      <h2>Reportes Mensuales</h2>
+
+      <div class="report-header">
+        <div>
+          <p class="muted">Próximo reporte disponible en:</p>
+          <div id="reportsCountdown" class="countdown">--:--:--</div>
+        </div>
+      </div>
+
+      {{-- Filtro por Mes --}}
+      <form method="GET" action="" class="toolbar">
+        <div class="tool">
+          <label>Mes</label>
+          <select name="mes">
+            <option value="">Todos</option>
+            <option value="1"  {{ request('mes')=='1' ? 'selected' : '' }}>Enero</option>
+            <option value="2"  {{ request('mes')=='2' ? 'selected' : '' }}>Febrero</option>
+            <option value="3"  {{ request('mes')=='3' ? 'selected' : '' }}>Marzo</option>
+            <option value="4"  {{ request('mes')=='4' ? 'selected' : '' }}>Abril</option>
+            <option value="5"  {{ request('mes')=='5' ? 'selected' : '' }}>Mayo</option>
+            <option value="6"  {{ request('mes')=='6' ? 'selected' : '' }}>Junio</option>
+            <option value="7"  {{ request('mes')=='7' ? 'selected' : '' }}>Julio</option>
+            <option value="8"  {{ request('mes')=='8' ? 'selected' : '' }}>Agosto</option>
+            <option value="9"  {{ request('mes')=='9' ? 'selected' : '' }}>Septiembre</option>
+            <option value="10" {{ request('mes')=='10' ? 'selected' : '' }}>Octubre</option>
+            <option value="11" {{ request('mes')=='11' ? 'selected' : '' }}>Noviembre</option>
+            <option value="12" {{ request('mes')=='12' ? 'selected' : '' }}>Diciembre</option>
+          </select>
+        </div>
+
+        {{ -- Filtro por año --}}
+        <div class="tool">
+          <label>Año</label>
+          <input type="number" name="anio" min="2000" max="2100" value="{{ request('anio') }}">
+        </div>
+
+        <div class="tool tool-actions">
+          <button type="submit" class="btn-primary">Buscar</button>
+          <a class="btn-secondary" href="{{ url()->current() }}">Limpiar</a>
+        </div>
+      </form>
+
+      {{-- Lista vacía --}}
+      <div class="list-empty">
+        <p>No hay reportes disponibles aún.</p>
+      </div>
+
+      {{ -- Contenedor para lista real --}}
+      <div id="reportList" class="list"></div>
+
+      {{-- Ejemplo de botón “descargar” --}}
+      <div class="report-actions">
+
+        <a
+          href="{{ route('reportes.pdf', ['mes' => request('mes'), 'anio' => request('anio')]) }}"
+          target="_blank"
+          class="btn-primary"
+        >
+          Descargar Reporte
+        </a>
+
+      </div>
+
+    </section>
+
+   <section id="view-detalle" class="view hidden">
+
+    <div class="detail-header">
+      <h2>Detalle Clínico</h2>
+      <button type="button" class="btn-secondary" data-action="back">Volver</button>
+    </div>
+
+    <div class="detail-card">
+
+      {{-- DATOS GENERALES --}}
+      <div class="detail-section">
+        <h3>Información General</h3>
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+            <label>Tipo:</label>
+            <span>
+              {{-- {{ $detalle->tipo ?? '' }} --}}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Fecha:</label>
+            <span>
+              {{-- {{ $detalle->fecha ?? '' }} --}}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Creado por:</label>
+            <span>
+              {{-- {{ $detalle->usuario->nombre ?? '' }} --}}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Estado:</label>
+            <span>
+              {{-- {{ $detalle->estado ?? '' }} --}}
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      {{-- DATOS DEL PACIENTE --}}
+      <div class="detail-section">
+        <h3>Datos del Paciente</h3>
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+            <label>Nombre:</label>
+            <span>
+              {{-- {{ $detalle->paciente->nombre ?? '' }} --}}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Cédula:</label>
+            <span>
+              {{-- {{ $detalle->paciente->cedula ?? '' }} --}}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Edad:</label>
+            <span>
+              {{-- {{ $detalle->paciente->edad ?? '' }} --}}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Sexo:</label>
+            <span>
+              {{-- {{ $detalle->paciente->sexo ?? '' }} --}}
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      {{-- CONTENIDO CLÍNICO --}}
+      <div class="detail-section">
+        <h3>Contenido Clínico</h3>
+
+        <div class="detail-content">
+          {{-- {{ $detalle->contenido ?? '' }} --}}
+        </div>
+      </div>
+
+      {{-- OBSERVACIONES --}}
+      <div class="detail-section">
+        <h3>Observaciones</h3>
+
+        <div class="detail-content">
+          {{-- {{ $detalle->observaciones ?? '' }} --}}
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+<!-- =======REGISTRAR MEDICOS (ESPECIALISTAS)========= -->
 <!-- OVERLAY REGISTRO DE ESPECIALISTAS (JEFE MÉDICO) -->
 <section id="crearMedicoOverlay" class="oai-backdrop oai-hidden">
 
@@ -700,22 +880,8 @@
 
     </form>
 
-  </div>
+    <div id="crearFamiliarOverlay" class="hidden"></div>
 
-</section>
-
-</main>
-
-<!-- ================= JS ================= -->
-<script src="js/app_unificado.js"></script>
-
-<!-- ===== Overlays base (NO se tocan) ===== -->
-<div class="oai-backdrop oai-hidden" id="oaiBackdrop"></div>
-<div class="oai-frame-drawer oai-hidden" id="oaiDrawerWrap">
-  <iframe id="oaiDrawerFrame" title="Menú"></iframe>
+  </main>
 </div>
-<div class="oai-frame-modal oai-hidden" id="oaiModalWrap">
-  <iframe id="oaiModalFrame" title="Formulario"></iframe>
-</div>
-
-@endsection
+@endsections

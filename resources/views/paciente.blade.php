@@ -24,7 +24,7 @@
       Historias
     </button>
 
-    <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
+   <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
       <span class="material-symbols-outlined">close</span>
       Cerrar Menú
     </button>

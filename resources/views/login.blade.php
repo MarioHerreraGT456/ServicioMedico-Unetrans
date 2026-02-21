@@ -1,27 +1,55 @@
-  <button type="button" id="btnCerrarLogin" class="btn-cerrar-overlay">
-    ✕
-  </button>
+@extends('layouts.app')
 
-    <h2>Inicia Sesión</h2>
+@section('content')
+<div class="auth-page">
+  <div class="auth-card">
+    <aside class="auth-side">
+      <h2>UNETRANS</h2>
+      <p>Accede al sistema para gestionar tu perfil y los servicios del centro médico.</p>
+    </aside>
 
-    <form id="loginForm" method="POST" action="{{ route('login') }}">
-      @csrf
-      <label for="cedula">Cédula:</label>
-      <input id="cedula" name="cedula" type="text" placeholder="V12345678" required>
+    <section class="auth-main">
+      <h1 class="auth-title">Iniciar sesión</h1>
+      <p class="auth-sub">Ingresa con tu <b>cédula</b> y contraseña.</p>
 
-      <label for="password">Contraseña:</label>
-      <input id="password" name="password" type="password" required>
+      @if ($errors->any())
+        <div class="auth-alert">
+          <ul style="margin:0; padding-left:18px;">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
 
-      <button type="submit">Iniciar sesión</button>
-    </form>
+      <form id="loginForm" class="auth-form" method="POST" action="{{ route('login') }}">
+        @csrf
 
-    <!-- ESTE TEXTO SE MUESTRA SOLO SI HAY ERROR -->
-    <div id="loginError" class="error-text oai-hidden">
-      Cédula o contraseña incorrecta
-    </div>
+        <div class="auth-field">
+          <label for="cedula">Cédula</label>
+          <input id="cedula" name="cedula" type="text" placeholder="V12345678" required autocomplete="username">
+        </div>
 
-    <div class="auth-links">
-      <a href="{{ route('register') }}" id="goRegistro">Registrarme</a>
-      <a href="{{ route('passwordRequest') }}" id="goRecuperar">¿Olvidaste tu contraseña?</a>
-    </div>
-     
+        <div class="auth-field" style="margin-top:14px;">
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" required autocomplete="current-password">
+        </div>
+
+        <div class="auth-actions">
+          <button class="auth-btn" type="submit">Iniciar sesión</button>
+
+          <div class="auth-inline-links">
+            <a href="{{ route('passwordRequest') }}">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <div class="auth-switch">
+            <p>¿No tienes cuenta?</p>
+            <a href="{{ route('register') }}">Registrarse</a>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+@endsection
+

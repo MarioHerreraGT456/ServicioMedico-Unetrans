@@ -1,58 +1,42 @@
-<div class="oai-frame-drawer auth-box">
+@extends('layouts.app')
 
-  <h2>Recuperar contraseña</h2>
+@section('content')
+<div class="auth-page">
+  <div class="auth-card">
+    <aside class="auth-side">
+      <h2>Recuperación</h2>
+      <p>Solicita un código para recuperar tu contraseña.</p>
+    </aside>
 
-  <!-- PASO 1 -->
-  <div id="recuperarPaso1">
-    <form id="formRecuperarEmail" method="POST" action="{{ route('passwordRequest') }}">
-      @csrf
-      <div class="campo">
-        <label for="recEmail">Correo electrónico</label>
-        <input type="email" id="recEmail" name="email" required>
-      </div>
+    <section class="auth-main">
+      <h1 class="auth-title">Recuperar contraseña</h1>
+      <p class="auth-sub">Puedes reenviar el correo después de <span class="countdown" id="reenvioCountdown">120</span>s.</p>
 
-      <div class="form-msg oai-hidden" id="msgRecuperar1"></div>
+      <div class="auth-success oai-hidden" id="msgRecuperarOk"></div>
+      <div class="auth-alert oai-hidden" id="msgRecuperarErr"></div>
 
-      <button type="submit" class="btn-principal">
-        Enviar código
-      </button>
-    </form>
+      <form id="formRecuperarEmail" class="auth-form" method="POST" action="{{ route('passwordRequest') }}">
+        @csrf
+
+        <div class="auth-field">
+          <label for="recEmail">Correo electrónico</label>
+          <input type="email" id="recEmail" name="email" required>
+        </div>
+
+        <div class="auth-actions">
+          <button type="submit" class="auth-btn">Enviar código</button>
+
+          <button type="button" class="auth-btn" id="btnReenviar" disabled style="background:#0f172a;">
+            Reenviar correo (<span id="reenvioCountdownBtn">120</span>s)
+          </button>
+
+          <div class="auth-switch">
+            <p>¿Recordaste tu contraseña?</p>
+            <a href="{{ route('login') }}">Volver a iniciar sesión</a>
+          </div>
+        </div>
+      </form>
+    </section>
   </div>
-
-  <!-- PASO 2 -->
-  <div id="recuperarPaso2" class="oai-hidden">
-    <form id="formRecuperarCodigo" method="POST" action="{{ route('passwordRequest') }}">
-      @csrf
-
-      <div class="campo">
-        <label for="recCodigo">Código de verificación</label>
-        <input type="text" id="recCodigo" name="codigo" maxlength="6" required>
-      </div>
-
-      <div class="campo">
-        <label for="recNuevaClave">Nueva contraseña</label>
-        <input type="password" id="recNuevaClave" required>
-      </div>
-
-      <div class="campo">
-        <label for="recConfirmClave">Confirmar contraseña</label>
-        <input type="password" id="recConfirmClave" required>
-      </div>
-
-      <div class="contador">
-        Reenviar código en 
-        <span id="contadorTiempo">120</span>s
-      </div>
-
-      <button type="button" id="btnReenviar" disabled>
-        Reenviar código
-      </button>
-
-      <button type="submit" class="btn-principal">
-        Restablecer contraseña
-      </button>
-
-    </form>
-  </div>
-
 </div>
+@endsection
