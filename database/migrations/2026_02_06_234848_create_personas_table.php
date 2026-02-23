@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('sesion')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('cedula')->references('cedula')->on('personas')->onDelete('cascade');
         });
 
         

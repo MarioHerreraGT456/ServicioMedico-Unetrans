@@ -1,3 +1,10 @@
+@extends('layouts.app')
+
+@section('content')
+  
+  
+  
+  
   <button type="button" id="btnCerrarLogin" class="btn-cerrar-overlay">
     ✕
   </button>
@@ -25,3 +32,4 @@
       <a href="{{ route('passwordRequest') }}" id="goRecuperar">¿Olvidaste tu contraseña?</a>
     </div>
      
+@endsection
