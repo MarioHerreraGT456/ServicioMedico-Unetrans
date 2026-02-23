@@ -12,6 +12,7 @@ class Persona extends Authenticatable
 
     protected $fillable = [
         'nombre',
+        'tipo',
         'cedula',
         'rol',
         'password',

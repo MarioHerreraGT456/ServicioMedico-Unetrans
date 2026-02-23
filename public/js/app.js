@@ -1,7 +1,7 @@
 /*******************************************************
  * ESTADO GLOBAL DEL REGISTRO DE PACIENTE
  *******************************************************/
-let cedulaRegistroPaciente = null;
+// let cedulaRegistroPaciente = null;
 
 /*******************************************************
  * UTILIDADES
@@ -93,61 +93,76 @@ async function abrirAuth(url) {
     /*******************************************************
      * MENÚ LATERAL PUSH (PACIENTE Y MÉDICO)
      *******************************************************/
-    document.addEventListener("DOMContentLoaded", () => {
-        const body = document.body;
-        const menuBtn = qs(".main-header__icon-menu");
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     // const body = document.body;
+    //     const menuBtn = document.querySelector(".main-header__menu");
 
-        const sidebarPaciente = qs("#sidebarPaciente");
-        const sidebarMedico = qs("#sidebarMedico");
-        const sidebar = sidebarPaciente || sidebarMedico;
+    //     // const sidebarPaciente = qs("#sidebarPaciente");
+    //     // const sidebarMedico = qs("#sidebarMedico");
+    //     // const sidebar = sidebarPaciente || sidebarMedico;
+    //     const sidebar = document.querySelector(".sidebar");
 
-        if (!menuBtn || !sidebar) return;
+    //     // if (!menuBtn || !sidebar) return;
 
-        menuBtn.addEventListener("click", () => {
-            body.classList.toggle("menu-open");
-        });
+    //     // menuBtn.addEventListener("click", () => {
+    //     //     body.classList.toggle("menu-open");
+    //     // });
+    //     menuBtn.addEvenetListener("click", () => {
+    //         sidebar.style.display = "flex";
+    //     });
 
-        //ESTO ES NUEVO (PARA CERRAR EL MENU)
-        const btnCerrarMenu = document.getElementById("btnCerrarMenu");
+    //     //ESTO ES NUEVO (PARA CERRAR EL MENU)
+    //     const btnCerrarMenu = document.getElementById("btnCerrarMenu");
 
-        btnCerrarMenu?.addEventListener("click", () => {
-            body.classList.remove("menu-open");
-        });
+    //     btnCerrarMenu?.addEventListener("click", () => {
+    //         body.classList.remove("menu-open");
+    //     });
 
-        qsa(".sidebar__item", sidebar).forEach((btn) => {
-            btn.addEventListener("click", () => {
-                if (btn.classList.contains("sidebar__item-action")) return;
+    //     qsa(".sidebar__item", sidebar).forEach((btn) => {
+    //         btn.addEventListener("click", () => {
+    //             if (btn.classList.contains("sidebar__item-action")) return;
 
-                const view = btn.dataset.view;
-                if (!view) return;
+    //             const view = btn.dataset.view;
+    //             if (!view) return;
 
-                qsa(".sidebar__item", sidebar).forEach((b) =>
-                    b.classList.remove("active"),
-                );
-                btn.classList.add("active");
+    //             qsa(".sidebar__item", sidebar).forEach((b) =>
+    //                 b.classList.remove("active"),
+    //             );
+    //             btn.classList.add("active");
 
-                const main = btn.closest("main") || document;
+    //             const main = btn.closest("main") || document;
 
-                main.querySelectorAll(".view").forEach((v) =>
-                    v.classList.add("hidden"),
-                );
+    //             main.querySelectorAll(".view").forEach((v) =>
+    //                 v.classList.add("hidden"),
+    //             );
 
-                main.querySelector(`#view-${view}`)?.classList.remove("hidden");
+    //             main.querySelector(`#view-${view}`)?.classList.remove("hidden");
 
-                if (view === "perfil") {
-                    cargarMiPerfil();
-                }
+    //             if (view === "perfil") {
+    //                 cargarMiPerfil();
+    //             }
 
-                body.classList.remove("menu-open");
-            });
-        });
+    //             body.classList.remove("menu-open");
+    //         });
+    //     });
 
-        qs(".sidebar__logout")?.addEventListener("click", () => {
-            location.href = "index.html";
-        });
-    });
+    //     qs(".sidebar__logout")?.addEventListener("click", () => {
+    //         location.href = "index.html";
+    //     });
+    // });
 
     // 👇 funciones del perfil (fuera)
+
+    // HACERLO EN ARCHIVO APARTE
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     const menuBtn = document.querySelector(".main-header__icon-menu");
+    //     const sidebar = document.querySelector(".sidebar");
+    //     console.log(menuBtn, sidebar);
+    //     menuBtn.addEventListener("click", () => {
+    //         sidebar.style.display = "flex";
+    //     });
+    // });
+
     async function cargarMiPerfil() {
         try {
             const res = await fetch("backend/controllers/obtenerMiPerfil.php");
@@ -1270,125 +1285,126 @@ ESTO ES PARA LA RECUPERACION DE CONTRASEÑA
             nuevaClaveMsg.classList.add("oai-hidden");
             nuevaClaveMsg.classList.remove("error", "success");
         }
+        //  resetear clave revisar
+        //     formNuevaClave.addEventListener("submit", async (e) => {
+        //         e.preventDefault();
+        //         e.stopPropagation();
+        //         ocultarMsg();
 
-        formNuevaClave.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            ocultarMsg();
+        //         // La cédula viene del PASO 1
+        //         if (!cedulaRegistroPaciente) {
+        //             mostrarMsg("Error interno: no se encontró la cédula.", "error");
+        //             return;
+        //         }
 
-            // La cédula viene del PASO 1
-            if (!cedulaRegistroPaciente) {
-                mostrarMsg("Error interno: no se encontró la cédula.", "error");
-                return;
-            }
+        //         const pass1 = document.getElementById("newPass")?.value || "";
+        //         const pass2 = document.getElementById("confirmPass")?.value || "";
 
-            const pass1 = document.getElementById("newPass")?.value || "";
-            const pass2 = document.getElementById("confirmPass")?.value || "";
+        //         if (!pass1 || !pass2) {
+        //             mostrarMsg("Debe completar ambos campos.", "error");
+        //             return;
+        //         }
 
-            if (!pass1 || !pass2) {
-                mostrarMsg("Debe completar ambos campos.", "error");
-                return;
-            }
+        //         if (pass1 !== pass2) {
+        //             mostrarMsg("Las contraseñas no coinciden.", "error");
+        //             return;
+        //         }
 
-            if (pass1 !== pass2) {
-                mostrarMsg("Las contraseñas no coinciden.", "error");
-                return;
-            }
+        //         const formData = new FormData();
+        //         formData.append("cedula", cedulaRegistroPaciente);
+        //         formData.append("clave", pass1);
 
-            const formData = new FormData();
-            formData.append("cedula", cedulaRegistroPaciente);
-            formData.append("clave", pass1);
+        //         try {
+        //             const response = await fetch(
+        //                 "backend/controllers/crearPasswordPaciente.php",
+        //                 {
+        //                     method: "POST",
+        //                     body: formData,
+        //                 },
+        //             );
 
-            try {
-                const response = await fetch(
-                    "backend/controllers/crearPasswordPaciente.php",
-                    {
-                        method: "POST",
-                        body: formData,
-                    },
-                );
+        //             const text = await response.text();
+        //             let data;
+        //             try {
+        //                 data = JSON.parse(text);
+        //             } catch {
+        //                 console.error("Respuesta no JSON:", text);
+        //                 mostrarMsg("Error del servidor.", "error");
+        //                 return;
+        //             }
 
-                const text = await response.text();
-                let data;
-                try {
-                    data = JSON.parse(text);
-                } catch {
-                    console.error("Respuesta no JSON:", text);
-                    mostrarMsg("Error del servidor.", "error");
-                    return;
-                }
+        //             if (!data.success) {
+        //                 mostrarMsg(
+        //                     data.message || "No se pudo crear la contraseña.",
+        //                     "error",
+        //                 );
+        //                 return;
+        //             }
 
-                if (!data.success) {
-                    mostrarMsg(
-                        data.message || "No se pudo crear la contraseña.",
-                        "error",
-                    );
-                    return;
-                }
+        //             // ✅ ÉXITO
+        //             mostrarMsg("Contraseña creada correctamente.", "success");
 
-                // ✅ ÉXITO
-                mostrarMsg("Contraseña creada correctamente.", "success");
+        //             // Limpiar estado
+        //             cedulaRegistroPaciente = null;
+        //             formNuevaClave.reset();
 
-                // Limpiar estado
-                cedulaRegistroPaciente = null;
-                formNuevaClave.reset();
+        //             // Pasar al login
+        //             setTimeout(() => {
+        //                 nuevaClaveOverlay.classList.add("oai-hidden");
+        //                 document
+        //                     .getElementById("loginOverlay")
+        //                     ?.classList.remove("oai-hidden");
+        //             }, 1000);
+        //         } catch (err) {
+        //             console.error(err);
+        //             mostrarMsg("Error de conexión con el servidor.", "error");
+        //         }
+        //     });
+        // });
 
-                // Pasar al login
-                setTimeout(() => {
-                    nuevaClaveOverlay.classList.add("oai-hidden");
-                    document
-                        .getElementById("loginOverlay")
-                        ?.classList.remove("oai-hidden");
-                }, 1000);
-            } catch (err) {
-                console.error(err);
-                mostrarMsg("Error de conexión con el servidor.", "error");
-            }
-        });
-    });
+        document.addEventListener("DOMContentLoaded", () => {
+            const formEmail = document.getElementById("formRecuperarEmail");
+            const formCodigo = document.getElementById("formRecuperarCodigo");
+            const paso1 = document.getElementById("recuperarPaso1");
+            const paso2 = document.getElementById("recuperarPaso2");
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const formEmail = document.getElementById("formRecuperarEmail");
-        const formCodigo = document.getElementById("formRecuperarCodigo");
-        const paso1 = document.getElementById("recuperarPaso1");
-        const paso2 = document.getElementById("recuperarPaso2");
+            const contadorEl = document.getElementById("contadorTiempo");
+            const btnReenviar = document.getElementById("btnReenviar");
 
-        const contadorEl = document.getElementById("contadorTiempo");
-        const btnReenviar = document.getElementById("btnReenviar");
+            let tiempo = 120;
+            let intervalo = null;
 
-        let tiempo = 120;
-        let intervalo = null;
-
-        function iniciarContador() {
-            tiempo = 120;
-            contadorEl.textContent = tiempo;
-            btnReenviar.disabled = true;
-
-            intervalo = setInterval(() => {
-                tiempo--;
+            function iniciarContador() {
+                tiempo = 120;
                 contadorEl.textContent = tiempo;
+                btnReenviar.disabled = true;
 
-                if (tiempo <= 0) {
-                    clearInterval(intervalo);
-                    btnReenviar.disabled = false;
-                    contadorEl.textContent = 0;
-                }
-            }, 1000);
-        }
+                intervalo = setInterval(() => {
+                    tiempo--;
+                    contadorEl.textContent = tiempo;
 
-        formEmail?.addEventListener("submit", (e) => {
-            e.preventDefault();
+                    if (tiempo <= 0) {
+                        clearInterval(intervalo);
+                        btnReenviar.disabled = false;
+                        contadorEl.textContent = 0;
+                    }
+                }, 1000);
+            }
 
-            // Simular envío de correo
-            paso1.classList.add("oai-hidden");
-            paso2.classList.remove("oai-hidden");
+            formEmail?.addEventListener("submit", (e) => {
+                e.preventDefault();
 
-            iniciarContador();
-        });
+                // Simular envío de correo
+                paso1.classList.add("oai-hidden");
+                paso2.classList.remove("oai-hidden");
 
-        btnReenviar?.addEventListener("click", () => {
-            iniciarContador();
-            console.log("Reenviar código...");
+                iniciarContador();
+            });
+
+            btnReenviar?.addEventListener("click", () => {
+                iniciarContador();
+                console.log("Reenviar código...");
+            });
         });
     });
 });

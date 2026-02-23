@@ -18,7 +18,7 @@ return new class extends Migration
         $table->string('correo')->unique();
         $table->enum('cargo', ['jefe', 'asistente']);
         $table->enum('especialidad', ['medicina general', 'odontologia', 'psiquiatria']);
-        $table->string('foto')->nullable();
+        $table->string('foto');
         $table->string('password');
         $table->string('sesion')->nullable();
         $table->timestamps();

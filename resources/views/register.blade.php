@@ -21,12 +21,19 @@
       @if ($errors->any())
         <div class="alert alert-danger">
           <ul>
+
+    <h2 class="title-form">Registro</h2>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+
             @foreach ($errors->all() as $error)
               <li>{{ $error }}</li>
             @endforeach
           </ul>
         </div>
       @endif
+
 
       <form id="formRegistroPaciente" method="POST" action="{{ route('register') }}" class="auth-form">
         @csrf
@@ -35,6 +42,40 @@
           <label for="nombre">Nombre:</label>
           <input type="text" id="nombre" name="nombre" required>
         </div>
+
+    <form id="formRegistroPaciente" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+      @csrf
+      
+      <div class="campo">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+
+      <div class="campo">
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+      </div>
+      
+      <div class="campo" >
+        <label for="cedula">Cédula:</label>
+        <div id="campoCedula">
+          <label for="tipo" class="hidden">Tipo:</label>
+          <select name="tipo" id="tipo">
+            <option value="V">V</option>
+            <option value="E">E</option>
+            
+          </select>
+          <input 
+            type="text" 
+            id="cedula"
+            name="cedula"
+            {{-- pattern="[VvEeJjPp]{1}[0-9]{5,9}" --}}
+            title="Formato válido: V12345678, E12345678"
+            placeholder="12345678"
+            required>
+
+        </div>
+      </div>
 
         <div class="campo">
           <label for="apellido">Apellido:</label>
@@ -90,6 +131,16 @@
           </select>
         </div>
 
+      <!-- TIPO DE PACIENTE -->
+      <div class="campo">
+        <label for="categoria">Tipo de Paciente:</label>
+        <select id="categoria" name="categoria" class="select-placeholder" required>
+          <option value="estudiante">Estudiante</option>
+          <option value="personal">Personal</option>
+        </select>
+      </div>
+
+
         <!--ESTADO CIVIL-->
         <div class="campo">
           <label for="selectEstadoCivil">Estado Civil:</label>
@@ -110,6 +161,7 @@
           </select>
         </div>
 
+
         {{-- Tal como en tu documento: los bloques de carrera/personal están comentados.
             NO los descomento aquí para no cambiar tu lógica.
         --}}
@@ -123,6 +175,26 @@
           <label for="password_confirmation">Confirme contraseña:</label>
           <input type="password" id="password_confirmation" name="password_confirmation" required>
         </div>
+
+      <div class="campo">
+        <label for="password_confirmation">Confirme contraseña:</label>
+        <input type="password" id="password_confirmation" name="password_confirmation" required>
+      </div>
+      <div class="hidden">
+      <label for="rol" class="hidden">Rol:</label>
+      <input type="hidden" name="rol" value="paciente">
+    </div>
+
+    <div class="campo">
+      <label for="foto" class="">Foto</label>
+      <input type="file" name="foto" id="foto" >
+    </div>
+
+      {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
+      <div class="campo">
+        <button type="submit" id="btnRegistroContinuar">Registrar</button>
+
+      </div>
 
         <div class="campo">
           <label for="rol" class="hidden">Rol:</label>

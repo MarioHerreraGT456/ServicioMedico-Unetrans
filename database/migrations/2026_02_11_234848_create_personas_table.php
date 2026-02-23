@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->enum('tipo', ['V', 'E']);
             $table->integer('cedula')->unique();
             $table->enum('rol', ['paciente', 'medico']);
             $table->string('password');
             $table->string('sesion')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('cedula')->references('cedula')->on('personas')->onDelete('cascade');
         });
+
+        
     }
 
     /**

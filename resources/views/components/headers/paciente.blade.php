@@ -3,11 +3,12 @@
     <div class="main-header__nav">
 
       <!-- BOTÓN MENÚ -->
-      <div class="main-header__menu">
+      <div class="main-header__menu ">
         <span class="main-header__icon-menu material-symbols-outlined">
           menu
         </span>
       </div>
+    
 
       <!-- LOGO -->
       <div class="main-header__logo">
@@ -34,13 +35,24 @@
 </header>
 
 <!-- ================= MENU LATERAL PACIENTE ================= -->
-<aside id="sidebarPaciente" class="sidebar">
+<aside  class="sidebar">
   <div class="sidebar__header">
-    <img src="img/perfil.jpg" alt="Perfil">
-    @auth
+    {{-- @auth
+    <img src="{{ asset('storage/' . $path) }}" alt="Foto de Perfil">
+    
       
     <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
-    @endauth
+    @endauth --}}
+    @auth
+    @php
+        $perfil = Auth::user()->perfil(); // Obtiene el perfil según el rol
+        $foto = $perfil ? $perfil->foto : null;
+    @endphp
+    <img src="{{ asset('storage/' . $foto) }}" 
+         alt="Foto de Perfil"
+         onerror="this.style.display='none'">
+    <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
+@endauth
   </div>
 
   <nav class="sidebar__nav">
