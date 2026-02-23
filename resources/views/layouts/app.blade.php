@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
         rel="stylesheet">
     
-    <script src="js/app.js" defer></script>
+    <script src="js/prueba.js" defer></script>
 </head>
 <body>
     

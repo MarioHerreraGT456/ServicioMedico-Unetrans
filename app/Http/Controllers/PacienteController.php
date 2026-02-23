@@ -15,6 +15,14 @@ class PacienteController extends Controller
     {
         $user = Auth::user();
         $paciente = $user->paciente; 
+        // dd( $paciente->foto);
+        if (!$paciente) {
+        // Si no hay paciente asociado, redirige o muestra un error
+        return redirect()->route('login')->withErrors('No se encontró el perfil de paciente.');
+    }
+
+    //   $path = $paciente->foto; 
+        
         return view('paciente', compact('user', 'paciente'));
     }
 
@@ -25,19 +33,20 @@ class PacienteController extends Controller
             // Datos de Persona (tabla users)
             'nombre'            => 'required|string|max:255',
             'apellido'          => 'required|string|max:255',      // <-- NUEVO
+            'tipo'              => 'required|in:V,E',
             'cedula'            => 'required|integer|unique:personas,cedula',
             'password'          => 'required|min:8|confirmed',
             // Datos específicos de Paciente
             'fecha_nacimiento'  => 'required|date',                // <-- NUEVO
             'sexo'              => 'required|in:Masculino,Femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
-            'tipo'              => 'required|in:paciente,estudiante',
+            'categoria'         => 'required|in:paciente,estudiante',
             'correo'            => 'required|email|unique:pacientes,correo',
             'direccion'         => 'required|string',
             'telefono'          => 'required|string|size:11',
-            // 'foto' => 'nullable|image|max:2048',
+            'foto'              => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $tipo = $request->tipo === 'personal' ? 'paciente' : $request->tipo;
+        
 
         DB::beginTransaction();
 
@@ -68,7 +77,7 @@ class PacienteController extends Controller
                 'correo'           => $request->correo,
                 'direccion'        => $request->direccion,
                 'telefono'         => $request->telefono,
-                // 'foto'          => $path,
+                'foto'             => $path,
                 'password'         => Hash::make($request->password),   // Si la tabla pacientes guarda password
             ]);
 

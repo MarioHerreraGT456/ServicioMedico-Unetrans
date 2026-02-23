@@ -15,11 +15,12 @@ return new class extends Migration
         $table->id();
         $table->string('nombre');
         $table->string('apellido'); // Nuevo campo
+        $table->enum('tipo', ['V', 'E']);
         $table->integer('cedula')->unique();
         $table->date('fecha_nacimiento'); // Nuevo campo
         $table->enum('sexo', ['Masculino', 'Femenino']); // Nuevo campo (solo esos valores)
         $table->enum('estado_civil', ['Casado(a)', 'Soltero(a)', 'Divorciado(a)', 'Viudo(a)']);
-        $table->enum('tipo', ['paciente', 'estudiante']);
+        $table->enum('categoria', ['personal', 'estudiante']);
         $table->string('correo')->unique();
         $table->string('direccion');
         $table->string('telefono', 11);
