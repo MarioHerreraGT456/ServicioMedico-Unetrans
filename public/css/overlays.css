@@ -326,6 +326,18 @@ select.active {
     display: none;
     flex-direction: column;
 }
+/* clase de la equis para cerrar */
+.close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 22px;
+    color: #b0b0b0;
+    cursor: pointer;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
 
 /* Sidebar visible */
 body.menu-open .sidebar {
@@ -1443,6 +1455,7 @@ button.btn-cerrar-overlay:active {
 
 /* Grid principal */
 #formRegistroPaciente,
+#formRegistroPersonal,
 #formRegistroMedico,
 #formCrearFamiliar {
     display: grid;

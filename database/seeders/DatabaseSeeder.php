@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Personal;
+use App\Models\Persona;
+use App\Models\Paciente;
+use App\Models\Estudiantes;
+use App\Models\Medico;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +21,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Persona::factory()->create([
+        //     'nombre' => 'Test User',
+        //     'cedula' => 1234567890,
+        //     'rol' => 'paciente',
+        // ]);
+        $this->call([
+        JefeMedico::class,
+        // otros seeders...
+    ]);
     }
 }

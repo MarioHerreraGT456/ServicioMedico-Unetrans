@@ -294,4 +294,6 @@
 <div class="oai-frame-modal oai-hidden" id="oaiModalWrap">
   <iframe id="oaiModalFrame" title="Formulario"></iframe>
 </div>
+<script src="js/profile.js" defer></script>
+<script src="js/auth-overlay.js" defer></script>
 @endsection

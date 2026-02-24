@@ -20,7 +20,7 @@ return new class extends Migration
        $table->date('fecha_nacimiento'); // Nuevo campo
        $table->enum('sexo', ['Masculino', 'Femenino']); // Nuevo campo (solo esos valores)
        $table->enum('estado_civil', ['Casado(a)', 'Soltero(a)', 'Divorciado(a)', 'Viudo(a)']);
-       $table->enum('categoria', ['personal', 'estudiante']);
+       $table->enum('categoria', ['estudiante', 'personal']);
        $table->string('correo')->unique();
        $table->string('direccion');
        $table->string('telefono', 11);

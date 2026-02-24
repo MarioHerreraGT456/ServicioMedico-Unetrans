@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Paciente extends Model
+class Personal extends Model
 {
     use HasFactory;
 
-    protected $table = 'pacientes';
+    protected $table = 'table_personal';
 
     protected $fillable = [
         'nombre',
         'apellido',
         'tipo',
         'cedula',
+        'cedula2',
         'fecha_nacimiento',
         'sexo',
         'estado_civil',
-        'categoria',
         'correo',
         'direccion',
         'telefono',
@@ -27,7 +27,6 @@ class Paciente extends Model
         'password',
         'sesion',
     ];
-
     protected $hidden = [
         'password',
     ];
@@ -39,14 +38,10 @@ class Paciente extends Model
     {
         return $this->belongsTo(Persona::class, 'cedula', 'cedula');
     }
-    
-public function estudiante()
-{
-    return $this->hasOne(Estudiantes::class, 'cedula', 'cedula');
-}
 
-public function personal()
-{
-    return $this->hasOne(Personal::class, 'cedula', 'cedula');
-}
+    // Relación con el paciente titular
+    public function titular()
+    {
+        return $this->belongsTo(Paciente::class, 'cedula2', 'cedula');
+    }
 }

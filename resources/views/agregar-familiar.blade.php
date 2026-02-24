@@ -1,25 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-  
-  
-
-
-    <h2 class="title-form">Registro</h2>
+    <h2 class="title-form">Registrar Familiar</h2>
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <form id="formRegistroPaciente" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-      @csrf
-      
-     <div class="campo">
+    <form id="formRegistroPersonal" method="POST" action="{{ route('personal.store') }}" enctype="multipart/form-data">
+        @csrf
+
+        <div class="campo">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
             @error('nombre')
@@ -27,22 +23,21 @@
             @enderror
         </div>
 
-
-      <<div class="campo">
+        <div class="campo">
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
             @error('apellido')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
-      
-       <div class="campo">
-            <label for="cedula">Cédula:</label>
+
+        <div class="campo">
+            <label for="cedula">Cédula del familiar:</label>
             <div id="campoCedula">
                 <label for="tipo" class="hidden">Tipo:</label>
                 <select name="tipo" id="tipo">
-                    <option value="V">V</option>
-                    <option value="E">E</option>
+                    <option value="V" {{ old('tipo') == 'V' ? 'selected' : '' }}>V</option>
+                    <option value="E" {{ old('tipo') == 'E' ? 'selected' : '' }}>E</option>
                 </select>
                 <input type="text" id="cedula" name="cedula" value="{{ old('cedula') }}"
                        title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
@@ -50,11 +45,20 @@
             @error('cedula')
                 <span class="error-message">Dato inválido</span>
             @enderror
-           
+            @error('tipo')
+                <span class="error-message">Dato inválido</span>
+            @enderror
         </div>
 
+        @auth
+            @php
+                $perfil = Auth::user()->perfil();
+                $cedula_titular = $perfil ? $perfil->cedula : null;
+            @endphp
+            <input type="hidden" name="cedula2" value="{{ old('cedula2', $cedula_titular) }}">
+        @endauth
 
-       <div class="campo">
+        <div class="campo">
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}" required>
             @error('direccion')
@@ -73,7 +77,7 @@
             @enderror
         </div>
 
-     <div class="campo">
+        <div class="campo">
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" value="{{ old('correo') }}" required>
             @error('correo')
@@ -89,8 +93,8 @@
             @enderror
         </div>
 
-      <!--SEXO-->
-       <div class="campo">
+        <!-- SEXO -->
+        <div class="campo">
             <label for="selectSexo">Sexo:</label>
             <select id="selectSexo" name="sexo" required>
                 <option value="Masculino" {{ old('sexo') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
@@ -115,43 +119,7 @@
             @enderror
         </div>
 
-        <!-- TIPO DE PACIENTE -->
         <div class="campo">
-            <label for="categoria">Tipo de Paciente:</label>
-            <select id="categoria" name="categoria" required>
-                <option value="estudiante" {{ old('categoria') == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
-                <option value="personal" {{ old('categoria') == 'personal' ? 'selected' : '' }}>Personal</option>
-            </select>
-            @error('categoria')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
-
-      <!-- CARRERAS (solo si es estudiante) -->
-      {{-- <div class="campo">
-        <label for="selectCarrera" class="hidden">PNF:</label>
-        <select id="selectCarrera" name="carrera" class="select-placeholder hidden" required>
-          <option value="informatica">PNF en Informática</option>
-          <option value="electronica">PNF en Electrónica</option>
-          <option value="quimica">PNF en Química</option>
-          <option value="procesos_quimicos">PNF en Procesos Químicos</option>
-          <option value="mecanica">PNF en Mecánica Automotriz</option>
-          <option value="mecanica_industrial">PNF en Mecánica Industrial</option>
-          <option value="materiales">PNF en Materiales</option>
-          <option value="materiales">PNF en Calidad de Ambiente</option>
-        </select>
-      </div> --}}
-      <!-- TIPO DE PERSONAL -->
-      {{-- <div class="campo">
-        <label for="selectPersonal" class="hidden">Tipo de Personal:</label>
-        <select id="selectPersonal" name="tipo_personal" class="select-placeholder hidden">
-          <option value="Administrativo">Docente</option>
-          <option value="Docente">Administrativo</option>
-          <option value="Obrero">Obrero</option>
-        </select>
-      </div> --}}
-
-      <div class="campo">
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
             @error('password')
@@ -167,11 +135,6 @@
             @enderror
         </div>
 
-        <div class="hidden">
-            <label for="rol" class="hidden">Rol:</label>
-            <input type="hidden" name="rol" value="paciente">
-        </div>
-
         <div class="campo">
             <label for="foto">Foto</label>
             <input type="file" name="foto" id="foto">
@@ -179,13 +142,10 @@
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
-      {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
-      <div class="campo">
-        <button type="submit" id="btnRegistroContinuar">Registrar</button>
 
-      </div>
-
-
+        <div class="campo">
+            <button type="submit" id="btnRegistroContinuar">Registrar</button>
+        </div>
     </form>
     <script src="js/app.js" defer></script>
-    @endsection
+@endsection

@@ -18,6 +18,10 @@ class MedicoController extends Controller
         $medico = $user->medico;
         return view('medico', compact('user', 'medico'));
     }
+    public function showMedicoForm()
+    {
+        return view('register-medico');
+    }
 
     // Lógica de registro completa
     public function store(Request $request)
