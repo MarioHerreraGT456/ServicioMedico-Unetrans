@@ -40,12 +40,13 @@ class PacienteController extends Controller
             'fecha_nacimiento'  => 'required|date',                // <-- NUEVO
             'sexo'              => 'required|in:Masculino,Femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
-            'categoria'         => 'required|in:paciente,estudiante',
+            'categoria'         => 'required|in:estudiante,personal',
             'correo'            => 'required|email|unique:pacientes,correo',
             'direccion'         => 'required|string',
             'telefono'          => 'required|string|size:11',
             'foto'              => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        
         
 
         DB::beginTransaction();
@@ -73,6 +74,7 @@ class PacienteController extends Controller
                 'fecha_nacimiento' => $request->fecha_nacimiento,       // <-- NUEVO
                 'sexo'             => $request->sexo,                   // <-- NUEVO
                 'estado_civil'     => $request->estado_civil,
+                'categoria'        => $request->categoria,
                 'tipo'             => $request->tipo,
                 'correo'           => $request->correo,
                 'direccion'        => $request->direccion,

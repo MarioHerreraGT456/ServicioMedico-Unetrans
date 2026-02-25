@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="auth-page">
+  
+  
+  
+  
+ <div class="auth-page">
   <div class="auth-card">
     <aside class="auth-side">
       <h2>UNETRANS</h2>
@@ -27,12 +31,19 @@
 
         <div class="auth-field">
           <label for="cedula">Cédula</label>
-          <input id="cedula" name="cedula" type="text" placeholder="V12345678" required autocomplete="username">
+          <input type="text" id="cedula" name="cedula" value="{{ old('cedula') }}"
+                       title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
+                         @error('cedula')
+                <span class="error-message">Dato inválido</span>
+            @enderror
         </div>
 
         <div class="auth-field" style="margin-top:14px;">
           <label for="password">Contraseña</label>
-          <input id="password" name="password" type="password" required autocomplete="current-password">
+           <input type="password" id="password" name="password" required>
+            @error('password')
+                <span class="error-message">Dato inválido</span>
+            @enderror
         </div>
 
         <div class="auth-actions">
@@ -51,5 +62,5 @@
     </section>
   </div>
 </div>
+     
 @endsection
-

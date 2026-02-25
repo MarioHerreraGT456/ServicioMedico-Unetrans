@@ -35,12 +35,17 @@
 <aside id="sidebarMedico" class="sidebar">
 
   <div class="sidebar__header">
-    <img src="img/perfil.jpg" alt="Perfil">
-    @auth
-      
+     @auth
+    @php
+        $perfil = Auth::user()->perfil(); // Obtiene el perfil según el rol
+        $foto = $perfil ? $perfil->foto : null;
+    @endphp
+    <img src="{{ asset('storage/' . $foto) }}" 
+         alt="Foto de Perfil"
+         onerror="this.style.display='none'">
     <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
-    @endauth
-<
+
+
   </div>
 
   <nav class="sidebar__nav">
@@ -69,6 +74,26 @@
       <span class="material-symbols-outlined">bar_chart</span>
       Estadísticas
     </button>
+    <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">person</span>
+            Crear Consultas
+        </button>
+        </a>
+    @php
+        $user = auth()->user();
+    @endphp
+
+    @if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe')
+
+        <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">person</span>
+            Crear Médicos
+        </button>
+        </a>
+    @endif
+    @endauth
 
   </nav>
 

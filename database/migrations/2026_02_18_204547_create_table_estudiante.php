@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('table_estudiante', function (Blueprint $table) {
             $table->id();
+            $table->integer('cedula');
+            $table->string('carrera');
             $table->timestamps();
+            $table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');
         });
+
+        /*referencia a la tabla pacientes,*/ 
     }
 
     /**

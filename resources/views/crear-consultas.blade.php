@@ -5,7 +5,7 @@
   
 
 
-    <h2 class="title-form">Registro</h2>
+    <h2 class="title-form">Crear Consulta</h2>
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -16,7 +16,7 @@
     </div>
 @endif
 
-    <form id="formRegistroPaciente" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+    <form id="formRegistroConsulta" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
       @csrf
       
      <div class="campo">
@@ -55,28 +55,25 @@
 
 
        <div class="campo">
-            <label for="direccion">Dirección:</label>
-            <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}" required>
-            @error('direccion')
+            <label for="nombre_doctor">Nombre del Doctor:</label>
+            <input type="text" id="nombre_doctor" name="nombre_doctor" value="{{ old('nombre_doctor') }}" required>
+            @error('nombre_doctor')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
 
         <div class="campo">
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
-                   placeholder="04141234567 o +584141234567"
-                   pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$"
-                   title="Formato válido: +584121234567 o 014121234567" required>
-            @error('telefono')
+            <label for="TA">Tensión Arterial:</label>
+            <input type="text" id="TA" name="TA" value="{{ old('TA') }}" required>
+            @error('TA')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
 
-     <div class="campo">
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" value="{{ old('correo') }}" required>
-            @error('correo')
+        <div class="campo">
+            <label for="motivo">Motivo de Consulta:</label>
+            <input type="text" id="motivo" name="motivo" value="{{ old('motivo') }}" required>
+            @error('motivo')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
@@ -85,6 +82,14 @@
             <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
             <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
             @error('fecha_nacimiento')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+
+        <div class="campo">
+            <label for="fecha_consulta">Fecha de Consulta:</label>
+            <input type="date" id="fecha_consulta" name="fecha_consulta" value="{{ old('fecha_consulta') }}" required>
+            @error('fecha_consulta')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
@@ -101,33 +106,20 @@
             @enderror
         </div>
 
-        <!-- ESTADO CIVIL -->
         <div class="campo">
-            <label for="selectEstadoCivil">Estado Civil:</label>
-            <select id="selectEstadoCivil" name="estado_civil" required>
-                <option value="Soltero(a)" {{ old('estado_civil') == 'Soltero(a)' ? 'selected' : '' }}>Soltero(a)</option>
-                <option value="Casado(a)" {{ old('estado_civil') == 'Casado(a)' ? 'selected' : '' }}>Casado(a)</option>
-                <option value="Divorciado(a)" {{ old('estado_civil') == 'Divorciado(a)' ? 'selected' : '' }}>Divorciado(a)</option>
-                <option value="Viudo(a)" {{ old('estado_civil') == 'Viudo(a)' ? 'selected' : '' }}>Viudo(a)</option>
+            <label for="especialidad">Especialidad:</label>
+            <select id="especialidad" name="especialidad" required>
+                <option value="medicina geneal" {{ old('especialidad') == 'medicina geneal' ? 'selected' : '' }}>Medicina General</option>
+                <option value="odontologia" {{ old('especialidad') == 'odontologia' ? 'selected' : '' }}>Odontología</option>
+                <option value="psiquiatria" {{ old('especialidad') == 'psiquiatria' ? 'selected' : '' }}>Psiquiatría</option>    
             </select>
-            @error('estado_civil')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
-
-        <!-- TIPO DE PACIENTE -->
-        <div class="campo">
-            <label for="categoria">Tipo de Paciente:</label>
-            <select id="categoria" name="categoria" required>
-                <option value="estudiante" {{ old('categoria') == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
-                <option value="personal" {{ old('categoria') == 'personal' ? 'selected' : '' }}>Personal</option>
-            </select>
-            @error('categoria')
+            @error('especialidad')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
 
       <!-- CARRERAS (solo si es estudiante) -->
+    <!--
       {{-- <div class="campo">
         <label for="selectCarrera" class="hidden">PNF:</label>
         <select id="selectCarrera" name="carrera" class="select-placeholder hidden" required>
@@ -140,45 +132,17 @@
           <option value="materiales">PNF en Materiales</option>
           <option value="materiales">PNF en Calidad de Ambiente</option>
         </select>
-      </div> --}}
-      <!-- TIPO DE PERSONAL -->
-      {{-- <div class="campo">
-        <label for="selectPersonal" class="hidden">Tipo de Personal:</label>
-        <select id="selectPersonal" name="tipo_personal" class="select-placeholder hidden">
-          <option value="Administrativo">Docente</option>
-          <option value="Docente">Administrativo</option>
-          <option value="Obrero">Obrero</option>
-        </select>
-      </div> --}}
-
-      <div class="campo">
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-            @error('password')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
+      </div> --}} -->
 
         <div class="campo">
-            <label for="password_confirmation">Confirme contraseña:</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" required>
-            @error('password_confirmation')
+            <label for="tratamiento">Tratamiento:</label>
+            <textarea id="tratamiento" name="tratamiento" required>{{ old('tratamiento') }}</textarea>
+            @error('tratamiento')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
 
-        <div class="hidden">
-            <label for="rol" class="hidden">Rol:</label>
-            <input type="hidden" name="rol" value="paciente">
-        </div>
-
-        <div class="campo">
-            <label for="foto">Foto</label>
-            <input type="file" name="foto" id="foto">
-            @error('foto')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
+        
       {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
       <div class="campo">
         <button type="submit" id="btnRegistroContinuar">Registrar</button>

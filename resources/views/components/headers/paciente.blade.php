@@ -35,7 +35,13 @@
 </header>
 
 <!-- ================= MENU LATERAL PACIENTE ================= -->
+
+
 <aside  class="sidebar">
+
+  <div class="close">
+    &times;
+  </div>
   <div class="sidebar__header">
     {{-- @auth
     <img src="{{ asset('storage/' . $path) }}" alt="Foto de Perfil">
@@ -75,6 +81,21 @@
       <span class="material-symbols-outlined">person</span>
       Perfil
     </button>
+    @auth
+   
+  @php
+        $user = auth()->user();
+    @endphp
+
+    @if($user->rol === 'paciente' && $user->paciente && $user->paciente->categoria === 'personal')
+      <a href="{{ route('agregar-familiar') }}" style="text-decoration: none;">
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">person</span>
+            Agregar familiar
+        </button>
+        </a>
+    @endif
+@endauth
   </nav>
 
 </aside>

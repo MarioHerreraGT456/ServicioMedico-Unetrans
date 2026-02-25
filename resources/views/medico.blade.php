@@ -4,7 +4,6 @@
 <div class="dashboard">
 
   <!-- ================= MENU LATERAL MÉDICO ================= -->
-  !-- ================= MENU LATERAL MÉDICO ================= -->
   <aside id="sidebarMedico" class="sidebar">
 
     <div class="sidebar__header">
