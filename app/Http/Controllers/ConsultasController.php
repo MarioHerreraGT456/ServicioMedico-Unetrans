@@ -14,14 +14,14 @@ class ConsultasController extends Controller
     {
         return view('crear-consultas');
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
             'nombre'       => 'required|string|max:255',
             'apellido'     => 'required|string|max:255',
             'tipo'              => 'required|in:V,E',
-            'cedula'            => 'required|integer|unique:personas,cedula',
+            'cedula'            => 'required|integer',
             'fecha_nacimiento'  => 'required|date',    
             'fecha_consulta'    => 'required|date',               // <-- NUEVO
             'nombre_doctor'     => 'required|string|max:255',

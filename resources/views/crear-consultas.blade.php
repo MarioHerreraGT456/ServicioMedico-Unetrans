@@ -28,7 +28,7 @@
         </div>
 
 
-      <<div class="campo">
+      <div class="campo">
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
             @error('apellido')
