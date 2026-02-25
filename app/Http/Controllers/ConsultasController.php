@@ -21,12 +21,12 @@ class ConsultasController extends Controller
             'nombre'       => 'required|string|max:255',
             'apellido'     => 'required|string|max:255',
             'tipo'              => 'required|in:V,E',
-            'cedula'            => 'required|integer|unique:personas,cedula',
+            'cedula'            => 'required|integer',
             'fecha_nacimiento'  => 'required|date',    
             'fecha_consulta'    => 'required|date',               // <-- NUEVO
             'nombre_doctor'     => 'required|string|max:255',
             'especialidad'      => 'required|in:medicina general,odontologia,psiquiatria',
-            'TA'              => 'required|string|max:255',
+            'TA'              => 'required|integer',
             'motivo'       => 'required|string|max:255',
             'tratamiento'       => 'required|string|max:255',
             

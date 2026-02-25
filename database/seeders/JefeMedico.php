@@ -15,9 +15,9 @@ class JefeMedico extends Seeder
     public function run(): void
     {
         // Datos del médico jefe
-        $nombre = 'Mario Herrera';
-        $cedula = 3885714; // Cédula única, cámbiala si es necesario
-        $correo = 'marioherrera2610@gmail.com';
+        $nombre = 'Nahara Rivera';
+        $cedula = 32540243; // Cédula única, cámbiala si es necesario
+        $correo = 'nahararivera20@gmail.com';
         $tipo = 'V'; // Tipo de cédula: V o E
         $password = 'Irelia12*'; // Contraseña temporal, luego se puede cambiar
 

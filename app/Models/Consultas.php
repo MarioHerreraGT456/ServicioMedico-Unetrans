@@ -23,7 +23,7 @@ class Consultas extends Model
         'nombre_doctor',
         'especialidad',
         'TA',
-        'notivo',
+        'motivo',
         'tratamiento',
     ];
     

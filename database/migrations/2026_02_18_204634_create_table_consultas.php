@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('motivo');
             $table->string('tratamiento');
             $table->timestamps();
-            $table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');
+            //$table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');
         });
     }
 
