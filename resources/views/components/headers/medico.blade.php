@@ -74,7 +74,7 @@
       <span class="material-symbols-outlined">bar_chart</span>
       Estadísticas
     </button>
-    <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
+    <a href="{{ route('crear-consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>
             Crear Consultas

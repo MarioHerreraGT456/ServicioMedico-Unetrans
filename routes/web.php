@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\ConsultasController;
 use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 
 // --- PÚBLICAS ---
@@ -28,11 +29,14 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 //Ruta para que el paciente pueda agregar a su familiar
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
+Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
 
 
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
 
 Route::middleware(['auth'])->group(function () {
+
+ 
     
     // Rutas para PACIENTE
     // Usamos tu middleware CheckRole pasando el parámetro 'paciente'
@@ -47,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([CheckRole::class . ':medico'])->group(function () {
         Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
+        Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
+        
     });
 
 });

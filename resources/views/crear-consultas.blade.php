@@ -16,7 +16,7 @@
     </div>
 @endif
 
-    <form id="formRegistroConsulta" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+    <form id="formRegistroConsulta" method="POST" action="{{ route('consultas.store') }}" enctype="multipart/form-data">
       @csrf
       
      <div class="campo">
