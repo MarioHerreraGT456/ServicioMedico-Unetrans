@@ -28,10 +28,18 @@ class MedicoController extends Controller
     {
         $request->validate([
             'nombre'       => 'required|string|max:255',
+            'apellido'     => 'required|string|max:255',
+            'tipo'        => 'required|in:V,E',
             'cedula'       => 'required|integer|unique:personas,cedula',
             'password'     => 'required|min:8|confirmed',
             // Específicos médico
-            'correo'       => 'required|email|unique:medicos,correo',
+            'correo'       => 'required|email|unique:personas,correo',
+            'telefono'      => 'required|string|size:11',
+            'direccion'     => 'required|string',
+            'edad'          => 'required|integer|min:0',
+            'fecha_nacimiento' => 'required|date',
+            'sexo'          => 'required|in:masculino,femenino',
+            'estado_civil'  => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             'cargo'        => 'required|in:jefe,asistente',
             'especialidad' => 'required|in:medicina general,odontologia,psiquiatria',
             'foto'         => 'nullable|image|max:2048',
@@ -40,13 +48,6 @@ class MedicoController extends Controller
         DB::beginTransaction();
 
         try {
-            // 2. Crear User
-            $user = Persona::create([
-                'nombre'   => $request->nombre,
-                'cedula'   => $request->cedula,
-                'rol'      => 'medico',
-                'password' => Hash::make($request->password),
-            ]);
 
             // 3. Foto
             $path = null;
@@ -54,14 +55,33 @@ class MedicoController extends Controller
                 $path = $request->file('foto')->store('fotos_medicos', 'public');
             }
 
+            // 2. Crear User
+            $user = Persona::create([
+                'nombre'   => $request->nombre,
+                'apellido' => $request->apellido,
+                'tipo'     => $request->tipo,
+                'cedula'   => $request->cedula,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'sexo' => $request->sexo,
+                'estado_civil' => $request->estado_civil,
+                'edad' => $request->edad,
+                'correo' => $request->correo,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'rol'      => 'medico',
+                'foto'     => $path, // Se actualizará después si se sube una foto
+                'estado'   => $request->estado ?? true,
+                'password' => Hash::make($request->password),
+            ]);
+
             // 4. Crear Medico
             Medico::create([
-                'nombre'       => $request->nombre,
+                //'nombre'       => $request->nombre,
                 'cedula'       => $request->cedula,
-                'correo'       => $request->correo,
+                //'correo'       => $request->correo,
                 'cargo'        => $request->cargo,
                 'especialidad' => $request->especialidad,
-                'foto'         => $path,
+                //'foto'         => $path,
                 'password'     => Hash::make($request->password),
             ]);
 

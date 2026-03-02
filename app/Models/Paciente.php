@@ -12,18 +12,18 @@ class Paciente extends Model
     protected $table = 'pacientes';
 
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'tipo',
+        //'nombre',
+        //'apellido',
+        //'tipo',
         'cedula',
-        'fecha_nacimiento',
-        'sexo',
-        'estado_civil',
+        //'fecha_nacimiento',
+        //'sexo',
+        //'estado_civil',
         'categoria',
-        'correo',
-        'direccion',
-        'telefono',
-        'foto',
+        //'correo',
+        //'direccion',
+        //'telefono',
+        //'foto',
         'password',
         'sesion',
     ];

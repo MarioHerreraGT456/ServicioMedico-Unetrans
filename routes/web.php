@@ -6,6 +6,7 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\ConsultasController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 
 // --- PÚBLICAS ---
@@ -17,6 +18,7 @@ Route::get('/', function () {
 Route::view('/jefeMedico', 'jefeMedico')->name('jefeMedico');
 Route::view('/pacientePersonal', 'pacientePersonal')->name('pacientePersonal');
 Route::view('/passwordRequest', 'passwordRequest')->name('passwordRequest');
+
 
 // Autenticación (Login / Logout)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -30,13 +32,15 @@ Route::post('/register', [AuthController::class, 'register']);
 //Ruta para que el paciente pueda agregar a su familiar
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
+Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
 
 
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
 
 Route::middleware(['auth'])->group(function () {
 
- 
+ Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
+
     
     // Rutas para PACIENTE
     // Usamos tu middleware CheckRole pasando el parámetro 'paciente'

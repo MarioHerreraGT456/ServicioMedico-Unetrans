@@ -37,14 +37,16 @@ class PacienteController extends Controller
             'cedula'            => 'required|integer|unique:personas,cedula',
             'password'          => 'required|min:8|confirmed',
             // Datos específicos de Paciente
-            'fecha_nacimiento'  => 'required|date',                // <-- NUEVO
-            'sexo'              => 'required|in:Masculino,Femenino', // <-- NUEVO
+            'fecha_nacimiento'  => 'required|date',
+            'edad'              => 'required|integer|min:0',
+            'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             'categoria'         => 'required|in:estudiante,personal',
-            'correo'            => 'required|email|unique:pacientes,correo',
+            'correo'            => 'required|email|unique:personas,correo',
             'direccion'         => 'required|string',
             'telefono'          => 'required|string|size:11',
-            'foto'              => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'estado'            => 'boolean',
         ]);
         
         
@@ -52,34 +54,46 @@ class PacienteController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1. Crear User (Persona) - SOLO con datos de autenticación
-            $user = Persona::create([
-                'nombre'   => $request->nombre,
-                'cedula'   => $request->cedula,
-                'rol'      => 'paciente',
-                'password' => Hash::make($request->password),
-            ]);
-
-            // 2. Manejo de foto (opcional)
+            // 1. Manejo de foto (opcional)
             $path = null;
             if ($request->hasFile('foto')) {
                 $path = $request->file('foto')->store('fotos_pacientes', 'public');
             }
 
+            // 2. Crear User (Persona) - SOLO con datos de autenticación
+            $user = Persona::create([
+                'nombre'   => $request->nombre,
+                'apellido' => $request->apellido,
+                'tipo'     => $request->tipo,
+                'cedula'   => $request->cedula,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'sexo' => $request->sexo,
+                'estado_civil' => $request->estado_civil,
+                'edad' => $request->edad,
+                'correo' => $request->correo,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'rol'      => 'paciente',
+                'foto'     => $path, // Se actualizará después si se sube una foto
+                'estado'   => $request->estado ?? true,
+                'password' => Hash::make($request->password),
+            ]);
+            
+
             // 3. Crear Paciente con TODOS los datos (incluyendo los nuevos)
             Paciente::create([
-                'nombre'           => $request->nombre,
-                'apellido'         => $request->apellido,               // <-- NUEVO
+                //'nombre'           => $request->nombre,
+                //'apellido'         => $request->apellido,               // <-- NUEVO
                 'cedula'           => $request->cedula,
-                'fecha_nacimiento' => $request->fecha_nacimiento,       // <-- NUEVO
-                'sexo'             => $request->sexo,                   // <-- NUEVO
-                'estado_civil'     => $request->estado_civil,
+                //'fecha_nacimiento' => $request->fecha_nacimiento,       // <-- NUEVO
+                //'sexo'             => $request->sexo,                   // <-- NUEVO
+                //'estado_civil'     => $request->estado_civil,
                 'categoria'        => $request->categoria,
-                'tipo'             => $request->tipo,
-                'correo'           => $request->correo,
-                'direccion'        => $request->direccion,
-                'telefono'         => $request->telefono,
-                'foto'             => $path,
+                //'tipo'             => $request->tipo,
+                //'correo'           => $request->correo,
+                //'direccion'        => $request->direccion,
+                //'telefono'         => $request->telefono,
+                //'foto'             => $path,
                 'password'         => Hash::make($request->password),   // Si la tabla pacientes guarda password
             ]);
 

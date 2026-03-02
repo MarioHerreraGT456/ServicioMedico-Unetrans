@@ -8,6 +8,7 @@
 
   <link href="css/style.css" rel="stylesheet"/>
   <link href="css/overlays.css" rel="stylesheet"/>
+  <link href="css/auth.css" rel="stylesheet"/>
 
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
         rel="stylesheet">

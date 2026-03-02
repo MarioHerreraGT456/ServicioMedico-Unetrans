@@ -33,6 +33,9 @@
 
 <!-- ================= MENU LATERAL MÉDICO ================= -->
 <aside id="sidebarMedico" class="sidebar">
+  <div class="close">
+    &times;
+  </div>
 
   <div class="sidebar__header">
      @auth
@@ -55,10 +58,12 @@
       Inicio
     </button>
 
-    <button class="sidebar__item" data-view="perfil">
-      <span class="material-symbols-outlined">person</span>
-      Perfil
-    </button>
+    <a href="{{ route('perfil') }}" style="text-decoration: none;">
+      <button class="sidebar__item" data-view="perfil">
+        <span class="material-symbols-outlined">person</span>
+        Perfil
+      </button>
+    </a>
 
     <button class="sidebar__item" data-view="consultas">
       <span class="material-symbols-outlined">search</span>
@@ -74,12 +79,13 @@
       <span class="material-symbols-outlined">bar_chart</span>
       Estadísticas
     </button>
+
     <a href="{{ route('crear-consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>
             Crear Consultas
         </button>
-        </a>
+    </a>
     @php
         $user = auth()->user();
     @endphp

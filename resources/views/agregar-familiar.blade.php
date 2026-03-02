@@ -136,14 +136,6 @@
         </div>
 
         <div class="campo">
-            <label for="foto">Foto</label>
-            <input type="file" name="foto" id="foto">
-            @error('foto')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
-
-        <div class="campo">
             <button type="submit" id="btnRegistroContinuar">Registrar</button>
         </div>
     </form>

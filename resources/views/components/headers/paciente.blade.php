@@ -58,7 +58,7 @@
          alt="Foto de Perfil"
          onerror="this.style.display='none'">
     <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
-@endauth
+    @endauth
   </div>
 
   <nav class="sidebar__nav">
@@ -67,20 +67,17 @@
       Inicio
     </button>
 
-    <button class="sidebar__item" data-view="solicitar">
-      <span class="material-symbols-outlined">lock_open</span>
-      Solicitar acceso
-    </button>
-
     <button class="sidebar__item" data-view="historias">
       <span class="material-symbols-outlined">folder</span>
       Historias
     </button>
 
-    <button class="sidebar__item" data-view="perfil">
-      <span class="material-symbols-outlined">person</span>
-      Perfil
-    </button>
+    <a href="{{ route('perfil') }}" style="text-decoration: none;">
+      <button class="sidebar__item" data-view="perfil">
+        <span class="material-symbols-outlined">person</span>
+        Perfil
+      </button>
+    </a>
     @auth
    
   @php

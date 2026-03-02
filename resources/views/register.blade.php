@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  
-  
-
-
+    
     <h2 class="title-form">Registro</h2>
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -14,12 +11,12 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
 
     <form id="formRegistroPaciente" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
       @csrf
       
-     <div class="campo">
+        <div class="campo">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
             @error('nombre')
@@ -28,7 +25,7 @@
         </div>
 
 
-      <<div class="campo">
+      <div class="campo">
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
             @error('apellido')
@@ -89,12 +86,20 @@
             @enderror
         </div>
 
+        <div>
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" value="{{ old('edad') }}" required>
+            @error('edad')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+
       <!--SEXO-->
        <div class="campo">
-            <label for="selectSexo">Sexo:</label>
-            <select id="selectSexo" name="sexo" required>
-                <option value="Masculino" {{ old('sexo') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
-                <option value="Femenino" {{ old('sexo') == 'Femenino' ? 'selected' : '' }}>Femenino</option>
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" required>
+                <option value="masculino" {{ old('sexo') == 'masculino' ? 'selected' : '' }}>Masculino</option>
+                <option value="femenino" {{ old('sexo') == 'femenino' ? 'selected' : '' }}>Femenino</option>
             </select>
             @error('sexo')
                 <span class="error-message">Dato inválido</span>
@@ -171,14 +176,7 @@
             <label for="rol" class="hidden">Rol:</label>
             <input type="hidden" name="rol" value="paciente">
         </div>
-
-        <div class="campo">
-            <label for="foto">Foto</label>
-            <input type="file" name="foto" id="foto">
-            @error('foto')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
+        
       {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
       <div class="campo">
         <button type="submit" id="btnRegistroContinuar">Registrar</button>

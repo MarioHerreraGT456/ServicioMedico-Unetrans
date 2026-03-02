@@ -189,4 +189,8 @@
 
   </main>
 </div>
+
+<script src="js/profile.js" defer></script>
+<script src="js/auth-overlay.js" defer></script>
+<script src="js/app.js"></script>
 @endsection

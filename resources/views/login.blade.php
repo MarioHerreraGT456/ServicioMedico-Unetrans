@@ -2,10 +2,7 @@
 
 @section('content')
   
-  
-  
-  
- <div class="auth-page">
+  <div class="auth-page">
   <div class="auth-card">
     <aside class="auth-side">
       <h2>UNETRANS</h2>

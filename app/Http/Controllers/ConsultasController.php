@@ -14,7 +14,7 @@ class ConsultasController extends Controller
     {
         return view('crear-consultas');
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([

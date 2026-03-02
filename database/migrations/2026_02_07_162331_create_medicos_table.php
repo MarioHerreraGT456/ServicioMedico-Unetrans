@@ -13,15 +13,18 @@ return new class extends Migration
 {
     Schema::create('medicos', function (Blueprint $table) {
         $table->id();
-        $table->string('nombre');
-        $table->integer('cedula')->unique();
-        $table->string('correo')->unique();
+        $table->integer('cedula')->unique(); /*referencia a tabla personas*/
+        //$table->string('cedula2');
         $table->enum('cargo', ['jefe', 'asistente']);
         $table->enum('especialidad', ['medicina general', 'odontologia', 'psiquiatria']);
-        $table->string('foto');
         $table->string('password');
         $table->string('sesion')->nullable();
         $table->timestamps();
+        /*$table->string('nombre');
+        $table->integer('cedula')->unique();
+        $table->string('correo')->unique();
+        $table->string('foto')->nullable();*/
+        
     });
 }
 
