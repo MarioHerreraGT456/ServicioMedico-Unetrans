@@ -76,13 +76,10 @@ class MedicoController extends Controller
 
             // 4. Crear Medico
             Medico::create([
-                //'nombre'       => $request->nombre,
                 'cedula'       => $request->cedula,
-                //'correo'       => $request->correo,
                 'cargo'        => $request->cargo,
                 'especialidad' => $request->especialidad,
-                //'foto'         => $path,
-                'password'     => Hash::make($request->password),
+               
             ]);
 
             DB::commit();

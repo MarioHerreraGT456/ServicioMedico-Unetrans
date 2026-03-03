@@ -62,10 +62,11 @@
   </div>
 
   <nav class="sidebar__nav">
-    <button class="sidebar__item active" data-view="inicio">
+    <a href="{{ route('paciente.dashboard') }}" style="text-decoration: none;">
+    <button class="sidebar__item " data-view="inicio">
       <span class="material-symbols-outlined">home</span>
       Inicio
-    </button>
+    </button></a>
 
     <button class="sidebar__item" data-view="historias">
       <span class="material-symbols-outlined">folder</span>

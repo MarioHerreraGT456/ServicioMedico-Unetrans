@@ -45,16 +45,8 @@ class JefeMedico extends Seeder
 
         // 2. Insertar en la tabla medicos (datos específicos)
         DB::table('medicos')->insert([
-            //'nombre'       => $nombre,
             'cedula'       => $cedula,
-            //'correo'       => $correo,
             'cargo'        => 'jefe',      // Obligatorio: jefe
-            //'especialidad' => 'medicina general', // Puedes cambiarla
-            //'foto'         => 'default.jpg', // Ruta de una foto por defecto
-            'password'     => Hash::make($password),
-            'sesion'       => null,
-            'created_at'   => Carbon::now(),
-            'updated_at'   => Carbon::now(),
         ]);
 
         $this->command->info('Médico jefe creado exitosamente.');

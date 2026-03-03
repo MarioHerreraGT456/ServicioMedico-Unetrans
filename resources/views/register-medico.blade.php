@@ -13,7 +13,7 @@
     </div>
     @endif
 
-    <form id="formRegistroMedico" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+    <form id="formRegistroMedico" method="POST" action="{{ route('envio.correo2') }}" enctype="multipart/form-data">
       @csrf
       
         <div class="campo">
@@ -143,7 +143,7 @@
             @enderror
         </div>
 
-        <div class="campo">
+        {{-- <div class="campo">
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
             @error('password')
@@ -157,7 +157,7 @@
             @error('password_confirmation')
                 <span class="error-message">Dato inválido</span>
             @enderror
-        </div>
+        </div> --}}
 
         <div class="hidden">
             <label for="rol" class="hidden">Rol:</label>

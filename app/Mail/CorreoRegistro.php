@@ -10,45 +10,22 @@ use Illuminate\Queue\SerializesModels;
 
 class CorreoRegistro extends Mailable
 {
-    use Queueable, SerializesModels;
+     use Queueable, SerializesModels;
 
-    public $user; // Los datos se pasan a la vista automáticamente si son públicos
+    public $url;
+    public $data;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($user)
+    public function __construct($url, $data)
     {
-        $this->user = $user;
+        $this->url = $url;
+        $this->data = $data;
+        
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Bienvenido a nuestra aplicación',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'emails.correo-registro', // La vista que crearemos
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
-    public function attachments(): array
-    {
-        return [];
+   
+        return $this->subject('Agregar Contraseña')
+                    ->view('mail.password-email');
     }
 }

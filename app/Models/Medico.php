@@ -12,19 +12,12 @@ class Medico extends Model
     protected $table = 'medicos';
 
     protected $fillable = [
-        //'nombre',
-        'cedula',
-        //'correo',
-        'cargo',
-        'especialidad',
-        //'foto',
-        'password',
-        'sesion',
+        'cedula', 
+        'cargo', 
+        'especialidad'
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+
 
     /**
      * Relación con el modelo User

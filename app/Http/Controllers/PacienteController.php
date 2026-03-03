@@ -82,19 +82,9 @@ class PacienteController extends Controller
 
             // 3. Crear Paciente con TODOS los datos (incluyendo los nuevos)
             Paciente::create([
-                //'nombre'           => $request->nombre,
-                //'apellido'         => $request->apellido,               // <-- NUEVO
                 'cedula'           => $request->cedula,
-                //'fecha_nacimiento' => $request->fecha_nacimiento,       // <-- NUEVO
-                //'sexo'             => $request->sexo,                   // <-- NUEVO
-                //'estado_civil'     => $request->estado_civil,
                 'categoria'        => $request->categoria,
-                //'tipo'             => $request->tipo,
-                //'correo'           => $request->correo,
-                //'direccion'        => $request->direccion,
-                //'telefono'         => $request->telefono,
-                //'foto'             => $path,
-                'password'         => Hash::make($request->password),   // Si la tabla pacientes guarda password
+                
             ]);
 
             DB::commit();

@@ -8,13 +8,15 @@ use App\Models\Paciente;
 use App\Models\Medico;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PerfilController extends Controller
 {
     public function show()
     {   
         //cambie esto porque me estaba dando error, me decia que no estaba definido user
-        $user = auth()->user();
+        $user = Auth::user();
         // Aquí puedes obtener los datos del usuario autenticado y pasarlos a la vista
         return view('perfil', compact('user'));
     }
@@ -26,7 +28,7 @@ class PerfilController extends Controller
 
         try {
 
-            $user = auth()->user();
+            $user = Auth::user();
 
             if ($request->hasFile('foto')) {
 
@@ -42,8 +44,8 @@ class PerfilController extends Controller
                 $path = $request->file('foto')->store($carpeta, 'public');
 
                 // Eliminar foto anterior si existe
-                if ($user->foto && \Storage::disk('public')->exists($user->foto)) {
-                    \Storage::disk('public')->delete($user->foto);
+                if ($user->foto && Storage::disk('public')->exists($user->foto)) {
+                    Storage::disk('public')->delete($user->foto);
                 }
 
                 // Guardar en PERSONAS

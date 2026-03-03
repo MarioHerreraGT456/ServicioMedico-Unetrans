@@ -8,6 +8,7 @@ use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
+use App\Http\Middleware\ValidateLinkPassword;
 
 // --- PÚBLICAS ---
 Route::get('/', function () {
@@ -33,6 +34,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
 Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
+Route::post('/envio-correo', [AuthController::class, 'emailRegisterPaciente'])->name('envio.correo');
+//Route::post('/envio-correo2', [AuthController::class, 'emailRegisterMedico'])->name('envio.correo2');
+
+Route::middleware(ValidateLinkPassword::class)->group(function () {
+    Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');
+});
+
 
 
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
