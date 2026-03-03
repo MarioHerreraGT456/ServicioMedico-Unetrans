@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Persona;
 use App\Models\Personal;
+use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -33,62 +34,78 @@ class PersonalController extends Controller
 
     public function store(Request $request){
          $request->validate([
-            'nombre'            => 'required|string|max:255',
-            'apellido'          => 'required|string|max:255',      
-            'tipo'              => 'required|in:V,E',
-            'cedula'            => 'required|integer|unique:personas,cedula|unique:table_personal,cedula', // ← cambiado a pacientes
-            'cedula2'           => 'required|integer|exists:pacientes,cedula',
-            'password'          => 'required|min:8|confirmed',
-            'fecha_nacimiento'  => 'required|date',                
-            'sexo'              => 'required|in:Masculino,Femenino', 
-            'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
-            'correo'            => 'required|email|unique:table_personal,correo',
-            'direccion'         => 'required|string',
-            'telefono'          => 'required|string|size:11',
-            'foto'              => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        'nombre'            => 'required|string|max:255',
+        'apellido'          => 'required|string|max:255',
+        'tipo'              => 'required|in:V,E',
+        // Validamos la cédula del nuevo familiar (cedula2)
+        'cedula2'           => 'required|integer|unique:personas,cedula', 
+        // La cédula del titular debe existir pero no ser única aquí
+        'cedula'            => 'required|integer', 
+        'password'          => 'required|min:8|confirmed',
+        'fecha_nacimiento'  => 'required|date',
+        'edad'              => 'required|integer|min:0',
+        'sexo'              => 'required|in:masculino,femenino',
+        'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
+        'categoria'         => 'required|in:estudiante,personal',
+        'correo'            => 'required|email|unique:personas,correo',
+        'direccion'         => 'required|string',
+        'telefono'          => 'required|string|size:11',
+        'tipo_personal'     => 'required|in:administrativo,obrero,docente',
+    ]);
 
-      DB::beginTransaction();
+    
 
-      try {
-         Persona::create([
-    'nombre'   => $request->nombre,
-    'cedula'   => $request->cedula, // la cédula nueva
-    'tipo'     => $request->tipo,
-    'rol'      => 'paciente', // o 'familiar' si tienes ese rol
-    'password' => Hash::make($request->password),
-]);
+        DB::beginTransaction();
 
-
-        $path = null;
-        if ($request->hasFile('foto')) {
+        try {
+            // 1. Manejo de foto (opcional)
+            $path = null;
+            if ($request->hasFile('foto')) {
                 $path = $request->file('foto')->store('fotos_pacientes', 'public');
             }
 
-        Personal::create([
-           'nombre'   => $request->nombre,
-           'apellido' => $request->apellido,
-           'tipo'     => $request->tipo,
-           'cedula'   => $request->cedula,
-           'cedula2'  => $request->cedula2,
-           'fecha_nacimiento' => $request->fecha_nacimiento,
-           'sexo'     => $request->sexo,
-           'estado_civil' => $request->estado_civil,
-           'correo'   => $request->correo,
-           'direccion'=> $request->direccion,
-           'telefono' => $request->telefono,
-           'foto'     => $path, // Asegúrate de manejar la subida de archivos correctamente
-           'password' => Hash::make($request->password)
-           ]);
-       DB::commit();
-  
-           Auth::login(Persona::where('cedula', $request->cedula2)->first());
-            return redirect()->route('paciente.dashboard')->with('success', 'Familiar registrado con éxito');
-      }catch (\Exception $e) {
-        DB::rollBack();
-        
-        return back()->withErrors(['error' => 'Error: ' . $e->getMessage()])->withInput();
-    }
+            // 2. Crear User (Persona) - SOLO con datos de autenticación
+            $user = Persona::create([
+                'nombre'   => $request->nombre,
+                'apellido' => $request->apellido,
+                'tipo'     => $request->tipo,
+                // 'cedula'   => $request->Auth::user()->cedula,
+                'cedula'  => $request->cedula2,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'sexo' => $request->sexo,
+                'estado_civil' => $request->estado_civil,
+                'edad' => $request->edad,
+                'correo' => $request->correo,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'rol'      => 'paciente',
+                'foto'     => $path, // Se actualizará después si se sube una foto
+                'estado'   => $request->estado ?? true,
+                'password' => Hash::make($request->password),
+            ]);
+            
+
+            // 3. Crear Paciente 
+            Paciente::create([
+                'cedula'           => $request->cedula2,
+                'categoria'        => $request->categoria,
+                
+            ]);
+            Personal::create([
+                'cedula' => $request->cedula,
+                'cedula2' => $request->cedula2,
+                'tipo_personal' => $request->tipo_personal,
+            ]);
+
+            DB::commit();
+
+            Auth::login($user);
+            return redirect()->route('paciente.dashboard');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al registrar paciente: ' . $e->getMessage()])->withInput();
+        }
 
 
     }

@@ -16,20 +16,6 @@ return new class extends Migration
             $table->integer('cedula')->unique(); // referencia a tabla personas
             $table->integer('cedula2')->unique(); // referencia a tabla pacientes
             $table->enum('tipo_personal', ['administrativo', 'obrero', 'docente']);
-            /*$table->string('nombre');
-            $table->string('apellido'); // Nuevo campo
-            $table->enum('tipo', ['V', 'E']);
-            $table->integer('cedula')->unique(); // referencia a tabla pacientes
-            $table->integer('cedula2');
-            $table->date('fecha_nacimiento'); // Nuevo campo
-            $table->enum('sexo', ['Masculino', 'Femenino']); // Nuevo campo (solo esos valores)
-            $table->enum('estado_civil', ['Casado(a)', 'Soltero(a)', 'Divorciado(a)', 'Viudo(a)']);
-            $table->string('correo')->unique();
-            $table->string('direccion');
-            $table->string('telefono', 11);
-            $table->string('foto')->nullable();*/
-            $table->string('password');
-            $table->string('sesion')->nullable();
             $table->timestamps();
             // FK: la nueva cédula referencia a personas (donde se crea el usuario)
         $table->foreign('cedula')->references('cedula')->on('personas')->onDelete('cascade');

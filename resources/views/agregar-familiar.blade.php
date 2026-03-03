@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form id="formRegistroPersonal" method="POST" action="{{ route('personal.store') }}" enctype="multipart/form-data">
+    <form id="formRegistroPersonal" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="campo">
@@ -32,14 +32,23 @@
         </div>
 
         <div class="campo">
-            <label for="cedula">Cédula del familiar:</label>
+            <label for="cedula2">Cédula del familiar:</label>
             <div id="campoCedula">
                 <label for="tipo" class="hidden">Tipo:</label>
                 <select name="tipo" id="tipo">
                     <option value="V" {{ old('tipo') == 'V' ? 'selected' : '' }}>V</option>
                     <option value="E" {{ old('tipo') == 'E' ? 'selected' : '' }}>E</option>
                 </select>
-                <input type="text" id="cedula" name="cedula" value="{{ old('cedula') }}"
+                @auth
+                    
+                @php
+                $perfil = Auth::user()->perfil();
+                $cedula_titular = Auth::user()->cedula;
+            @endphp
+                <input type="text" id="cedula" name="cedula" value="{{ $cedula_titular }}"
+                       title="Formato válido: V12345678, E12345678" placeholder="12345678" class="hidden" required>
+                       @endauth
+                <input type="text" id="cedula2" name="cedula2" value="{{ old('cedula2') }}"
                        title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
             </div>
             @error('cedula')
@@ -50,13 +59,7 @@
             @enderror
         </div>
 
-        @auth
-            @php
-                $perfil = Auth::user()->perfil();
-                $cedula_titular = $perfil ? $perfil->cedula : null;
-            @endphp
-            <input type="hidden" name="cedula2" value="{{ old('cedula2', $cedula_titular) }}">
-        @endauth
+       
 
         <div class="campo">
             <label for="direccion">Dirección:</label>
@@ -92,13 +95,20 @@
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
+        <div class="campo">
+            <label for="edad">Edad:</label>
+            <input type="tell" id="edad" name="edad" value="{{ old('edad') }}" required>
+            @error('edad')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
 
         <!-- SEXO -->
         <div class="campo">
             <label for="selectSexo">Sexo:</label>
             <select id="selectSexo" name="sexo" required>
-                <option value="Masculino" {{ old('sexo') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
-                <option value="Femenino" {{ old('sexo') == 'Femenino' ? 'selected' : '' }}>Femenino</option>
+                <option value="masculino" {{ old('sexo') == 'masculino' ? 'selected' : '' }}>Masculino</option>
+                <option value="femenino" {{ old('sexo') == 'femenino' ? 'selected' : '' }}>Femenino</option>
             </select>
             @error('sexo')
                 <span class="error-message">Dato inválido</span>
@@ -118,23 +128,31 @@
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
-
-        <div class="campo">
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-            @error('password')
+      <div class="campo">
+            <label for="tipo_personal">Tipo de Personal:</label>
+            <select id="tipo_personal" name="tipo_personal" required>
+                <option value="administrativo" {{ old('tipo_personal') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
+                <option value="obrero" {{ old('tipo_personal') == 'obrero' ? 'selected' : '' }}>Obrero</option>
+                <option value="docente" {{ old('tipo_personal') == 'docente' ? 'selected' : '' }}>Docente</option>
+            </select>
+            @error('tipo_personal')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
 
-        <div class="campo">
-            <label for="password_confirmation">Confirme contraseña:</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" required>
-            @error('password_confirmation')
+        <div class="campo hidden">
+            <label for="categoria">Tipo de Paciente:</label>
+            <input type="hidden" name="categoria" value="personal">
+            @error('categoria')
                 <span class="error-message">Dato inválido</span>
             @enderror
         </div>
-
+        
+        <div class="hidden">
+            <label for="rol" class="hidden">Rol:</label>
+            <input type="hidden" name="rol" value="paciente">
+        </div>
+      
         <div class="campo">
             <button type="submit" id="btnRegistroContinuar">Registrar</button>
         </div>

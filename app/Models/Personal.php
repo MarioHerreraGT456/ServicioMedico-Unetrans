@@ -9,23 +9,12 @@ class Personal extends Model
 {
     use HasFactory;
 
-    protected $table = 'table_personal';
+    protected $table = 'personal';
 
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'tipo',
         'cedula',
         'cedula2',
-        'fecha_nacimiento',
-        'sexo',
-        'estado_civil',
-        'correo',
-        'direccion',
-        'telefono',
-        'foto',
-        'password',
-        'sesion',
+        'tipo_personal',
     ];
     protected $hidden = [
         'password',
@@ -36,12 +25,12 @@ class Personal extends Model
      */
     public function user()
     {
-        return $this->belongsTo(Persona::class, 'cedula', 'cedula');
+        return $this->belongsTo(Persona::class, 'cedula', 'cedula2');
     }
 
     // Relación con el paciente titular
     public function titular()
     {
-        return $this->belongsTo(Paciente::class, 'cedula2', 'cedula');
+        return $this->belongsTo(Paciente::class, 'cedula', 'cedula2');
     }
 }

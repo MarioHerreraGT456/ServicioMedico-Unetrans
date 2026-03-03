@@ -30,18 +30,41 @@
            
         </div>
       
-       <div class="campo hidden">
-            <label for="cedula">Cédula:</label>
-            <div id="campoCedula">
-                <label for="tipo" class="hidden">Tipo:</label>
-                <input type="text" id="tipo" name="tipo" value="{{ $tipo }}"
-                       required>
-                <input type="text" id="cedula" name="cedula" value="{{ $cedula }}"
-                       title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
-            </div>
-            
-           
-        </div>
+       {{-- <div class="campo hidden">
+    <label for="cedula">Cédula:</label>
+    <div id="campoCedula">
+        @isset($cedula2)
+        <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
+          
+            <input type="hidden" name="cedula2" value="{{ $cedula2 }}">
+        @else
+    
+            <input type="hidden" name="cedula" value="{{ $cedula }}">
+        @endisset
+    </div>
+
+    
+    
+</div> --}}
+<div class="campo hidden">
+    @isset($cedula2)
+    <label for="cedula"></label>
+    <label for="cedula2"></label>
+    <div class="campoCedula">
+        <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
+        <input type="hidden" name="cedula" value="{{ $cedula }}">
+        <input type="hidden" name="cedula2" value="{{ $cedula2 }}">
+        {{-- ¡IMPORTANTE! Necesitas enviar tipo_personal para que el controlador sepa a dónde ir --}}
+        <input type="hidden" name="tipo_personal" value="{{ $tipo_personal ?? '' }}">
+    </div>
+    @else
+    <label for="cedula">Cédula:</label>
+    <div class="campoCedula">
+        <input type="hidden" id="tipo" name="tipo" value="{{ $tipo }}">
+        <input type="hidden" name="cedula" value="{{ $cedula }}">
+    </div>
+    @endisset
+</div>
 
 
        <div class="campo hidden">
