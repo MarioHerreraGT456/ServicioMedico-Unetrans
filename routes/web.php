@@ -34,8 +34,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
 Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
-Route::post('/envio-correo', [AuthController::class, 'emailRegisterPaciente'])->name('envio.correo');
-//Route::post('/envio-correo2', [AuthController::class, 'emailRegisterMedico'])->name('envio.correo2');
+Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('envio.correo');
+
 
 Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');
@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/paciente', [PacienteController::class, 'index'])->name('paciente.dashboard');
         Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
         //Route::view('/agendar', 'agendar')->name('paciente.agendar');
+        
     });
 
     // Rutas para MÉDICO

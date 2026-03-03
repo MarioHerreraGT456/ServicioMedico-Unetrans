@@ -44,25 +44,80 @@ class AuthController extends Controller
     }
    public function showPasswordForm(Request $request)
     {
-        
+        if ($request->rol === 'paciente') {
+            $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol'];
+  
+        } elseif ($request->rol === 'medico') {
+            $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'especialidad', 'cargo', 'rol'];
+        }
 
-        $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol'];
-    foreach ($required as $field) {
+        foreach ($required as $field) {
         if (!$request->has($field)) {
             abort(403, "Falta el campo $field en la URL.");
         }
-    }
 
         $data = $request->only($required);
        
         
     
     return view('password', $data);
+    }}
+
+    public function enviarCorreo (Request $request) {
+        if ($request->rol === 'paciente') {
+        return $this->emailRegisterPaciente($request);
+    } elseif ($request->rol === 'medico') {
+        return $this->emailRegisterMedico($request);
+    }
+    }
+
+    public function emailRegisterMedico (Request $request) {
+
+        $data = $request->validate([
+            'nombre'            => 'required|string|max:255', 
+            'apellido'          => 'required|string|max:255',      // <-- NUEVO
+            'tipo'              => 'required|in:V,E',
+            'cedula'            => 'required|integer|unique:personas,cedula',
+            'fecha_nacimiento'  => 'required|date',
+            // Datos específicos de Médico
+            'especialidad'      => 'required|in:general,odontologia,psiquiatria', // <-- NUEVO
+            'cargo'            => 'required|in:jefe,asistente',
+            'correo'            => 'required|email|unique:personas,correo',
+            'direccion'         => 'required|string',
+            'telefono'          => 'required|string|size:11',
+            
+           
+            'rol'               => 'required|in:paciente,medico',
+        ]);
+        
+      
+        $url = URL::temporarySignedRoute('password',                
+        now()->addHours(1), [
+            'nombre' => $data['nombre'],
+            'apellido' => $data['apellido'],
+            'tipo' => $data['tipo'],
+            'cedula' => $data['cedula'],
+            'correo' => $data['correo'],
+            'direccion' => $data['direccion'],
+            'telefono' => $data['telefono'],
+             'especialidad' => $data['especialidad'],
+                'cargo' => $data['cargo'],
+             'rol' => $data['rol'],
+             'fecha_nacimiento'  => $data['fecha_nacimiento'],
+       
+        ]);
+      
+       
+        
+        Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
+
+        return view('envio-correo', ['nombre' => $data['nombre']]);
+
     }
 
     public function emailRegisterPaciente (Request $request) {
         $data = $request->validate([
-            'nombre'            => 'required|string|max:255',
+            'nombre'            => 'required|string|max:255', 
             'apellido'          => 'required|string|max:255',      // <-- NUEVO
             'tipo'              => 'required|in:V,E',
             'cedula'            => 'required|integer|unique:personas,cedula',
@@ -80,10 +135,10 @@ class AuthController extends Controller
             //'estado'            => 'boolean',
             'rol'               => 'required|in:paciente,medico',
         ]);
-        dd($data);
+        
       
         $url = URL::temporarySignedRoute('password',                
-        now()->addHours(24), [
+        now()->addHours(1), [
             'nombre' => $data['nombre'],
             'apellido' => $data['apellido'],
             'tipo' => $data['tipo'],
@@ -104,7 +159,8 @@ class AuthController extends Controller
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
-        return redirect()->route('envio.correo')->with('mensaje', 'Hemos enviado un correo de verificación.');
+   
+        return view('envio-correo', ['nombre' => $data['nombre']]);
 
     }
 

@@ -15,7 +15,7 @@ return new class extends Migration
        $table->id();
         $table->integer('cedula')->unique(); // Relación con personas
         $table->enum('cargo', ['jefe', 'asistente']);
-        $table->enum('especialidad', ['medicina general', 'odontologia', 'psiquiatria']);
+        $table->enum('especialidad', ['general', 'odontologia', 'psiquiatria']);
         $table->timestamps();
 
         // Clave foránea

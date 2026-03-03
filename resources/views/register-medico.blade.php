@@ -13,7 +13,7 @@
     </div>
     @endif
 
-    <form id="formRegistroMedico" method="POST" action="{{ route('envio.correo2') }}" enctype="multipart/form-data">
+    <form id="formRegistroMedico" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
       @csrf
       
         <div class="campo">
@@ -134,7 +134,7 @@
          <div class="campo">
             <label for="especialidad">Especialidad:</label>
             <select id="especialidad" name="especialidad" required>
-                <option value="medicina general" {{ old('especialidad') == 'medicina general' ? 'selected' : '' }}>Medicina General</option>
+                <option value="general" {{ old('especialidad') == 'medicina general' ? 'selected' : '' }}>Medicina General</option>
                 <option value="odontologia" {{ old('especialidad') == 'odontologia' ? 'selected' : '' }}>Odontología</option>
                 <option value="psiquiatria" {{ old('especialidad') == 'psiquiatria' ? 'selected' : '' }}>Psiquiatría</option>    
             </select>

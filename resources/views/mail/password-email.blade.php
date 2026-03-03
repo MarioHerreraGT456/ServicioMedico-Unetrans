@@ -7,7 +7,8 @@
     <title>Agregar Contraseña</title>
 </head>
 <body>
-    <h1>Hola {{ $data['nombre'] }}</h1>
+    <h1>Hola {{ $data['nombre'] }} </h1>
+    <span>{{ $data['apellido'] }}</span>
     <p>Te has registrado en Unetrans.</p>
     <p>Para confirmar, haz clic en el siguiente enlace:</p>
     <a href="{{ $url }}">Completar registro</a>
