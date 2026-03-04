@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
              $table->id(); // Opcional, pero útil como PK interna
-        $table->integer('cedula')->unique();
+        $table->bigInteger('cedula')->unique();
         $table->string('nombre');
         $table->string('apellido');
         $table->enum('tipo', ['V', 'E']);

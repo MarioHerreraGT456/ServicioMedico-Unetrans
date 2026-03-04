@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->enum('tipo', ['V', 'E']);
-            $table->integer('cedula'); /*referencia a tabla pacientes*/ 
+            $table->bigInteger('cedula'); /*referencia a tabla pacientes*/ 
             $table->enum('sexo', ['Masculino', 'Femenino']);
             $table->date('fecha_nacimiento'); 
             $table->date('fecha_consulta'); 

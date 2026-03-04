@@ -13,7 +13,7 @@ return new class extends Migration
 {
     Schema::create('pacientes', function (Blueprint $table) {
        $table->id();
-        $table->integer('cedula')->unique();
+        $table->bigInteger('cedula')->unique();
         $table->enum('categoria', ['estudiante', 'personal']);
         $table->timestamps();
 

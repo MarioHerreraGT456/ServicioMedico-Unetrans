@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('estudiante', function (Blueprint $table) {
             $table->id();
-            $table->integer('cedula');
+            $table->bigInteger('cedula');
             $table->string('carrera');
             $table->timestamps();
             $table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');

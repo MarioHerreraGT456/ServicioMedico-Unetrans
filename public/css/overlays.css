@@ -634,13 +634,13 @@ body.menu-open .main-content {
 }
 .foto-edit {
     position: absolute;
-    bottom: 5px;   /* separación desde abajo */
-    right: 5px;    /* separación desde la derecha */
+    bottom: 5px; /* separación desde abajo */
+    right: 5px; /* separación desde la derecha */
     background: #fff;
     border-radius: 50%;
     padding: 5px;
     font-size: 18px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     transition: 0.2s ease;
 }
@@ -1760,4 +1760,100 @@ button.btn-cerrar-overlay:active {
 
 .form-group.full {
     grid-column: span 2;
+}
+
+/* =====================================================
+   ESTILOS PARA EL SELECTOR INICIAL DE FAMILIAR
+   ===================================================== */
+
+.selector-modal {
+    margin: 40px auto;
+    border: 1px solid #e0e7ff;
+}
+
+.selector-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+}
+
+.btn-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 24px;
+    background: #ffffff;
+    border: 2px solid #f0f2f5;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+}
+
+.btn-selector span {
+    font-size: 28px;
+    color: #1f3c88;
+}
+
+.btn-selector:hover {
+    border-color: #1f3c88;
+    background: #f8faff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(31, 60, 136, 0.1);
+}
+
+.btn-regresar {
+    position: absolute;
+    margin-top: 10px;
+    left: 49%; /* Alineado con el inicio del grid del form (width 80%) */
+    background: #1f3c88;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #ffffff;
+}
+
+.btn-regresar:hover {
+    background: #2f4c8f;
+    transform: translateX(-3px);
+}
+
+.btn-regresar span {
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    .btn-regresar {
+        left: 0;
+        top: -10px;
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Ajuste para que el título no choque con la flecha en móvil */
+    .title-form {
+        padding-top: 30px;
+    }
+}
+/* RESPONSIVO SELECTOR */
+@media (max-width: 480px) {
+    .selector-modal {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .btn-selector {
+        padding: 14px;
+        font-size: 14px;
+    }
 }
