@@ -77,7 +77,6 @@ img {
 }
 .main-header__icon-menu {
     font-size: 100px;
-    color: red;
 }
 .main-header__icon-menu:hover {
     color: blue;
@@ -1266,6 +1265,10 @@ textarea {
 }
 
 @media (max-width: 480px) {
+    .container-services {
+        display: flex;
+        flex-direction: column;
+    }
     .container__application-dates label {
         font-size: 16px;
     }
@@ -1320,6 +1323,11 @@ textarea {
 }
 
 /* ===== RESPONSIVE ===== */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
 @media (max-width: 768px) {
     .container-main {
         padding: 20px;
@@ -1336,6 +1344,48 @@ textarea {
     .container-main__to-register,
     .container-main__reasons {
         padding: 15px;
+    }
+    /* 1. Ocultar la lista del header y el menú de escritorio */
+    .main-header__list,
+    .desktop-only {
+        display: none !important;
+    }
+
+    /* 2. Mostrar los elementos exclusivos de móvil */
+    .mobile-only {
+        display: flex !important;
+    }
+
+    /* 3. Ajustar el icono del menú móvil para que no se descuadre */
+    .main-header__icon-menu.mobile-only {
+        font-size: 35px;
+        cursor: pointer;
+        display: block !important;
+        margin-left: auto; /* Empuja el menú a la derecha si es necesario */
+    }
+
+    /* 4. Asegurar que el nav del sidebar muestre los items en cascada */
+    .sidebar__nav,
+    .sidebar_nav {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    /* 5. Estilo básico para que los links en el sidebar de guest se vean como botones */
+    .sidebar_item {
+        display: block;
+        padding: 12px 15px;
+        color: #333;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: background 0.3s;
+    }
+    .sidebar_item:hover {
+        background: #f0f5ff;
     }
 }
 

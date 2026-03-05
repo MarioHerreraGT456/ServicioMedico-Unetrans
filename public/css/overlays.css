@@ -1847,6 +1847,31 @@ button.btn-cerrar-overlay:active {
 }
 /* RESPONSIVO SELECTOR */
 @media (max-width: 480px) {
+    #view-perfil {
+        margin-left: 20px;
+        margin-right: 20px;
+        justify-content: center;
+    }
+    .view {
+        width: auto;
+    }
+    #perfilCorreo,
+    #perfilTelefono,
+    #perfilDireccion {
+        font-size: 14px;
+    }
+    #formRegistroPersonal,
+    #formRegistroConsulta {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .btn-regresar {
+        position: relative;
+        left: 45%;
+        bottom: 0;
+        top: 0;
+    }
     .selector-modal {
         width: 95%;
         padding: 20px;
@@ -1855,5 +1880,8 @@ button.btn-cerrar-overlay:active {
     .btn-selector {
         padding: 14px;
         font-size: 14px;
+    }
+    .profile-contact-item {
+        grid-template-columns: 100px 1fr;
     }
 }

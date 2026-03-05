@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
         rel="stylesheet">
     
-    <script src="js/prueba.js" defer></script>
+    <script src="js/menu-header.js" defer></script>
 </head>
 <body>
     

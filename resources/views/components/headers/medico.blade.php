@@ -2,17 +2,16 @@
   <nav class="main-header__nav-start">
     <div class="main-header__nav">
 
-      <div class="main-header__menu">
-        <span class="main-header__icon-menu material-symbols-outlined">
-          menu
-        </span>
+      <div class="main-header__menu desktop-only">
+        <span class="main-header__icon-menu material-symbols-outlined">menu</span>
+      </div>
+
+      <div class="main-header__menu mobile-only">
+        <span class="js-menu-trigger material-symbols-outlined" style="font-size: 35px; cursor: pointer;">menu</span>
       </div>
 
       <div class="main-header__logo">
-        <img src="img/logo.png"
-             alt="imagen de logo"
-             class="main-header__img"
-             onerror="this.style.display='none'"/>
+        <img src="img/logo.png" alt="imagen de logo" class="main-header__img" onerror="this.style.display='none'"/>
       </div>
 
     </div>
@@ -21,43 +20,34 @@
       <li class="main-header__item">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="main-header__link">Cerrar Sesión</button>
+            <button type="submit" class="main-header__link" style="background: none; border: none; cursor: pointer;">Cerrar Sesión</button>
         </form>
-        {{-- <a class="main-header__link" href="{{ route('logout') }}" id="logoutHeader">
-          Cerrar Sesión
-        </a> --}}
       </li>
     </ul>
   </nav>
 </header>
 
-<!-- ================= MENU LATERAL MÉDICO ================= -->
 <aside id="sidebarMedico" class="sidebar">
-  <div class="close">
-    &times;
-  </div>
+  <div class="close">&times;</div>
 
   <div class="sidebar__header">
-     @auth
+    @auth
     @php
-        $perfil = Auth::user()->perfil(); // Obtiene el perfil según el rol
+        $perfil = Auth::user()->perfil();
         $foto = $perfil ? $perfil->foto : null;
     @endphp
-    <img src="{{ asset('storage/' . $foto) }}" 
-         alt="Foto de Perfil"
-         onerror="this.style.display='none'">
+    <img src="{{ asset('storage/' . $foto) }}" alt="Foto de Perfil" onerror="this.style.display='none'">
     <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
-
-
   </div>
 
   <nav class="sidebar__nav">
 
     <a href="{{ route('medico.dashboard') }}" style="text-decoration: none;">
-    <button class="sidebar__item " data-view="inicio">
-      <span class="material-symbols-outlined">home</span>
-      Inicio
-    </button></a>
+      <button class="sidebar__item" data-view="inicio">
+        <span class="material-symbols-outlined">home</span>
+        Inicio
+      </button>
+    </a>
 
     <a href="{{ route('perfil') }}" style="text-decoration: none;">
       <button class="sidebar__item" data-view="perfil">
@@ -87,12 +77,12 @@
             Crear Consultas
         </button>
     </a>
+
     @php
         $user = auth()->user();
     @endphp
 
     @if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe')
-
         <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>
@@ -102,6 +92,15 @@
     @endif
     @endauth
 
-  </nav>
+    <div class="mobile-only" style="width: 100%; margin-top: 10px;">
+        <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
+            @csrf
+            <button type="submit" class="sidebar__item" style="width: 100%; justify-content: flex-start; background: #ffebee; color: #c62828;">
+                <span class="material-symbols-outlined">logout</span>
+                Cerrar Sesión
+            </button>
+        </form>
+    </div>
 
+  </nav>
 </aside>
