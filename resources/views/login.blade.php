@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
   
   <div class="auth-page">
   <div class="auth-card">

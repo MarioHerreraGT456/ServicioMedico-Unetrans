@@ -429,7 +429,28 @@ textarea {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+/*Columnas del dashboard actualizados*/
+.contenedor-principal {
+    display: flex;
+    margin: 0 20px; /* Esto aplica 0 arriba/abajo y 20px a los lados (izquierda/derecha) */
 
+    /* Opcional: Si quieres un pequeño espacio de separación entre ambas columnas, descomenta la siguiente línea */
+    /* gap: 10px; */
+}
+
+.columna-setenta {
+    width: 70%;
+    /* Un color de fondo solo para que puedas visualizarla */
+
+    padding: 15px;
+}
+
+.columna-treinta {
+    width: 30%;
+    /* Un color de fondo solo para que puedas visualizarla */
+
+    padding: 15px;
+}
 /* Contenedor de servicios */
 .container-services {
     display: grid;
@@ -1204,11 +1225,22 @@ textarea {
     margin: 0 0 12px;
     font-weight: 800;
 }
+.alert {
+    text-align: center;
+}
 /* Responsive */
 @media (max-width: 768px) {
     .medical-history-data {
         grid-template-columns: 1fr;
         gap: 10px;
+    }
+    .contenedor-principal {
+        flex-direction: column; /* Pone una columna debajo de la otra */
+    }
+
+    .columna-setenta,
+    .columna-treinta {
+        width: 100%; /* Ambas pasan a ocupar todo el ancho disponible */
     }
 
     .container-search__bar {

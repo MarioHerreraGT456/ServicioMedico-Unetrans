@@ -41,7 +41,7 @@ class MedicoController extends Controller
             'sexo'          => 'required|in:masculino,femenino',
             'estado_civil'  => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             'cargo'        => 'required|in:jefe,asistente',
-            'especialidad' => 'required|in:medicina general,odontologia,psiquiatria',
+            'especialidad' => 'required|in:general,odontologia,psiquiatria',
             'foto'         => 'nullable|image|max:2048',
         ]);
 
@@ -86,8 +86,9 @@ class MedicoController extends Controller
 
             // 5. Autenticar y Redirigir
             Auth::login($user);
-
-            return redirect()->route('medico.dashboard');
+           
+          return redirect()->route('medico.dashboard');
+          
 
         } catch (\Exception $e) {
             DB::rollBack();

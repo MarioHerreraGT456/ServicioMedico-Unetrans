@@ -14,6 +14,12 @@
             @endforeach
         </ul>
     </div>
+    
+@endif
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
 @endif
 
     <form id="formRegistroConsulta" method="POST" action="{{ route('consultas.store') }}" enctype="multipart/form-data">
@@ -109,7 +115,7 @@
         <div class="campo">
             <label for="especialidad">Especialidad:</label>
             <select id="especialidad" name="especialidad" required>
-                <option value="medicina geneal" {{ old('especialidad') == 'medicina geneal' ? 'selected' : '' }}>Medicina General</option>
+                <option value="general" {{ old('especialidad') == 'general' ? 'selected' : '' }}>Medicina General</option>
                 <option value="odontologia" {{ old('especialidad') == 'odontologia' ? 'selected' : '' }}>Odontología</option>
                 <option value="psiquiatria" {{ old('especialidad') == 'psiquiatria' ? 'selected' : '' }}>Psiquiatría</option>    
             </select>

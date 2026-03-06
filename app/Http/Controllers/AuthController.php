@@ -53,7 +53,7 @@ class AuthController extends Controller
             }
   
         } elseif ($request->rol === 'medico') {
-            $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'especialidad', 'cargo', 'rol'];
+            $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil','edad'];
         }
 
         foreach ($required as $field) {
@@ -83,12 +83,15 @@ class AuthController extends Controller
             'tipo'              => 'required|in:V,E',
             'cedula'            => 'required|integer|unique:personas,cedula',
             'fecha_nacimiento'  => 'required|date',
+            'edad'              => 'required|integer|min:0',
             // Datos específicos de Médico
             'especialidad'      => 'required|in:general,odontologia,psiquiatria', // <-- NUEVO
             'cargo'            => 'required|in:jefe,asistente',
             'correo'            => 'required|email|unique:personas,correo',
             'direccion'         => 'required|string',
             'telefono'          => 'required|string|size:11',
+            'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
+            'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             
            
             'rol'               => 'required|in:paciente,medico',
@@ -108,6 +111,9 @@ class AuthController extends Controller
                 'cargo' => $data['cargo'],
              'rol' => $data['rol'],
              'fecha_nacimiento'  => $data['fecha_nacimiento'],
+             'sexo' => $data['sexo'],
+             'estado_civil' => $data['estado_civil'],
+             'edad' => $data['edad'],
        
         ]);
       

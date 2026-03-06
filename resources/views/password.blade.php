@@ -93,12 +93,26 @@
             <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ $fecha_nacimiento }}" required>
           
         </div>
-
+     
+ 
         <div class="campo hidden">
             <label for="edad">Edad:</label>
             <input type="tell" id="edad" name="edad" value="{{ $edad }}" required>
         </div>
 
+    @isset($cargo)
+        <div class="campo hidden">
+            <label for="cargo">Cargo:</label>
+            <input type="hidden" id="cargo" name="cargo" value="{{ $cargo }}">
+           
+        </div>
+@endisset
+@isset($especialidad)
+    <div class="campo hidden">
+        <label for="especialidad">Especialidad:</label>
+        <input type="text" id="especialidad" name="especialidad" value="{{ $especialidad }}">
+    </div>
+@endisset
       <!--SEXO-->
        <div class="campo hidden">
             <label for="sexo">Sexo:</label>
@@ -114,11 +128,14 @@
         </div>
 
         <!-- TIPO DE PACIENTE -->
+        @isset($categoria)
         <div class="campo hidden">
             <label for="categoria">Tipo de Paciente:</label>
             <input type="text" id="categoria" name="categoria" value="{{ $categoria }}" required>
           
         </div>
+            
+        @endisset
       <div class="campo ">
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>

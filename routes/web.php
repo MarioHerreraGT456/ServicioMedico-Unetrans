@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/paciente', [PacienteController::class, 'index'])->name('paciente.dashboard');
         Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
         //Route::view('/agendar', 'agendar')->name('paciente.agendar');
+        Route::view('/odontologo', 'odontologo')->name('odontologo.dashboard');
+        Route::view('/psiquiatra', 'psiquiatra')->name('psiquiatra.dashboard');
         
     });
 

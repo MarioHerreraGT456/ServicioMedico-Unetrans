@@ -3,49 +3,7 @@
 @section('content')
 <div class="dashboard">
 
-  <!-- ================= MENU LATERAL MÉDICO ================= -->
-  <aside id="sidebarMedico" class="sidebar">
-
-    <div class="sidebar__header">
-      <img src="img/perfil.jpg" alt="Perfil">
-      <span class="sidebar__name">Médico</span>
-    </div>
-
-    <nav class="sidebar__nav">
-
-      <button class="sidebar__item active" data-view="inicio">
-        <span class="material-symbols-outlined">home</span>
-        Inicio
-      </button>
-
-      <button class="sidebar__item" data-view="perfil">
-        <span class="material-symbols-outlined">person</span>
-        Perfil
-      </button>
-
-      <button class="sidebar__item" data-view="consultas">
-        <span class="material-symbols-outlined">search</span>
-        Consultas
-      </button>
-
-      <button class="sidebar__item" data-view="historial">
-        <span class="material-symbols-outlined">folder</span>
-        Historial
-      </button>
-
-      <button class="sidebar__item" data-view="solicitar">
-        <span class="material-symbols-outlined">lock_open</span>
-        Registrar Familiar
-      </button>
-
-      <button class="sidebar__item sidebar__item--cerrar" id="btnCerrarMenu">
-        <span class="material-symbols-outlined">close</span>
-        Cerrar Menú
-      </button>
-
-    </nav>
-
-  </aside>
+ 
 
   <main class="main-content" id="viewsMedico">
 
@@ -53,16 +11,63 @@
       <h2>Inicio</h2>
       <p>Panel de gestión para Médico.</p>
     </section>
+    <!-- ===== INICIO ===== -->
+  <section id="view-inicio" class="view">
+    <div class="container-welcome">
+      <h1>Bienvenido al Servicio Médico</h1>
+    </div>
 
-    <section id="view-perfil" class="view hidden">
+
+    <div class="contenedor-principal">
+    <div class="columna-setenta">
+        <p>Esta es la columna del 70%.</p>
+    </div>
+    <div class="columna-treinta">
+      @if (
+        $medico->especialidad === 'general' 
+      )
+        <section class="container-services__general-medicine">
+        <div class="container-services__img">
+          <img src="img/medicina_general.jpg"
+               alt="medicina general"
+               class="container-services__img-general-medicine"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
+      @endif
+  @if($medico->especialidad === 'odontologia')
+      <section class="container-services__dentistry">
+        <div class="container-services__img">
+          <img src="img/odontologia.jpg"
+               alt="odontología"
+               class="container-services_img-dentistry"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
+      @endif
+      @if($medico->especialidad === 'psiquiatria')
+        <section class="container-services__psychiatry">
+        <div class="container-services__container-img">
+          <img src="img/psquitria.jpg"
+               alt="psiquiatría"
+               class="container-services_img-psychiatry"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
+      @endif
+    </div>
+</div>
+
+   
+
+    {{-- <section id="view-perfil" class="view hidden">
       <h2>Perfil</h2>
       <p>Preparado para integración backend.</p>
-    </section>
+    </section> --}}
 
-    <section id="view-consultas" class="view hidden">
+    {{-- <section id="view-consultas" class="view hidden">
       <h2>Consultas</h2>
 
-      {{-- Filtro real (GET) para evitar scroll infinito --}}
       <form method="GET" action="" class="toolbar">
         <div class="tool">
           <label>Desde</label>
@@ -84,8 +89,7 @@
 
       <div id="consultasList" class="list"></div>
 
-      {{-- Botón para crear nueva consulta: aquí NO invento backend.
-          El backend luego pondrá la ruta/acción correcta. --}}
+    
       <div class="section-actions">
         <button type="button" class="btn-primary" data-action="open-consulta-form">Nueva Consulta</button>
       </div>
@@ -123,9 +127,9 @@
           </div>
         </form>
       </div>
-    </section>
+    </section> --}}
 
-    <section id="view-historial" class="view hidden">
+    {{-- <section id="view-historial" class="view hidden">
       <h2>Historial</h2>
 
       <form method="GET" action="" class="toolbar">
@@ -174,18 +178,18 @@
           </div>
         </form>
       </div>
-    </section>
+    </section> --}}
 
-    <section id="view-detalle" class="view hidden">
+    {{-- <section id="view-detalle" class="view hidden">
       <h2>Detalle</h2>
       <div class="detail-card">
         <p class="muted">Preparado para mostrar detalle cuando el backend lo inyecte.</p>
         <div id="detailBody"></div>
         <button type="button" class="btn-secondary" data-action="back">Volver</button>
       </div>
-    </section>
-
-    <div id="crearFamiliarOverlay" class="hidden"></div>
+    </section> --}}
+{{-- 
+    <div id="crearFamiliarOverlay" class="hidden"></div> --}}
 
   </main>
 </div>

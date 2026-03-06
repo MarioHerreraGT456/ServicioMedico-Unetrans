@@ -123,7 +123,7 @@
         <div class="campo">
             <label for="cargo">Cargo:</label>
             <select id="cargo" name="cargo" required>
-                <option value="medico" {{ old('cargo') == 'medico' ? 'selected' : '' }}>Médico</option>
+                <option value="jefe" {{ old('cargo') == 'jefe' ? 'selected' : '' }}>Jefe</option>
                 <option value="asistente" {{ old('cargo') == 'asistente' ? 'selected' : '' }}>Asistente</option>
             </select>
             @error('cargo')
