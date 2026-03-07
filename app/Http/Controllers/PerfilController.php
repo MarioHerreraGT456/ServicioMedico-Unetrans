@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CambioCorreoClave;
+
 
 class PerfilController extends Controller
 {
@@ -93,29 +97,23 @@ class PerfilController extends Controller
         }
     }*/
 
-    public function restorePassword(Request $request)
-    {
-        // Aquí puedes manejar la lógica para restaurar la contraseña del usuario
-        // Validar los datos recibidos
-        $request->validate([
-            'cedula' => 'required|integer|exists:personas,cedula',
-            'email' => 'required|email|exists:pacientes,correo|exists:medico,correo',
-            'password'         => Hash::make($request->password),
-        ]);
-        try {
-            $user = Persona::where('cedula', $request->cedula)->first();
-            if ($user) {
-                $user->password = Hash::make($request->password);
-                $user->save();
-            }
-            DB::commit();
+    public function enviarCorreoCambio(Request $request)
+{   
+    // 1. Obtenemos al usuario que tiene la sesión iniciada
+    $user = Auth::user();
+    
+    // Creamos un array de data mínimo si tu clase de correo lo requiere
+    $data = ['correo' => $user->correo];
 
-            return redirect()->route('login')->with('success', 'Contraseña restablecida correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.');
-        } catch (\Exception $e) {
-            return redirect()->route('passwordRequest')->withErrors('Error al restablecer la contraseña: ' . $e->getMessage());
-        }
+    // 2. Generamos la URL firmada
+    $url = URL::temporarySignedRoute(
+        'passwordRequest', now()->addMinutes(30), ['correo' => $user->correo]
+    );
 
-        // Lógica para enviar un correo de recuperación de contraseña o mostrar un mensaje
-        return back()->with('success', 'Si la cédula y el correo son correctos, recibirás un correo con instrucciones para restablecer tu contraseña.');
-    }
+    // 3. Enviamos el correo
+    Mail::to($user->correo)->send(new CambioCorreoClave($url, $data)); 
+
+    // 4. Retornamos la vista de éxito
+    return view('envio-correo-cambio');  
+}
 }

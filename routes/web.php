@@ -7,6 +7,7 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\RequestPasswordController;
 use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 use App\Http\Middleware\ValidateLinkPassword;
 
@@ -34,11 +35,15 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
 Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
+//esta ruta es para actualizar los datos de contacto de la vista perfil
+Route::post('/perfil/contacto', [PerfilController::class, 'updateContacto'])->name('perfil.updateContacto');
 Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('envio.correo');
-
+//esta es la nueva ruta para el envio de correo de cambio contraseña
+Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
 
 Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');
+    Route::get('/passwordRequest', [RequestPasswordController::class, 'showPasswordForm'])->name('passwordRequest');
 });
 
 
@@ -56,7 +61,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/paciente', [PacienteController::class, 'index'])->name('paciente.dashboard');
         Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
         //Route::view('/agendar', 'agendar')->name('paciente.agendar');
-       
         
     });
 

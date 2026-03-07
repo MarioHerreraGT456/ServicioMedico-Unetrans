@@ -91,37 +91,76 @@
 
         <div class="profile-contact-item">
           <span class="contact-label">Correo</span>
-          <div class="contact-value">
+          
+          <!--<div class="contact-value">
             <span id="perfilCorreo">{{ $user->correo }}</span>
             <span class="material-symbols-outlined contact-edit"
                   title="Próximamente editable">
               edit
             </span>
-          </div>
+          </div>-->
+          
+          <div class="contact-value">
+          <input type="text" 
+            id="perfilCorreo"
+            value="{{ $user->correo }}"
+            readonly
+            class="input-contact">
+
+            <!--aqui ya se puede editar-->
+            <span class="material-symbols-outlined contact-edit"
+            onclick="editarCampo('perfilCorreo')">
+            edit
+            </span>
+            </div>
         </div>
 
         <div class="profile-contact-item">
           <span class="contact-label">Teléfono</span>
-          <div class="contact-value">
+          <!--<div class="contact-value">
             <span id="perfilTelefono">{{ $user->telefono }}</span>
             <span class="material-symbols-outlined contact-edit"
                   title="Próximamente editable">
               edit
             </span>
+          </div>-->
+          <div class="contact-value">
+          <input type="text" 
+          id="perfilTelefono"
+          value="{{ $user->telefono }}"
+          readonly
+          class="input-contact">
+
+          <span class="material-symbols-outlined contact-edit"
+          onclick="editarCampo('perfilTelefono')">
+          edit
+          </span>
           </div>
         </div>
 
         <div class="profile-contact-item">
           <span class="contact-label">Dirección</span>
-          <div class="contact-value">
+          <!--<div class="contact-value">
             <span id="perfilDireccion">{{ $user->direccion }}</span>
             <span class="material-symbols-outlined contact-edit"
                   title="Próximamente editable">
               edit
             </span>
+          </div>-->
+
+          <div class="contact-value">
+            <input type="text" 
+              id="perfilDireccion"
+              value="{{ $user->direccion }}"
+              readonly
+              class="input-contact">
+
+              <span class="material-symbols-outlined contact-edit"
+              onclick="editarCampo('perfilDireccion')">
+              edit
+              </span>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -148,7 +187,25 @@
         </div>-->
       </div>
     </div>
+    
+    <div class="profile-card">
+  <h3 class="profile-card-title">Acciones del Sistema</h3>
+  <form method="POST" action="{{ route('envio.correo.cambio') }}" id="formCambiarClave">
+    @csrf
+    <div class="campo">
+      <button type="submit" id="btnCambiarClave">Cambiar Contraseña</button>
+    </div>
+  </form>
+</div>
 
   </section>
+
+  <script>
+    window.perfilUpdateUrl = "{{ route('perfil.updateContacto') }}";
+    window.csrfToken = "{{ csrf_token() }}";
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ asset('js/perfil.js') }}"></script>
 
 @endsection
