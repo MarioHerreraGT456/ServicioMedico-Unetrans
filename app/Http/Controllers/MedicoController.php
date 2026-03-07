@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medico;
 use App\Models\Persona;
+use App\Models\Personal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -12,12 +13,43 @@ use Illuminate\Support\Facades\Auth;
 class MedicoController extends Controller
 {
     // Vista del Dashboard (protegida)
-    public function index()
-    {
-        $user = Auth::user();
-        $medico = $user->medico;
-        return view('medico', compact('user', 'medico'));
+    public function index(Request $request) 
+{
+    $user = Auth::user();
+    $medico = $user->medico;
+    $buscar = $request->get('buscar');
+
+    // Inicializamos como una colección vacía
+    $resultados = collect();
+
+    // SOLO si el usuario escribió algo en el buscador, realizamos la consulta
+    if ($buscar) {
+        if ($medico->categoria === 'personal') {
+            // Lógica para categoría personal (búsqueda cruzada)
+            $relaciones = Personal::where('cedula', 'LIKE', "%$buscar%")
+                ->orWhere('cedula2', 'LIKE', "%$buscar%")
+                ->get();
+
+            $cedulas = $relaciones->pluck('cedula')
+                ->merge($relaciones->pluck('cedula2'))
+                ->unique();
+
+            $resultados = Persona::whereIn('cedula', $cedulas)
+                ->orWhere('nombre', 'LIKE', "%$buscar%")
+                ->orWhere('apellido', 'LIKE', "%$buscar%")
+                ->orWhere('cedula', 'LIKE', "%$buscar%")
+                ->get();
+        } else {
+            // Lógica de búsqueda normal
+            $resultados = Persona::where('cedula', 'LIKE', "%$buscar%")
+                ->orWhere('nombre', 'LIKE', "%$buscar%")
+                ->orWhere('apellido', 'LIKE', "%$buscar%")
+                ->get();
+        }
     }
+
+    return view('medico', compact('user', 'medico', 'buscar', 'resultados'));
+}
     public function showMedicoForm()
     {
         return view('register-medico');

@@ -13,7 +13,8 @@ class Paciente extends Model
 
     protected $fillable = [
         'cedula', 
-        'categoria'
+        'categoria',
+        'tipo_paciente',
     ];
 
    

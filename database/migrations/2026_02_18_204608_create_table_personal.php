@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('personal', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cedula')->unique(); // referencia a tabla personas
+            $table->bigInteger('cedula'); // referencia a tabla personas
             $table->bigInteger('cedula2')->unique(); // referencia a tabla pacientes
-            $table->enum('tipo_personal', ['administrativo', 'obrero', 'docente']);
+            $table->enum('tipo_personal', ['hijo', 'casado', 'hermano', 'familiar'])->nullable();
             $table->timestamps();
             // FK: la nueva cédula referencia a personas (donde se crea el usuario)
         $table->foreign('cedula')->references('cedula')->on('personas')->onDelete('cascade');

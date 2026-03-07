@@ -14,7 +14,7 @@ class Medico extends Model
     protected $fillable = [
         'cedula', 
         'cargo', 
-        'especialidad'
+        'especialidad',
     ];
 
 

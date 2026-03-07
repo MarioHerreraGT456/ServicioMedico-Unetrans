@@ -46,9 +46,9 @@ class AuthController extends Controller
     {
         if ($request->rol === 'paciente') {
             if ($request->tipo_personal !== null) {
-                $required = ['nombre', 'apellido', 'tipo', 'cedula','cedula2', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_personal'];
+                $required = ['nombre', 'apellido', 'tipo', 'cedula','cedula2', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_personal', 'tipo_paciente'];
             } else {
-                $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol'];
+                $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_paciente'];
 
             }
   
@@ -146,7 +146,8 @@ class AuthController extends Controller
            // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             //'estado'            => 'boolean',
             'rol'               => 'required|in:paciente,medico',
-            'tipo_personal'     => 'required|in:administrativo,obrero,docente',
+            'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero',
+            'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
         ]);
 
         $url = URL::temporarySignedRoute('password',                
@@ -166,6 +167,7 @@ class AuthController extends Controller
             'fecha_nacimiento'  => $data['fecha_nacimiento'],
             'rol' => $data['rol'],
             'tipo_personal' => $data['tipo_personal'],
+            'tipo_paciente' => $data['tipo_paciente'],
        
         ]);
         } else {
@@ -188,6 +190,7 @@ class AuthController extends Controller
                // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 //'estado'            => 'boolean',
                 'rol'               => 'required|in:paciente,medico',
+                'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero',
             ]);
             
           
@@ -206,6 +209,7 @@ class AuthController extends Controller
                  'edad' => $data['edad'],
                 'fecha_nacimiento'  => $data['fecha_nacimiento'],
                 'rol' => $data['rol'],
+                'tipo_paciente' => $data['tipo_paciente'],
            
             ]);
         }

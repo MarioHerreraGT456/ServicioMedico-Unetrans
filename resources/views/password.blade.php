@@ -134,6 +134,17 @@
             <input type="text" id="categoria" name="categoria" value="{{ $categoria }}" required>
           
         </div>
+        <div class="campo hidden">
+            <label for="tipo_paciente">Tipo de Personal:</label>
+            <input type="text" id="tipo_paciente" name="tipo_paciente" value="{{ $tipo_paciente }}" required>
+          
+        </div>
+         @if (@isset($tipo_personal))
+        <div class="campo hidden">
+            <label for="tipo_personal">Tipo de Parentesco:</label>
+            <input type="text" id="tipo_personal" name="tipo_personal" value="{{ $tipo_personal }}" required>
+        </div>
+            @endif
             
         @endisset
       <div class="campo ">

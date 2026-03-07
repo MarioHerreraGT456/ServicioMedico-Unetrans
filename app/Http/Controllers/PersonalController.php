@@ -50,7 +50,8 @@ class PersonalController extends Controller
         'correo'            => 'required|email|unique:personas,correo',
         'direccion'         => 'required|string',
         'telefono'          => 'required|string|size:11',
-        'tipo_personal'     => 'required|in:administrativo,obrero,docente',
+        'tipo_personal'     => 'required|in:hijo,casado,hermano,familiar',
+        'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero',
     ]);
 
     
@@ -89,6 +90,7 @@ class PersonalController extends Controller
             Paciente::create([
                 'cedula'           => $request->cedula2,
                 'categoria'        => $request->categoria,
+                'tipo_paciente'    => $request->tipo_paciente, // <-- NUEVO
                 
             ]);
             Personal::create([

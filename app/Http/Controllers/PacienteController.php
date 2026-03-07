@@ -53,6 +53,7 @@ class PacienteController extends Controller
                 'telefono'          => 'required|string|size:11',
                 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'estado'            => 'boolean',
+                'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero', // <-- NUEVO para paciente
             ]);
             
             
@@ -90,6 +91,7 @@ class PacienteController extends Controller
                 Paciente::create([
                     'cedula'           => $request->cedula,
                     'categoria'        => $request->categoria,
+                    'tipo_paciente'    => $request->tipo_paciente, // <-- NUEVO
                     
                 ]);
     

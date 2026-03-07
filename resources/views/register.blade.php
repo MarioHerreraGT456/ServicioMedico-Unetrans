@@ -147,14 +147,17 @@
         </select>
       </div> --}}
       <!-- TIPO DE PERSONAL -->
-      {{-- <div class="campo">
-        <label for="selectPersonal" class="hidden">Tipo de Personal:</label>
-        <select id="selectPersonal" name="tipo_personal" class="select-placeholder hidden">
-          <option value="Administrativo">Docente</option>
-          <option value="Docente">Administrativo</option>
-          <option value="Obrero">Obrero</option>
+      <div class="campo">
+        <label for="tipo_paciente" >Tipo de Personal:</label>
+        <select id="tipo_paciente" name="tipo_paciente" class="select-placeholder ">
+          <option value="administrativo" {{ old('tipo_paciente') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
+          <option value="docente" {{ old('tipo_paciente') == 'docente' ? 'selected' : '' }}>Docente</option>
+          <option value="obrero" {{ old('tipo_paciente') == 'obrero' ? 'selected' : '' }}>Obrero</option>
         </select>
-      </div> --}}
+        @error('tipo_paciente')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+      </div>
 {{-- 
       <div class="campo">
             <label for="password">Contraseña:</label>
@@ -185,5 +188,5 @@
 
 
     </form>
-    <script src="js/app.js" defer></script>
+    <script src="js/register.js" defer></script>
     @endsection

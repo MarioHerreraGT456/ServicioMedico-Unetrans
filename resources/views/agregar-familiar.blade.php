@@ -153,17 +153,22 @@
                         <span class="error-message">Dato inválido</span>
                     @enderror
                 </div>
-              <div class="campo">
-                    <label for="tipo_personal">Tipo de Personal:</label>
-                    <select id="tipo_personal" name="tipo_personal" required>
-                        <option value="administrativo" {{ old('tipo_personal') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
-                        <option value="obrero" {{ old('tipo_personal') == 'obrero' ? 'selected' : '' }}>Obrero</option>
-                        <option value="docente" {{ old('tipo_personal') == 'docente' ? 'selected' : '' }}>Docente</option>
-                    </select>
-                    @error('tipo_personal')
+              <div class="campo hidden">
+                    <label for="tipo_paciente">Tipo de Personal:</label>
+                    <input type="hidden" name="tipo_paciente" value="administrativo">
+                     @error('tipo_paciente')
                         <span class="error-message">Dato inválido</span>
                     @enderror
                 </div>
+                <div class="campo">
+            <label for="tipo_personal">Tipo de Parentesco:</label>
+            <select name="tipo_personal" id="tipo_personal">
+                <option value="hijo" {{ old('tipo_personal') == 'hijo' ? 'selected' : '' }}>Hijo(a)</option>
+                <option value="casado" {{ old('tipo_personal') == 'casado' ? 'selected' : '' }}>Esposo(a)</option>
+                <option value="hermano" {{ old('tipo_personal') == 'hermano' ? 'selected' : '' }}>Hermano(a)</option>
+                <option value="familiar" {{ old('tipo_personal') == 'familiar' ? 'selected' : '' }}>Padre o Madre</option>
+            </select>
+        </div>
         
                 <div class="campo hidden">
                     <label for="categoria">Tipo de Paciente:</label>
@@ -219,7 +224,7 @@
                             <option value="E" {{ old('tipo') == 'E' ? 'selected' : '' }}>E</option>
                         </select>
                         
-                        <input type="text" id="cedula" name="cedula" value="{{ $cedula_titular }}"
+                        <input type="hidden" id="cedula" name="cedula" value="{{ $cedula_titular }}"
                                title="Formato válido: V12345678, E12345678" placeholder="12345678" class="hidden" required>
                              
                         <input type="text" id="cedula2" name="cedula2" value="{{ old('cedula2') }}"
@@ -303,9 +308,15 @@
                     @enderror
                 </div>
               <div class="campo hidden">
-                    <label for="tipo_personal">Tipo de Personal:</label>
-                    <input type="hidden" name="tipo_personal" value="administrativo">
+                    <label for="tipo_paciente">Tipo de Personal:</label>
+                    <input type="hidden" name="tipo_paciente" value="administrativo">
                 </div>
+
+                <div class="campo hidden">
+            <label for="tipo_personal">Tipo de Parentesco:</label>
+            <input type="hidden" name="tipo_personal" value="familiar">
+    
+        </div>
         
                 <div class="campo hidden">
                     <label for="categoria">Tipo de Paciente:</label>
@@ -400,17 +411,26 @@
                     </select>
                 </div>
 
-                <div class="campo">
+                 <div class="campo hidden">
                     <label for="selectEstadoCivil">Estado Civil:</label>
-                    <select id="selectEstadoCivil" name="estado_civil" required>
-                        <option value="Soltero(a)">Soltero(a)</option>
-                    </select>
+                    <input type="hidden" id="selectEstadoCivil" name="estado_civil" value="Soltero(a)" required>
+                    
+                    @error('estado_civil')
+                        <span class="error-message">Dato inválido</span>
+                    @enderror
                 </div>
 
                 <div class="campo hidden">
-                    <label for="tipo_personal">Tipo de Personal:</label>
-                    <input type="hidden" name="tipo_personal" value="administrativo">
+                    <label for="tipo_personal">Tipo de Parentesco:</label>
+                    
+                    <select id="tipo_personal" name="tipo_personal" required>
+                        <option value="hijo">Hijo(a)</option>
+                        <option value="casado">Esposo(a)</option>
+                        <option value="hermano">Hermano(a)</option>
+                        <option value="familiar">Padre o Madre</option>
+                    </select>
                 </div>
+                <input type="hidden" name="tipo_paciente" value="administrativo">
 
                 <input type="hidden" name="categoria" value="personal">
                 <input type="hidden" name="rol" value="paciente">
