@@ -62,16 +62,24 @@ class ConsultasController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $buscar = $request->get('buscar');
-        $consultas = collect();
-    if ($buscar) {
-        // Si hay búsqueda, filtramos
-        $consultas = Consultas::where('nombre', 'like', "%$buscar%")
-            ->orWhere('apellido', 'like', "%$buscar%")
-            ->orWhere('cedula', 'like', "%$buscar%")
-            ->get();
-    } 
-        return view('consultas', compact('consultas','buscar'));
+{
+    $persona = Auth::user(); // Usuario logueado
+    $buscar = $request->get('buscar');
+    $consultas = collect();
+
+    if ($persona->rol === 'medico') {
+        // Lógica de Médico: Solo busca si hay un parámetro
+        if ($buscar) {
+            $consultas = Consultas::where('cedula', 'like', "%$buscar%")
+                ->orWhere('nombre', 'like', "%$buscar%")
+                ->orWhere('apellido', 'like', "%$buscar%")
+                ->get();
+        }
+    } elseif ($persona->rol === 'paciente') {
+        // Lógica de Paciente: Ve sus propias consultas automáticamente
+        $consultas = Consultas::where('cedula', $persona->cedula)->get();
     }
+
+    return view('consultas', compact('consultas', 'buscar', 'persona'));
+}
 }

@@ -3,59 +3,47 @@
 @section('content')
 <main class="main-content">
     <div class="container-welcome">
-      <h1>Historial de Consultas</h1>
+        <h1>Historial de Consultas</h1>
     </div>
-     <div class="container-search">
-        <!--ESTA ES LA BARRA DE BUSQUEDA-->
-        <span class="container-search__icon material-symbols-outlined">
-          search
-        </span>
-        <form method="GET" action="{{ route('consultas') }}" class="form-buscar">
-          @csrf
-        <input
-          id="searchCedula"
-          class="container-search__bar"
-          type="text"
-          name="buscar"
-          placeholder="Ingresar Datos"
-        />
 
-        <button id="btnBuscarPaciente" class="container-search__btn">
-          Buscar
-        </button>
-        </form>
-    </div>
-     {{-- resultado de la busqueda --}}
-    <div id="view-perfil" class="view">
-        {{-- mensaje sino hay busqueda --}}
-       @if (!request('buscar'))
-      <div class="" id="mensajeBuscarPaciente">
-        <span>Por favor, ingresar la cédula del paciente</span>
-      </div>
-      @endif
-     
-        {{-- resultado de la busqueda --}}
-        @foreach ($consultas as $consulta)
-          <div class="card-consulta">
-              <h2>Cedula Paciente: {{ $consulta->cedula }}</h2>
-              <p><strong>Paciente:</strong> {{ $consulta->nombre }} {{ $consulta->apellido }}</p>
-              <p><strong>Doctor:</strong> {{ $consulta->nombre_doctor }} </p>
-              <p><strong>Fecha Consulta:</strong> {{ $consulta->fecha_consulta }}</p>
-              <p><strong>Fecha Nacimiento:</strong> {{ $consulta->fecha_nacimiento }}</p>
+    {{-- MOSTRAR BUSCADOR SOLO A MÉDICOS --}}
+    @if ($persona->rol === 'medico')
+        <div class="container-search">
+            <span class="container-search__icon material-symbols-outlined">search</span>
+            <form method="GET" action="{{ route('consultas') }}" class="form-buscar">
+                <input id="searchCedula" class="container-search__bar" type="text" name="buscar" placeholder="Buscar por cédula o nombre..." value="{{ $buscar }}">
+                <button type="submit" class="container-search__btn">Buscar</button>
+            </form>
+        </div>
 
-              <p><strong>Especialidad:</strong> {{ $consulta->especialidad }}</p>
-              <p><strong>Motivo:</strong> {{ $consulta->motivo }}</p>
-              <p><strong>TA:</strong> {{ $consulta->TA }}</p>
-              <p><strong>Tratamiento:</strong> {{ $consulta->tratamiento }}</p>
-          </div>
-      @endforeach
+        {{-- Mensaje inicial para médico si no ha buscado --}}
+        @if (!$buscar)
+            <div id="mensajeBuscarPaciente" style="text-align: center; margin-top: 20px;">
+                <span>Por favor, ingrese los datos para buscar un historial.</span>
+            </div>
+        @endif
+    @endif
+
+    {{-- LISTADO DE RESULTADOS --}}
+    <div id="view-perfil" class="view" style="margin-top: 20px;">
+        @forelse ($consultas as $consulta)
+            <div class="card-consulta" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 10px; background: #fff;">
+                <h2>Cédula Paciente: {{ $consulta->cedula }}</h2>
+                <p><strong>Paciente:</strong> {{ $consulta->nombre }} {{ $consulta->apellido }}</p>
+                <p><strong>Doctor:</strong> {{ $consulta->nombre_doctor }} </p>
+                <p><strong>Fecha Consulta:</strong> {{ $consulta->fecha_consulta }}</p>
+                <p><strong>Especialidad:</strong> {{ $consulta->especialidad }}</p>
+                <p><strong>Motivo:</strong> {{ $consulta->motivo }}</p>
+                <p><strong>Tratamiento:</strong> {{ $consulta->tratamiento }}</p>
+            </div>
+        @empty
+            {{-- Si se buscó algo y no hay nada, o si el paciente no tiene historial --}}
+            @if ($buscar || $persona->rol === 'paciente')
+                <div class="alert-info" style="text-align: center;">
+                    <span>No se encontraron registros de consultas.</span>
+                </div>
+            @endif
+        @endforelse
     </div>
-    @if ($consultas->isEmpty() )
-      <div class="card-consulta">
-          <h2>No se encontraron resultados para la cédula: {{ request('buscar') }}</h2>
-      </div>
-      @endif
-      
 </main>
-
 @endsection
