@@ -1,0 +1,68 @@
+/* Fondo general del correo */
+body{
+    margin:0;
+    padding:0;
+    background:#f4f6fb;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Contenedor principal */
+.email-wrapper{
+    width:100%;
+    padding:40px 0;
+    display:flex;
+    justify-content:center;
+}
+
+/* Tarjeta del correo */
+.email-card{
+    width:600px;
+    background:#ffffff;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.email-header{
+    background:#2f4ea2;
+    color:white;
+    text-align:center;
+    padding:25px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* Cuerpo */
+.email-body{
+    padding:40px;
+    text-align:center;
+    color:#333;
+}
+
+.email-body h2{
+    margin-top:0;
+}
+
+.email-body p{
+    font-size:16px;
+    line-height:1.6;
+    color:#555;
+}
+
+/* Botón */
+.email-button{
+    display:inline-block;
+    margin-top:20px;
+    padding:14px 28px;
+    background:#2f4ea2;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.email-button:hover{
+    background:#243b7d;
+}

@@ -36,10 +36,11 @@ Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('pe
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
 Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
 //esta ruta es para actualizar los datos de contacto de la vista perfil
+Route::post('/perfil/clave', [PerfilController::class, 'updateClave'])->name('perfil.updateClave');
 Route::post('/perfil/contacto', [PerfilController::class, 'updateContacto'])->name('perfil.updateContacto');
 Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('envio.correo');
 //esta es la nueva ruta para el envio de correo de cambio contraseña
-Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
+//Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
 
 Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');

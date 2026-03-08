@@ -190,7 +190,7 @@
     
     <div class="profile-card">
   <h3 class="profile-card-title">Acciones del Sistema</h3>
-  <form method="POST" action="{{ route('envio.correo.cambio') }}" id="formCambiarClave">
+  <form method="POST" id="formCambiarClave">
     @csrf
     <div class="campo">
       <button type="submit" id="btnCambiarClave">Cambiar Contraseña</button>
@@ -202,10 +202,12 @@
 
   <script>
     window.perfilUpdateUrl = "{{ route('perfil.updateContacto') }}";
+    window.perfilUpdateClaveUrl = "{{ route('perfil.updateClave') }}";
     window.csrfToken = "{{ csrf_token() }}";
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ asset('js/perfil.js') }}"></script>
+  <script src="{{ asset('js/correo.js') }}"></script>
 
 @endsection

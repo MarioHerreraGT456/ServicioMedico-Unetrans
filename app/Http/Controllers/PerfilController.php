@@ -64,40 +64,47 @@ class PerfilController extends Controller
         }
     }
     
-    /*public function store(Request $request)
-    {
-        // Aquí puedes manejar la lógica para actualizar el perfil del usuario
-        // Validar los datos recibidos
+    public function updateContacto(Request $request){
         $request->validate([
-            'foto'              => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'rol'               => 'required|in:paciente,medico'
-            // Agrega validación para la foto si es necesario
+            'correo' => 'nullable|email',
+            'telefono' => 'nullable|string|max:20',
+            'direccion' => 'nullable|string|max:255'
         ]);
 
-       try {
-           $path = null;
-            if ($request->hasFile('foto')) {
-                $path = $request->file('foto')->store('fotos_pacientes', 'public');
-            }
-            if ($request->rol === 'paciente') {
-                Paciente::create([  
-                    'foto' => $path,
-                ]);
+        try {
 
-            } elseif ($request->rol === 'medico') {
-                Medico::create([  
-                    'foto' => $path,
-                ]);
-            }
-            DB::commit();
+            $user = Auth::user();
 
-            return redirect()->route('perfil')->with('success', 'Perfil actualizado correctamente.');
-        } catch (\Exception $e) {
-            return redirect()->route('perfil')->withErrors('Error al actualizar el perfil: ' . $e->getMessage());
+            if($request->correo){
+                $user->correo = $request->correo;
+            }
+
+            if($request->telefono){
+                $user->telefono = $request->telefono;
+            }
+
+            if($request->direccion){
+                $user->direccion = $request->direccion;
+            }
+
+            $user->save();
+
+            return response()->json([
+                'success'=>true,
+                'message'=>'Datos actualizados correctamente'
+            ]);
+
+        } catch (\Exception $e){
+
+            return response()->json([
+                'success'=>false,
+                'message'=>$e->getMessage()
+            ]);
+
         }
-    }*/
+    }
 
-    public function enviarCorreoCambio(Request $request)
+    public function updateClave(Request $request)
     {   
         // 1. Obtenemos al usuario que tiene la sesión iniciada
         $user = Auth::user();
@@ -114,6 +121,10 @@ class PerfilController extends Controller
         Mail::to($user->correo)->send(new CambioCorreoClave($url, $data)); 
 
         // 4. Retornamos la vista de éxito
-        return view('envio-correo-cambio');  
+        //return view('envio-correo-cambio'); 
+         return response()->json([
+            'success' => true,
+            'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' para continuar con el cambio de contraseña.'
+        ]);
     }
 }
