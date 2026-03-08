@@ -17,6 +17,7 @@ class MedicoController extends Controller
 {
     $user = Auth::user();
     $medico = $user->medico;
+
     $buscar = $request->get('buscar');
 
     // Inicializamos como una colección vacía

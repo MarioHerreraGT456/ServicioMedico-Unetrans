@@ -481,17 +481,17 @@ body.menu-open .main-content {
 
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
-.profile-photo-and-name-result{
+.profile-photo-and-name-result {
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 30%;
 }
-.profile-dates-result{
+.profile-dates-result {
     display: flex;
     width: 70%;
     flex-direction: row;
-    gap: 10px;
+    gap: 40px;
 }
 .profile-avatar {
     position: relative;
@@ -564,7 +564,7 @@ body.menu-open .main-content {
 
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
-.profile-card2{
+.profile-card2 {
     padding: 24px;
 }
 .profile-card-title {
@@ -593,7 +593,7 @@ body.menu-open .main-content {
     grid-column: 1 / -1;
 }
 
-.profile-field .value2{
+.profile-field .value2 {
     font-size: 16px;
     font-weight: 500;
     color: #111827;
@@ -657,7 +657,7 @@ body.menu-open .main-content {
     grid-template-columns: 160px 1fr;
     align-items: center;
 }
-.profile-contact-item2{
+.profile-contact-item2 {
     display: flex;
     gap: 10px;
 }
@@ -665,7 +665,7 @@ body.menu-open .main-content {
     font-weight: 600;
     color: #555;
 }
-.contact-label2{
+.contact-label2 {
     width: auto;
 }
 .contact-value {
@@ -674,7 +674,7 @@ body.menu-open .main-content {
     gap: 10px;
     color: #222;
 }
-.form-buscar{
+.form-buscar {
     display: flex;
     gap: 5px;
 }
@@ -1942,6 +1942,18 @@ button.btn-cerrar-overlay:active {
         padding: 14px;
         font-size: 14px;
     }
+    .profile-dates-result,
+    .profile-header-card-result {
+        flex-direction: column;
+    }
+    .contenedor-principal {
+        margin: 0;
+        align-items: center;
+        /* flex-direction: column-reverse; */
+    }
+    .columna-treinta {
+        padding: 15px 30px;
+    }
     .profile-contact-item {
         grid-template-columns: 100px 1fr;
     }
@@ -1949,53 +1961,54 @@ button.btn-cerrar-overlay:active {
 
 /*ESTO ES PARA LA EDICION DE CAMPOS EN PERFIL*/
 /* CONTENEDOR GENERAL DE CONTACTO */
-.profile-contact-list{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
+
+.profile-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 /* CADA CAMPO */
-.profile-contact-item{
-    display:flex;
-    align-items:center;
-    gap:40px;
+.profile-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 40px;
 }
 
 /* ETIQUETA */
-.contact-label{
-    font-weight:600;
-    width:150px;
+.contact-label {
+    font-weight: 600;
+    width: 150px;
 }
 
 /* CONTENEDOR VALOR + ICONO */
-.contact-value{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.contact-value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* INPUT QUE PARECE TEXTO */
-.input-contact{
-    border:none;
-    background:transparent;
-    font-size:15px;
-    color:#333;
-    min-width:220px;
+.input-contact {
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    color: #333;
+    min-width: 220px;
 }
 
 /* CUANDO EDITA */
-.input-contact:focus{
-    outline:none;
-    border-bottom:2px solid #2563eb;
+.input-contact:focus {
+    outline: none;
+    border-bottom: 2px solid #2563eb;
 }
 
 /* ICONO */
-.contact-edit{
-    cursor:pointer;
-    color:#444;
+.contact-edit {
+    cursor: pointer;
+    color: #444;
 }
 
-.contact-edit:hover{
-    color:#2563eb;
+.contact-edit:hover {
+    color: #2563eb;
 }

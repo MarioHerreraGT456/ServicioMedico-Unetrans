@@ -4,13 +4,19 @@
 *::after {
     box-sizing: border-box;
 }
-html,
+
 body {
     margin: 0;
     padding: 0;
     font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
     color: #1e1e1e;
     background: #eef3fb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
 }
 img {
     max-width: 100%;
@@ -381,7 +387,7 @@ img {
     color: #000000;
     text-align: center;
     padding: 18px 10px;
-    margin-top: 40px;
+    flex-shrink: 0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
@@ -443,6 +449,8 @@ textarea {
     /* Un color de fondo solo para que puedas visualizarla */
 
     padding: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .columna-treinta {
