@@ -54,6 +54,7 @@ Route::middleware(ValidateLinkPassword::class)->group(function () {
 Route::middleware(['auth'])->group(function () {
 
  Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
+ Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas');
 
     
     // Rutas para PACIENTE

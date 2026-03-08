@@ -60,4 +60,26 @@ class ConsultasController extends Controller
             return back()->withErrors(['error' => 'Error al registrar médico: ' . $e->getMessage()])->withInput();
         }
     }
+
+    public function index(Request $request)
+{
+    $persona = Auth::user(); // Usuario logueado
+    $buscar = $request->get('buscar');
+    $consultas = collect();
+
+    if ($persona->rol === 'medico') {
+        // Lógica de Médico: Solo busca si hay un parámetro
+        if ($buscar) {
+            $consultas = Consultas::where('cedula', 'like', "%$buscar%")
+                ->orWhere('nombre', 'like', "%$buscar%")
+                ->orWhere('apellido', 'like', "%$buscar%")
+                ->get();
+        }
+    } elseif ($persona->rol === 'paciente') {
+        // Lógica de Paciente: Ve sus propias consultas automáticamente
+        $consultas = Consultas::where('cedula', $persona->cedula)->get();
+    }
+
+    return view('consultas', compact('consultas', 'buscar', 'persona'));
+}
 }

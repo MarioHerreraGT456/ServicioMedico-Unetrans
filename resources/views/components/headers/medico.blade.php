@@ -56,10 +56,12 @@
       </button>
     </a>
 
-    <button class="sidebar__item" data-view="consultas">
-      <span class="material-symbols-outlined">search</span>
-      Consultas
-    </button>
+    <a href="{{ route('consultas') }}" style="text-decoration: none;">
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">search</span>
+          Consultas
+        </button>
+    </a>
 
     <button class="sidebar__item" data-view="historial">
       <span class="material-symbols-outlined">folder</span>
@@ -77,6 +79,7 @@
             Crear Consultas
         </button>
     </a>
+    
 
     @php
         $user = auth()->user();

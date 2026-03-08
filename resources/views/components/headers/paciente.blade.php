@@ -61,6 +61,12 @@
         Perfil
       </button>
     </a>
+    <a href="{{ route('consultas') }}" style="text-decoration: none;">
+      <button class="sidebar__item" data-view="perfil">
+        <span class="material-symbols-outlined">person</span>
+        Consultas
+      </button>
+    </a>
     
     @auth
     @php
