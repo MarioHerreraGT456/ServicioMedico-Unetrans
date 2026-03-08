@@ -7,21 +7,127 @@
 
   <main class="main-content" id="viewsMedico">
 
-    <section id="view-inicio" class="view">
-      <h2>Inicio</h2>
-      <p>Panel de gestión para Médico.</p>
-    </section>
     <!-- ===== INICIO ===== -->
   <section id="view-inicio" class="view">
     <div class="container-welcome">
       <h1>Bienvenido al Servicio Médico</h1>
     </div>
 
+    <div class="container-search">
+        <!--ESTA ES LA BARRA DE BUSQUEDA-->
+        <span class="container-search__icon material-symbols-outlined">
+          search
+        </span>
+        <form method="GET" action="{{ route('medico.dashboard') }}" class="form-buscar">
+          @csrf
+        <input
+          id="searchCedula"
+          class="container-search__bar"
+          type="text"
+          name="buscar"
+          placeholder="Ingresar Datos"
+        />
 
+        <button id="btnBuscarPaciente" class="container-search__btn">
+          Buscar
+        </button>
+        </form>
+    </div>
     <div class="contenedor-principal">
     <div class="columna-setenta">
-        <p>Esta es la columna del 70%.</p>
+        <!--<p>Esta es la columna del 70%.</p>-->
+        <!--AQUI VA ELL PERFIL-->
+      
+      <!--MENSAJE PARA CUANDO NO HAY NADA EN EL BUSCADOR-->
+      <div class="hidden" id="mensajeBuscarPaciente">
+        <span>Por favor, ingresar la cédula del paciente</span>
+      </div>
+      <!--DE AQUI EN ADELANTE EL PERFIL-->
+       <section id="view-perfil" class="view">
+
+    <!-- ===== PERFIL HEADER ===== -->
+    @foreach($resultados as $persona)
+  <div class="profile-header-card-result">
+  <div class="profile-photo-and-name-result">
+    <div class="profile-avatar-result">
+        
+
+          <img 
+            src="{{ $persona->foto ? asset('storage/' . $persona->foto) : asset('img/perfil.jpg') }}" 
+            alt="Foto de perfil"
+            style="width:120px; height:120px; object-fit:cover; border-radius:50%;"
+          >
+
     </div>
+    <div class="profile-main-info-result">
+        <h2 class="profile-name-result">{{ $persona->nombre }} {{ $persona->apellido }}</h2>
+        <!--<span class="profile-role">{{ ucfirst($user->rol) }}</span>-->
+    </div>
+  </div>
+  <div class="profile-dates-result">
+    <!-- DATOS PERSONALES -->
+    <div class="profile-item">
+        <h3 class="profile-card-title">Datos personales</h3>
+        <div class="profile-grid">
+            <div class="profile-field">
+                <span class="label">Cédula</span>
+                <span class="value2" id="perfilCedula">{{ $persona->tipo }}-{{ $persona->cedula }}</span>
+            </div>
+            <div class="profile-field">
+                <span class="label">Fecha de nacimiento</span>
+                <span class="value2" id="perfilFechaNacimiento">
+                    {{ \Carbon\Carbon::parse($persona->fecha_nacimiento)->format('d/m/Y') }}
+                </span>
+            </div>
+            <div class="profile-field">
+                <span class="label">Edad</span>
+                <span class="value2" id="perfilEdad">
+                    {{ $persona->edad }} años
+                </span>
+            </div>
+            <div class="profile-field">
+                <span class="label">Sexo</span>
+                <span class="value2" id="perfilSexo">{{ $persona->sexo }}</span>
+            </div>
+            <div class="profile-field">
+                <span class="label">Estado civil</span>
+                <span class="value2" id="perfilEstadoCivil">{{ $persona->estado_civil }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACTO -->
+    <div class="profile-item">
+        <h3 class="profile-card-title">Contacto</h3>
+        <div class="profile-contact-list">
+            <div class="profile-contact-item2">
+                <span class="contact-label2">Correo</span>
+                <div class="contact-value">
+                    <span id="perfilCorreo">{{ $persona->correo }}</span>
+                </div>
+            </div>
+            <div class="profile-contact-item2">
+                <span class="contact-label2">Teléfono</span>
+                <div class="contact-value">
+                    <span id="perfilTelefono">{{ $persona->telefono }}</span>
+                </div>
+            </div>
+            <div class="profile-contact-item2">
+                <span class="contact-label2">Dirección</span>
+                <div class="contact-value">
+                    <span id="perfilDireccion">{{ $persona->direccion }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+    
+  </section>
+    </div>
+  @endforeach
     <div class="columna-treinta">
       @if (
         $medico->especialidad === 'general' 

@@ -1,3 +1,4 @@
+//tengo que identar esto correctamente
 function editarCampo(id){
 
 let input = document.getElementById(id);

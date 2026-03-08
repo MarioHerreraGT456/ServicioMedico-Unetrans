@@ -466,6 +466,33 @@ body.menu-open .main-content {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
+.profile-header-card-result {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    background: #ffffff;
+    padding: 32px 24px;
+    border-radius: 20px;
+
+    margin: 20px auto 28px;
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+.profile-photo-and-name-result{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+}
+.profile-dates-result{
+    display: flex;
+    width: 70%;
+    flex-direction: row;
+    gap: 10px;
+}
 .profile-avatar {
     position: relative;
     display: inline-block;
@@ -489,9 +516,23 @@ body.menu-open .main-content {
     gap: 6px;
 }
 
+.profile-main-info-result {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
 .profile-name {
     margin: 0;
     font-size: 1.9rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.profile-name-result {
+    margin: 0;
+    font-size: 1.3rem;
     font-weight: 600;
     color: #111827;
 }
@@ -523,7 +564,9 @@ body.menu-open .main-content {
 
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
-
+.profile-card2{
+    padding: 24px;
+}
 .profile-card-title {
     margin: 0 0 18px;
     font-size: 1.25rem;
@@ -534,18 +577,26 @@ body.menu-open .main-content {
 /* ===== GRID DE DATOS ===== */
 .profile-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
 }
 
 .profile-item {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    align-items: center;
+    justify-content: start;
 }
 
 .profile-item.full {
     grid-column: 1 / -1;
+}
+
+.profile-field .value2{
+    font-size: 16px;
+    font-weight: 500;
+    color: #111827;
 }
 
 .profile-item .label {
@@ -606,17 +657,26 @@ body.menu-open .main-content {
     grid-template-columns: 160px 1fr;
     align-items: center;
 }
-
+.profile-contact-item2{
+    display: flex;
+    gap: 10px;
+}
 .contact-label {
     font-weight: 600;
     color: #555;
 }
-
+.contact-label2{
+    width: auto;
+}
 .contact-value {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     color: #222;
+}
+.form-buscar{
+    display: flex;
+    gap: 5px;
 }
 
 .contact-edit {
