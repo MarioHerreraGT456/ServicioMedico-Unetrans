@@ -235,6 +235,9 @@
                 </div>
             @endif
         @endforeach
+
+    {{-- botones
+     --}}
     </section>
     </div>
 

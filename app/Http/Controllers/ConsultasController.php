@@ -60,4 +60,18 @@ class ConsultasController extends Controller
             return back()->withErrors(['error' => 'Error al registrar médico: ' . $e->getMessage()])->withInput();
         }
     }
+
+    public function index(Request $request)
+    {
+        $buscar = $request->get('buscar');
+        $consultas = collect();
+    if ($buscar) {
+        // Si hay búsqueda, filtramos
+        $consultas = Consultas::where('nombre', 'like', "%$buscar%")
+            ->orWhere('apellido', 'like', "%$buscar%")
+            ->orWhere('cedula', 'like', "%$buscar%")
+            ->get();
+    } 
+        return view('consultas', compact('consultas','buscar'));
+    }
 }
