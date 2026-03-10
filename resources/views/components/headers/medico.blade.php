@@ -62,6 +62,12 @@
           Consultas
         </button>
     </a>
+    <a href="{{ route('historias') }}" style="text-decoration: none;">
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">search</span>
+          Historias
+        </button>
+    </a>
 
     <button class="sidebar__item" data-view="historial">
       <span class="material-symbols-outlined">folder</span>
@@ -80,6 +86,12 @@
         </button>
     </a>
     
+    <a href="{{ route('crear-historias') }}" style="text-decoration: none;">
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">person</span>
+            Crear Historias
+        </button>
+    </a>
 
     @php
         $user = auth()->user();

@@ -121,11 +121,11 @@ class AuthController extends Controller
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
-        //return view('envio-correo', ['nombre' => $data['nombre']]);
-         return response()->json([
-            'success' => true,
-            'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'
-        ]);
+        return view('envio-correo', ['nombre' => $data['nombre']]);
+        //  return response()->json([
+        //     'success' => true,
+        //     'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'
+        // ]);
 
     }
 
@@ -223,11 +223,11 @@ class AuthController extends Controller
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
    
-        //return view('envio-correo', ['nombre' => $data['nombre']]);
-        return response()->json([
-            'success' => true,
-            'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'
-        ]);
+        return view('envio-correo', ['nombre' => $data['nombre']]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'
+        // ]);
 
     }
 
