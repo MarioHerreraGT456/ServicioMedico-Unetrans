@@ -22,8 +22,6 @@ return new class extends Migration
         $table->enum('sexo', ['masculino', 'femenino']);
         $table->date('fecha_nacimiento');
         $table->integer('edad');
-         
-     
         $table->string('direccion');
         $table->string('telefono', 11);
        $table->string('motivo_consulta');
