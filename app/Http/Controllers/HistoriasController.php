@@ -26,7 +26,8 @@ class HistoriasController extends Controller
         // Lista de campos comunes en ambas tablas según tus migraciones
         $camposComunes = [
             'id', 'cedula', 'nombre', 'apellido', 'tipo', 'sexo', 
-            'fecha_nacimiento', 'edad', 'correo', 'direccion', 'telefono', 
+            'fecha_nacimiento', 'edad', //'correo', 
+            'direccion', 'telefono', 
             'motivo_consulta', 'enfermedad', 'antecedentes_familiares', 
             'antecedentes_personales', 'radiodiagnóstico', 'tratamiento', 'created_at'
         ];
@@ -82,7 +83,7 @@ class HistoriasController extends Controller
             'apellido'                => 'required|string|max:255',
             'tipo'                    => 'required|in:V,E',
             'cedula'                  => 'required|integer', 
-            'correo'                  => 'required|email',
+            //'correo'                  => 'required|email',
             'telefono'                => 'required|string|max:11',
             'direccion'               => 'required|string',
             'edad'                    => 'required|integer|min:0',

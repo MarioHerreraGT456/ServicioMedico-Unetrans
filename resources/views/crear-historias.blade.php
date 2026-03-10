@@ -165,11 +165,6 @@
         </div>
 
         <div class="campo">
-            <label for="correo_odo">Correo Electrónico:</label>
-            <input type="email" id="correo_odo" name="correo" value="{{ old('correo') }}" required>
-        </div>
-
-        <div class="campo">
             <label for="direccion_odo">Dirección:</label>
             <input type="text" id="direccion_odo" name="direccion" value="{{ old('direccion') }}" required>
         </div>

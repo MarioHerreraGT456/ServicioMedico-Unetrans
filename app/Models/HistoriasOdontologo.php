@@ -26,7 +26,6 @@ class HistoriasOdontologo extends Model
         'sexo',
         'fecha_nacimiento',
         'edad',
-    
         'direccion',
         'telefono',
         'motivo_consulta',
