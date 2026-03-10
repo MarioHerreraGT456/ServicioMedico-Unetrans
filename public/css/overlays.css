@@ -1539,7 +1539,9 @@ button.btn-cerrar-overlay:active {
 #formRegistroPersonal,
 #formRegistroMedico,
 #formCrearFamiliar,
-#formRegistroConsulta {
+#formRegistroConsulta,
+#formGeneral,
+#formOdontologia {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 26px;

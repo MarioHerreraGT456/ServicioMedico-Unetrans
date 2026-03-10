@@ -10,6 +10,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\RequestPasswordController;
 use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 use App\Http\Middleware\ValidateLinkPassword;
+use App\Http\Controllers\HistoriasController;
 
 // --- PÚBLICAS ---
 Route::get('/', function () {
@@ -34,6 +35,7 @@ Route::post('/register', [AuthController::class, 'register']);
 //Ruta para que el paciente pueda agregar a su familiar
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
+Route::post('/crear-historias', [HistoriasController::class, 'store'])->name('historias.store');
 Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store');
 //esta ruta es para actualizar los datos de contacto de la vista perfil
 Route::post('/perfil/clave', [PerfilController::class, 'updateClave'])->name('perfil.updateClave');
@@ -55,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
  Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
  Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas');
+ Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
 
     
     // Rutas para PACIENTE
@@ -72,6 +75,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
+        Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
+        
         
     });
 
