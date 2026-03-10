@@ -27,7 +27,7 @@
     {{-- LISTADO DE RESULTADOS --}}
     <div id="view-perfil" class="view" style="margin-top: 20px;">
         @forelse ($consultas as $consulta)
-            <div class="card-consulta" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 10px; background: #fff;">
+            <div class="card-consulta">
                 <h2>Cédula Paciente: {{ $consulta->cedula }}</h2>
                 <p><strong>Paciente:</strong> {{ $consulta->nombre }} {{ $consulta->apellido }}</p>
                 <p><strong>Doctor:</strong> {{ $consulta->nombre_doctor }} </p>

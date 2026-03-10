@@ -266,7 +266,7 @@
       @endif
       @if($medico->especialidad === 'psiquiatria')
         <section class="container-services__psychiatry">
-        <div class="container-services__container-img">
+        <div class="container-services__img">
           <img src="img/psquitria.jpg"
                alt="psiquiatría"
                class="container-services_img-psychiatry"
@@ -274,6 +274,14 @@
         </div>
       </section>
       @endif
+      <section class="container-services__calendario">
+        <div class="container-services__img">
+          <img src="img/calendario.png"
+               alt="calendario"
+               class="container-services__img-general-medicine"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
     </div>
 </div>
 

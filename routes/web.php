@@ -39,6 +39,7 @@ Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store')
 Route::post('/perfil/clave', [PerfilController::class, 'updateClave'])->name('perfil.updateClave');
 Route::post('/perfil/contacto', [PerfilController::class, 'updateContacto'])->name('perfil.updateContacto');
 Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('envio.correo');
+Route::post('passwordRequest', [RequestPasswordController::class, 'recoveryClave'])->name('passwordRequest.recoveryClave');
 //esta es la nueva ruta para el envio de correo de cambio contraseña
 //Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
 

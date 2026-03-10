@@ -470,7 +470,8 @@ textarea {
 /* Estilos comunes para todas las secciones de servicios */
 .container-services__general-medicine,
 .container-services__dentistry,
-.container-services__psychiatry {
+.container-services__psychiatry,
+.container-services__calendario {
     margin-top: 10px;
     background-color: white;
     border-radius: 12px;
@@ -490,7 +491,8 @@ textarea {
 
 .container-services__general-medicine:hover,
 .container-services__dentistry:hover,
-.container-services__psychiatry:hover {
+.container-services__psychiatry:hover,
+.container-services__calendario:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
@@ -537,6 +539,14 @@ textarea {
     display: block;
 }
 
+.container-services__calendario::after{
+    content: "Calendario";
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 10px;
+    display: block;
+}
 .container-services__psychiatry::after {
     content: "Psiquiatría";
     font-size: 1.3rem;

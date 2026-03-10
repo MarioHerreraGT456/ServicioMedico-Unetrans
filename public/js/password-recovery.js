@@ -1,44 +1,159 @@
-/*******************************************************
- * RECUPERACIÓN DE CONTRASEÑA (CORREO Y CÓDIGO)
- *******************************************************/
 document.addEventListener("DOMContentLoaded", () => {
+
     const formEmail = document.getElementById("formRecuperarEmail");
-    const formCodigo = document.getElementById("formRecuperarCodigo");
-    const paso1 = document.getElementById("recuperarPaso1");
-    const paso2 = document.getElementById("recuperarPaso2");
-    const contadorEl = document.getElementById("contadorTiempo");
+    const contadorTexto = document.getElementById("reenvioCountdown");
+    const contadorBoton = document.getElementById("reenvioCountdownBtn");
     const btnReenviar = document.getElementById("btnReenviar");
 
-    let tiempo = 120;
+    let tiempoInicial = 120;
+    let tiempoRestante = tiempoInicial;
     let intervalo = null;
 
-    function iniciarContador() {
-        tiempo = 120;
-        if (contadorEl) contadorEl.textContent = tiempo;
-        if (btnReenviar) btnReenviar.disabled = true;
+    function actualizarContadores() {
 
-        intervalo = setInterval(() => {
-            tiempo--;
-            if (contadorEl) contadorEl.textContent = tiempo;
+        if (contadorTexto) {
+            contadorTexto.textContent = tiempoRestante;
+        }
 
-            if (tiempo <= 0) {
-                clearInterval(intervalo);
-                if (btnReenviar) btnReenviar.disabled = false;
-                if (contadorEl) contadorEl.textContent = 0;
-            }
-        }, 1000);
+        if (contadorBoton) {
+            contadorBoton.textContent = tiempoRestante;
+        }
+
     }
 
-    formEmail?.addEventListener("submit", (e) => {
-        e.preventDefault();
-        // Simular envío de correo
-        if (paso1) paso1.classList.add("oai-hidden");
-        if (paso2) paso2.classList.remove("oai-hidden");
-        iniciarContador();
-    });
+    function detenerContador() {
 
-    btnReenviar?.addEventListener("click", () => {
-        iniciarContador();
-        console.log("Reenviar código...");
-    });
+        if (intervalo) {
+            clearInterval(intervalo);
+            intervalo = null;
+        }
+
+    }
+
+    function iniciarContador() {
+
+        detenerContador();
+
+        tiempoRestante = tiempoInicial;
+
+        actualizarContadores();
+
+        if (btnReenviar) {
+            btnReenviar.disabled = true;
+        }
+
+        intervalo = setInterval(() => {
+
+            tiempoRestante--;
+
+            actualizarContadores();
+
+            if (tiempoRestante <= 0) {
+
+                detenerContador();
+
+                tiempoRestante = 0;
+
+                actualizarContadores();
+
+                if (btnReenviar) {
+                    btnReenviar.disabled = false;
+                }
+
+            }
+
+        }, 1000);
+
+    }
+
+    if (formEmail) {
+
+        formEmail.addEventListener("submit", async (e) => {
+
+            e.preventDefault();
+
+            const email = document.getElementById("recEmail").value;
+
+            if (!email) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Debes ingresar un correo electrónico"
+                });
+
+                return;
+            }
+
+            try {
+
+                const formData = new FormData();
+                formData.append("email", email);
+
+                const response = await fetch(formEmail.action, {
+
+                    method: "POST",
+
+                    headers: {
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .content
+                    },
+
+                    body: formData
+
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Correo enviado",
+                        text: data.message
+                    });
+
+                    iniciarContador();
+
+                } else {
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.message
+                    });
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No se pudo enviar el correo."
+                });
+
+            }
+
+        });
+
+    }
+
+    if (btnReenviar) {
+
+        btnReenviar.addEventListener("click", () => {
+
+            if (btnReenviar.disabled) return;
+
+            formEmail.dispatchEvent(new Event("submit"));
+
+        });
+
+    }
+
+    actualizarContadores();
+
 });

@@ -15,7 +15,7 @@
       <div class="auth-success oai-hidden" id="msgRecuperarOk"></div>
       <div class="auth-alert oai-hidden" id="msgRecuperarErr"></div>
 
-      <form id="formRecuperarEmail" class="auth-form" method="POST" action="{{ route('passwordRequest') }}">
+      <form id="formRecuperarEmail" class="auth-form" method="POST" action="{{ route('passwordRequest.recoveryClave') }}">
         @csrf
 
         <div class="auth-field">
@@ -37,6 +37,11 @@
         </div>
       </form>
     </section>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/password-recovery.js') }}"></script>
   </div>
 </div>
 @endsection
