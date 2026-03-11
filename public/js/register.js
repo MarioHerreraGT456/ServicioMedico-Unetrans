@@ -1,25 +1,44 @@
-// Puedes colocar este código en tu archivo js/app.js (ya incluido al final)
 document.addEventListener("DOMContentLoaded", function () {
     const categoriaSelect = document.getElementById("categoria");
-    const tipoPacienteDiv = document.querySelector(
-        ".campo:has(#tipo_paciente)",
-    ); // o usa un ID en el contenedor
-    const tipoPacienteSelect = document.getElementById("tipo_paciente");
+    const containerPersonal = document.getElementById(
+        "container_tipo_paciente",
+    );
+    const containerCarrera = document.getElementById("container_carrera");
 
-    function toggleTipoPaciente() {
-        if (categoriaSelect.value === "personal") {
-            tipoPacienteDiv.style.display = "block"; // o elimina clase 'hidden'
-            tipoPacienteSelect.disabled = false;
-        } else {
-            tipoPacienteDiv.style.display = "none";
-            tipoPacienteSelect.disabled = true; // Para que no se envíe su valor al servidor
-            tipoPacienteSelect.value = ""; // Opcional: limpiar selección
+    const selectPersonal = document.getElementById("tipo_paciente");
+    const selectCarrera = document.getElementById("carrera");
+
+    function actualizarFormulario() {
+        // --- PASO 1: EL REINICIO ---
+        // Ocultamos ambos contenedores por defecto
+        containerPersonal.style.display = "none";
+        containerCarrera.style.display = "none";
+
+        // Deshabilitamos ambos selects para que no se envíen datos vacíos
+        selectPersonal.disabled = true;
+        selectCarrera.disabled = true;
+
+        // Limpiamos los valores para que si el usuario vuelve a elegir la opción,
+        // no aparezca lo que seleccionó anteriormente por error
+        // (Opcional: puedes comentar estas dos líneas si prefieres mantener la selección previa)
+        // selectPersonal.value = "";
+        // selectCarrera.value = "";
+
+        // --- PASO 2: LA LÓGICA DE ACTIVACIÓN ---
+        const valor = categoriaSelect.value;
+
+        if (valor === "estudiante") {
+            containerCarrera.style.display = "block";
+            selectCarrera.disabled = false;
+        } else if (valor === "personal") {
+            containerPersonal.style.display = "block";
+            selectPersonal.disabled = false;
         }
     }
 
-    // Ejecutar al cargar por si había un valor antiguo (old)
-    toggleTipoPaciente();
+    // Escuchar el evento de cambio
+    categoriaSelect.addEventListener("change", actualizarFormulario);
 
-    // Escuchar cambios
-    categoriaSelect.addEventListener("change", toggleTipoPaciente);
+    // Ejecutar al cargar la página (por si hay un valor previo en el formulario)
+    actualizarFormulario();
 });
