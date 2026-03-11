@@ -147,12 +147,23 @@
         </select>
       </div> --}}
       <!-- TIPO DE PERSONAL -->
-      <div class="campo">
+      <div class="campo" id="container_tipo_paciente" >
         <label for="tipo_paciente" >Tipo de Personal:</label>
         <select id="tipo_paciente" name="tipo_paciente" class="select-placeholder ">
           <option value="administrativo" {{ old('tipo_paciente') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
           <option value="docente" {{ old('tipo_paciente') == 'docente' ? 'selected' : '' }}>Docente</option>
           <option value="obrero" {{ old('tipo_paciente') == 'obrero' ? 'selected' : '' }}>Obrero</option>
+        </select>
+        @error('tipo_paciente')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+      </div>
+      <div class="campo" id="container_carrera" >
+        <label for="carrera" >Carrera:</label>
+        <select id="carrera" name="carrera" class="select-placeholder ">
+          <option value="informatica" {{ old('carrera') == 'informatica' ? 'selected' : '' }}>Informática</option>
+          <option value="administracion" {{ old('carrera') == 'administracion' ? 'selected' : '' }}>Administración</option>
+          <option value="contabilidad" {{ old('carrera') == 'contabilidad' ? 'selected' : '' }}>Contabilidad</option>
         </select>
         @error('tipo_paciente')
                 <span class="error-message">Dato inválido</span>

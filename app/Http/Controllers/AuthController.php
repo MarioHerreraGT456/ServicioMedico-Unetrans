@@ -47,9 +47,11 @@ class AuthController extends Controller
         if ($request->rol === 'paciente') {
             if ($request->tipo_personal !== null) {
                 $required = ['nombre', 'apellido', 'tipo', 'cedula','cedula2', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_personal', 'tipo_paciente'];
-            } else {
+            } elseif ($request->tipo_personal == null && $request->categoria == 'personal') {
                 $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_paciente'];
 
+            } elseif ($request->categoria == 'estudiante'){
+                $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_paciente', 'carrera'];
             }
   
         } elseif ($request->rol === 'medico') {
@@ -150,8 +152,10 @@ class AuthController extends Controller
            // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             //'estado'            => 'boolean',
             'rol'               => 'required|in:paciente,medico',
-            'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero',
+            'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
             'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
+            'carrera'           => 'nullable|in:informatica,administracion,contabilidad',
+          
         ]);
 
         $url = URL::temporarySignedRoute('password',                
@@ -172,10 +176,13 @@ class AuthController extends Controller
             'rol' => $data['rol'],
             'tipo_personal' => $data['tipo_personal'],
             'tipo_paciente' => $data['tipo_paciente'],
+            
+
        
         ]);
-        } else {
-
+        
+        } elseif ($request->tipo_personal == null && $request->categoria == 'personal') {
+            
             $data = $request->validate([
                 'nombre'            => 'required|string|max:255', 
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
@@ -194,7 +201,8 @@ class AuthController extends Controller
                // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 //'estado'            => 'boolean',
                 'rol'               => 'required|in:paciente,medico',
-                'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero',
+                'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
+                // 'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
             ]);
             
           
@@ -214,11 +222,55 @@ class AuthController extends Controller
                 'fecha_nacimiento'  => $data['fecha_nacimiento'],
                 'rol' => $data['rol'],
                 'tipo_paciente' => $data['tipo_paciente'],
+                // 'carrera' => $data['carrera'],
            
             ]);
-        }
+        } elseif ($request->categoria == 'estudiante') {
+             $data = $request->validate([
+                'nombre'            => 'required|string|max:255', 
+                'apellido'          => 'required|string|max:255',      // <-- NUEVO
+                'tipo'              => 'required|in:V,E',
+                'cedula'            => 'required|integer|unique:personas,cedula',
+                //'password'          => 'required|min:8|confirmed',
+                // Datos específicos de Paciente
+                'fecha_nacimiento'  => 'required|date',
+                'edad'              => 'required|integer|min:0',
+                'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
+                'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
+                'categoria'         => 'required|in:estudiante,personal',
+                'correo'            => 'required|email|unique:personas,correo',
+                'direccion'         => 'required|string',
+                'telefono'          => 'required|string|size:11',
+               // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                //'estado'            => 'boolean',
+                'rol'               => 'required|in:paciente,medico',
+                'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
+                'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
+            ]);
+            
+          $data['tipo_paciente'] = 'estudiante';
+            $url = URL::temporarySignedRoute('password',                
+            now()->addHours(1), [
+                'nombre' => $data['nombre'],
+                'apellido' => $data['apellido'],
+                'tipo' => $data['tipo'],
+                'cedula' => $data['cedula'],
+                'correo' => $data['correo'],
+                'direccion' => $data['direccion'],
+                'telefono' => $data['telefono'],
+                'estado_civil' => $data['estado_civil'],
+                'sexo' => $data['sexo'],
+                'categoria' => $data['categoria'],
+                 'edad' => $data['edad'],
+                'fecha_nacimiento'  => $data['fecha_nacimiento'],
+                'rol' => $data['rol'],
+                'tipo_paciente' => $data['tipo_paciente'],
+                'carrera' => $data['carrera'],
+           
+            ]);
+        }  
       
-       
+    //    dd($data, $url);
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 

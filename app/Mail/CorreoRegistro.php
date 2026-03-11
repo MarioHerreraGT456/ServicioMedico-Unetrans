@@ -17,6 +17,7 @@ class CorreoRegistro extends Mailable
 
     public function __construct($url, $data)
     {
+     
         $this->url = $url;
         $this->data = $data;
         

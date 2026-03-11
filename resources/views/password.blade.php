@@ -139,13 +139,19 @@
             <input type="text" id="tipo_paciente" name="tipo_paciente" value="{{ $tipo_paciente }}" required>
           
         </div>
-         @if (@isset($tipo_personal))
+        @isset($cedula2)
+         @if ($categoria == 'personal')
         <div class="campo hidden">
             <label for="tipo_personal">Tipo de Parentesco:</label>
             <input type="text" id="tipo_personal" name="tipo_personal" value="{{ $tipo_personal }}" required>
         </div>
+        @elseif ($categoria == 'estudiante')
+        <div class="campo hidden">
+            <label for="carrera">Tipo de Parentesco:</label>
+            <input type="text" id="carrera" name="carrera" value="{{ $carrera }}" required>
+        </div>
             @endif
-            
+            @endisset
         @endisset
       <div class="campo ">
             <label for="password">Contraseña:</label>
