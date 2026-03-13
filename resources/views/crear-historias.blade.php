@@ -37,10 +37,18 @@
                         <label for="nombre_gen">Nombre:</label>
                         <input type="text" id="nombre_gen" name="nombre" value="{{ old('nombre') }}" required>
                     </div>
+                    <div class="campo">
+                        <label for="nombre_gen">Segundo Nombre:</label>
+                        <input type="text" id="nombre_gen" name="nombre2" value="{{ old('nombre2') }}" required>
+                    </div>
 
                     <div class="campo">
                         <label for="apellido_gen">Apellido:</label>
                         <input type="text" id="apellido_gen" name="apellido" value="{{ old('apellido') }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="apellido_gen">Segundo Apellido:</label>
+                        <input type="text" id="apellido_gen" name="apellido2" value="{{ old('apellido2') }}" required>
                     </div>
 
                     <div class="campo">
@@ -67,10 +75,7 @@
                         <input type="date" id="fecha_nacimiento_gen" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
                     </div>
 
-                    <div class="campo">
-                        <label for="edad_gen">Edad:</label>
-                        <input type="number" id="edad_gen" name="edad" value="{{ old('edad') }}" required>
-                    </div>
+                 
 
                     <div class="campo">
                         <label for="direccion_gen">Dirección:</label>
@@ -82,6 +87,13 @@
                 <div class="form-column">
                     <div class="campo">
                         <label for="telefono_gen">Teléfono:</label>
+                        <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
                         <input type="tel" id="telefono_gen" name="telefono" value="{{ old('telefono') }}" placeholder="04141234567" pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$" required>
                     </div>
 
@@ -176,10 +188,7 @@
                         <input type="date" id="fecha_nacimiento_odo" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
                     </div>
 
-                    <div class="campo">
-                        <label for="edad_odo">Edad:</label>
-                        <input type="number" id="edad_odo" name="edad" value="{{ old('edad') }}" required>
-                    </div>
+               
 
                     <div class="campo">
                         <label for="correo_odo">Correo Electrónico:</label>
@@ -192,9 +201,26 @@
                     </div>
 
                     <div class="campo">
-                        <label for="telefono_odo">Teléfono:</label>
-                        <input type="tel" id="telefono_odo" name="telefono" value="{{ old('telefono') }}" pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$" required>
-                    </div>
+            <label for="telefono">Teléfono:</label>
+              <div id="campoCedula">
+                <label for="codigo" class="hidden">Codigo:</label>
+                <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
+             <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
+                   placeholder="1234567"
+                   
+                    required>
+                 </div>
+                   @error('telefono')
+                       <span class="error-message">Dato inválido</span>
+                   @enderror
+        </div>
+
                 </div>
 
                 {{-- Columna derecha --}}

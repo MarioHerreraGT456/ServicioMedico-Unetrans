@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
-use App\Models\Personal;
+use App\Models\Familiar;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +35,9 @@ class PersonalController extends Controller
     public function store(Request $request){
          $request->validate([
         'nombre'            => 'required|string|max:255',
+        'nombre2'            => 'required|string|max:255',
         'apellido'          => 'required|string|max:255',
+        'apellido2'          => 'required|string|max:255',
         'tipo'              => 'required|in:V,E',
         // Validamos la cédula del nuevo familiar (cedula2)
         'cedula2'           => 'required|integer|unique:personas,cedula', 
@@ -43,14 +45,15 @@ class PersonalController extends Controller
         'cedula'            => 'required|integer', 
         'password'          => 'required|min:8|confirmed',
         'fecha_nacimiento'  => 'required|date',
-        'edad'              => 'required|integer|min:0',
+     
         'sexo'              => 'required|in:masculino,femenino',
         'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
         'categoria'         => 'required|in:estudiante,personal',
         'correo'            => 'required|email|unique:personas,correo',
         'direccion'         => 'required|string',
-        'telefono'          => 'required|string|size:11',
-        'tipo_personal'     => 'required|in:hijo,casado,hermano,familiar',
+        'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+        'telefono'          => 'required|string|size:7',
+        'tipo_personal'     => 'required|in:hijo,casado,hermano,familiar,tio,sobrino,primo',
         'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero',
     ]);
 
@@ -68,6 +71,8 @@ class PersonalController extends Controller
             // 2. Crear User (Persona) - SOLO con datos de autenticación
             $user = Persona::create([
                 'nombre'   => $request->nombre,
+                'nombre2'   => $request->nombre2,
+                 'apellido2'   => $request->apellido2,
                 'apellido' => $request->apellido,
                 'tipo'     => $request->tipo,
                 // 'cedula'   => $request->Auth::user()->cedula,
@@ -75,9 +80,9 @@ class PersonalController extends Controller
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'sexo' => $request->sexo,
                 'estado_civil' => $request->estado_civil,
-                'edad' => $request->edad,
                 'correo' => $request->correo,
                 'direccion' => $request->direccion,
+                'codigo' => $request->codigo,
                 'telefono' => $request->telefono,
                 'rol'      => 'paciente',
                 'foto'     => $path, // Se actualizará después si se sube una foto
@@ -93,7 +98,7 @@ class PersonalController extends Controller
                 'tipo_paciente'    => $request->tipo_paciente, // <-- NUEVO
                 
             ]);
-            Personal::create([
+            Familiar::create([
                 'cedula' => $request->cedula,
                 'cedula2' => $request->cedula2,
                 'tipo_personal' => $request->tipo_personal,

@@ -21,13 +21,14 @@ class HistoriasOdontologo extends Model
     protected $fillable = [
         'cedula',
         'nombre',
+        'nombre2',
         'apellido',
+        'apellido2',
         'tipo',
         'sexo',
         'fecha_nacimiento',
-        'edad',
-    
         'direccion',
+        'codigo',
         'telefono',
         'motivo_consulta',
         'enfermedad',
@@ -36,9 +37,15 @@ class HistoriasOdontologo extends Model
         'radiodiagnóstico',
         'tratamiento',
         'examen',
-        'diente',
+        'dientes',
         'odontograma',
     ];
+    protected $casts = [
+        'antecedentes_personales' => 'array', 
+        'dientes' => 'array',
+    ];
+
+    
 
     /**
      * Los atributos que deben ser casteados.

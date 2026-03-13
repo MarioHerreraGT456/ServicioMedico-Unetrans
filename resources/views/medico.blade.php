@@ -50,7 +50,7 @@
         @foreach($resultados as $persona)
             @php
                 // Buscamos si la persona actual es un FAMILIAR (está en la columna 'cedula' de la tabla personal)
-                $relacion = \App\Models\Personal::where('cedula2', $persona->cedula)->first();
+                $relacion = \App\Models\Familiar::where('cedula2', $persona->cedula)->first();
             @endphp
 
             @if($relacion)
@@ -87,10 +87,7 @@
                                     <span class="label">Cédula Titular</span>
                                     <span class="value2">{{ $relacion->cedula }}</span>
                                 </div>
-                                <div class="profile-field">
-                                    <span class="label">Edad</span>
-                                    <span class="value2">{{ $persona->edad }} años</span>
-                                </div>
+                               
                             </div>
                         </div>
                         {{-- ... (puedes añadir aquí el bloque de contacto si lo deseas) ... --}}
@@ -106,7 +103,7 @@
                                 <div class="profile-contact-item2">
                                     <span class="contact-label2">Teléfono</span>
                                     <div class="contact-value">
-                                        <span class="value2">{{ $persona->telefono }}</span>
+                                        <span class="value2">{{ $persona->codigo }}{{ $persona->telefono }}</span>
                                     </div>
                                 </div>
                                 <div class="profile-contact-item2">
@@ -142,10 +139,7 @@
                                         <span class="label">Cédula</span>
                                         <span class="value2">{{ $titular->tipo }}-{{ $titular->cedula }}</span>
                                     </div>
-                                    <div class="profile-field">
-                                        <span class="label">Edad</span>
-                                        <span class="value2">{{ $titular->edad }}</span>
-                                    </div>
+                                   
                                     <div class="profile-field">
                                         <span class="label">Estado Civil</span>
                                         <span class="value2">{{ $titular->estado_civil }}</span>  
@@ -164,7 +158,7 @@
                                 <div class="profile-contact-item2">
                                     <span class="contact-label2">Teléfono</span>
                                     <div class="contact-value">
-                                        <span class="value2">{{ $titular->telefono }}</span>
+                                        <span class="value2">{{ $titular->codigo }}{{ $titular->telefono }}</span>
                                     </div>
                                 </div>
                                 <div class="profile-contact-item2">
@@ -187,7 +181,8 @@
                             <img src="{{ $persona->foto ? asset('storage/' . $persona->foto) : asset('img/perfil.jpg') }}" alt="Foto" style="width:120px; height:120px; object-fit:cover; border-radius:50%;">
                         </div>
                         <div class="profile-main-info-result">
-                            <h2 class="profile-name-result">{{ $persona->nombre }} {{ $persona->apellido }}</h2>
+                            <h2 class="profile-name-result">{{ $persona->nombre }} {{ $persona->nombre2 }}</h2>
+                            <h2 class="profile-name-result">{{ $persona->apellido }} {{ $persona->apellido2 }}</h2>
                         </div>
                     </div>
                     <div class="profile-dates-result">
@@ -198,10 +193,7 @@
                                     <span class="label">Cédula</span>
                                     <span class="value2">{{ $persona->tipo }}-{{ $persona->cedula }}</span>
                                 </div>
-                                <div class="profile-field">
-                                    <span class="label">Edad</span>
-                                    <span class="value2">{{ $persona->edad }} años</span>
-                                </div>
+                                
                                 <div class="profile-field">
                                     <span class="label">Estado Civil</span>
                                     <span class="value2">{{ $persona->estado_civil }}</span>
@@ -220,7 +212,7 @@
                                 <div class="profile-contact-item2">
                                     <span class="contact-label2">Teléfono</span>
                                     <div class="contact-value">
-                                        <span class="value2">{{ $persona->telefono }}</span>
+                                        <span class="value2">{{ $persona->codigo }}{{ $persona->telefono }}</span>
                                     </div>
                                 </div>
                                 <div class="profile-contact-item2">
@@ -322,7 +314,7 @@
 
           <div class="campo"><label>Nombres y Apellidos</label><input type="text" name="nombre_apellido"></div>
           <div class="campo"><label>Cédula</label><input type="text" name="cedula"></div>
-          <div class="campo"><label>Edad</label><input type="number" name="edad"></div>
+          
           <div class="campo"><label>Sexo</label>
             <select name="sexo">
               <option value="M">M</option>

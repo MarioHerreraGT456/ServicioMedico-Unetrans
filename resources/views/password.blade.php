@@ -22,11 +22,20 @@
             <input type="text" id="nombre" name="nombre" value="{{ $nombre }}" required>
         
         </div>
-
+ <div class="campo hidden">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ $nombre2 }}" required>
+        
+        </div>
 
       <div class="campo hidden">
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" value="{{ $apellido }}" required>
+           
+        </div>
+        <div class="campo hidden">
+            <label for="apellido2">Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ $apellido2 }}" required>
            
         </div>
       
@@ -75,10 +84,9 @@
 
         <div class="campo hidden">
             <label for="telefono">Teléfono:</label>
+            <input type="hidden" id="codigo" name="codigo" value="{{ $codigo }}">
             <input type="tel" id="telefono" name="telefono" value="{{ $telefono }}"
-                   placeholder="04141234567 o +584141234567"
-                   pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$"
-                   title="Formato válido: +584121234567 o 014121234567" required>
+                    required>
             
         </div>
 
@@ -95,10 +103,7 @@
         </div>
      
  
-        <div class="campo hidden">
-            <label for="edad">Edad:</label>
-            <input type="tell" id="edad" name="edad" value="{{ $edad }}" required>
-        </div>
+    
 
     @isset($cargo)
         <div class="campo hidden">

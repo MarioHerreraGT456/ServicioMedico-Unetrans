@@ -19,12 +19,14 @@ class Historias extends Model
     protected $fillable = [
         'cedula',
         'nombre',
+        'nombre2',
         'apellido',
+        'apellido2',
         'tipo',
         'sexo',
         'fecha_nacimiento',
-        'edad',
         'direccion',
+            'codigo',
         'telefono',
         'motivo_consulta',
         'enfermedad',
@@ -32,6 +34,9 @@ class Historias extends Model
         'antecedentes_personales',
         'radiodiagnóstico',
         'tratamiento',
+    ];
+    protected $casts = [
+        'antecedentes_personales' => 'array', 
     ];
 
     /**

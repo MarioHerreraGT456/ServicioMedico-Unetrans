@@ -28,29 +28,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const inputNumeroHijo = document.getElementById("numero_hijo");
     const inputCedulaNino = document.getElementById("cedula2_nino");
+    const inputFechaNacimiento = document.getElementById("fecha_nacimiento1"); // Lo llamamos desde el document
 
     // Verificamos que los inputs existan en el DOM
-    if (inputNumeroHijo && inputCedulaNino) {
-        // Extraemos los datos del padre guardados en los atributos "data-" del input
+    if (inputNumeroHijo && inputCedulaNino && inputFechaNacimiento) {
         const cedulaPadre = inputNumeroHijo.getAttribute("data-cedula-padre");
-        const anioPadre = inputNumeroHijo.getAttribute("data-anio-padre");
-        console.log("Cédula del padre:", cedulaPadre);
-        console.log("Año del padre:", anioPadre);
+        let dosDigitosAnio = ""; // Variable para guardar los 2 dígitos dinámicamente
 
-        inputNumeroHijo.addEventListener("input", function () {
-            const numHijo = this.value.trim();
+        // 1. Escuchamos cuando el usuario seleccione la fecha de nacimiento
+        inputFechaNacimiento.addEventListener("change", function () {
+            const valorFecha = this.value; // Ej: "2015-08-20"
 
-            if (numHijo !== "") {
-                // Genera la cédula en vivo
-                const cedulaGenerada = `${numHijo}${anioPadre}${cedulaPadre}`;
-                inputCedulaNino.setAttribute("value", cedulaGenerada);
-                inputCedulaNino.value = cedulaGenerada;
+            if (valorFecha) {
+                const anioCompleto = valorFecha.split("-")[0]; // "2015"
+                dosDigitosAnio = anioCompleto.slice(-2); // "15"
 
-                console.log("Cédula generada:", cedulaGenerada);
-            } else {
-                // Si borra el número, vaciamos la cédula
-                inputCedulaNino.value = "";
+                // Llamamos a la función por si el usuario llenó primero la fecha y luego el hijo
+                generarCedula();
             }
         });
+
+        // 2. Función encargada de armar la cédula
+        function generarCedula() {
+            const numHijo = inputNumeroHijo.value.trim();
+
+            // Validamos que exista el número de hijo y que ya se haya seleccionado la fecha
+            if (numHijo !== "" && dosDigitosAnio !== "") {
+                const cedulaGenerada = `${numHijo}${cedulaPadre}${dosDigitosAnio}`;
+                inputCedulaNino.setAttribute("value", cedulaGenerada);
+                inputCedulaNino.value = cedulaGenerada;
+            } else {
+                inputCedulaNino.value = ""; // Vaciamos si falta algún dato
+            }
+        }
+
+        // 3. Escuchamos cuando el usuario escriba el número de hijo
+        inputNumeroHijo.addEventListener("input", generarCedula);
     }
 });

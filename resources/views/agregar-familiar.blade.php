@@ -16,7 +16,7 @@
                         @php
                         $perfil = Auth::user()->perfil();
                         $cedula_titular = Auth::user()->cedula;
-                        $anio_titular = Auth::user()->fecha_nacimiento ? date('y', strtotime(Auth::user()->fecha_nacimiento)) : '00';
+                      
                     @endphp
 
     <div class="histories-wrapper">
@@ -45,21 +45,37 @@
             <form id="formRegistroPersonal" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
                 @csrf
         
-                <div class="campo">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
-                    @error('nombre')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+                 <div class="campo">
+            <label for="nombre">Primer Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+
+
+      <div class="campo">
+            <label for="apellido">Primer Apellido:</label>
+            <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
         
-                <div class="campo">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
-                    @error('apellido')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+      <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
         
                 <div class="campo">
                     <label for="cedula2">Cédula del familiar:</label>
@@ -95,15 +111,25 @@
                 </div>
         
                 <div class="campo">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
-                           placeholder="04141234567 o +584141234567"
-                           pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$"
-                           title="Formato válido: +584121234567 o 014121234567" required>
-                    @error('telefono')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+            <label for="telefono">Teléfono:</label>
+              <div id="campoCedula">
+                <label for="codigo" class="hidden">Codigo:</label>
+                <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
+             <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
+                   placeholder="1234567"
+                   
+                    required>
+                 </div>
+                   @error('telefono')
+                       <span class="error-message">Dato inválido</span>
+                   @enderror
+        </div>
         
                 <div class="campo">
                     <label for="correo">Correo:</label>
@@ -120,14 +146,7 @@
                         <span class="error-message">Dato inválido</span>
                     @enderror
                 </div>
-                <div class="campo">
-                    <label for="edad">Edad:</label>
-                    <input type="tell" id="edad" name="edad" value="{{ old('edad') }}" required>
-                    @error('edad')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
-        
+               
                 <!-- SEXO -->
                 <div class="campo">
                     <label for="selectSexo">Sexo:</label>
@@ -167,6 +186,9 @@
                 <option value="casado" {{ old('tipo_personal') == 'casado' ? 'selected' : '' }}>Esposo(a)</option>
                 <option value="hermano" {{ old('tipo_personal') == 'hermano' ? 'selected' : '' }}>Hermano(a)</option>
                 <option value="familiar" {{ old('tipo_personal') == 'familiar' ? 'selected' : '' }}>Padre o Madre</option>
+                <option value="tio" {{ old('tipo_personal') == 'tio' ? 'selected' : '' }}>Tío(a)</option>
+                <option value="sobrino" {{ old('tipo_personal') == 'sobrino' ? 'selected' : '' }}>Sobrino(a)</option>
+                <option value="primo" {{ old('tipo_personal') == 'primo' ? 'selected' : '' }}>Primo(a)</option>
             </select>
         </div>
         
@@ -200,20 +222,36 @@
                 @csrf
         
                 <div class="campo">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
-                    @error('nombre')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+            <label for="nombre">Primer Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+
+
+      <div class="campo">
+            <label for="apellido">Primer Apellido:</label>
+            <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
         
-                <div class="campo">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
-                    @error('apellido')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+      <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
         
                 <div class="campo">
                     <label for="cedula2">Cédula del familiar:</label>
@@ -249,15 +287,25 @@
                 </div>
         
                 <div class="campo">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
-                           placeholder="04141234567 o +584141234567"
-                           pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$"
-                           title="Formato válido: +584121234567 o 014121234567" required>
-                    @error('telefono')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+            <label for="telefono">Teléfono:</label>
+              <div id="campoCedula">
+                <label for="codigo" class="hidden">Codigo:</label>
+                <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
+            <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
+                   placeholder="1234567"
+                   
+                    required>
+                 </div>
+                   @error('telefono')
+                       <span class="error-message">Dato inválido</span>
+                   @enderror
+        </div>
         
                 <div class="campo">
                     <label for="correo">Correo:</label>
@@ -274,13 +322,7 @@
                         <span class="error-message">Dato inválido</span>
                     @enderror
                 </div>
-                <div class="campo">
-                    <label for="edad">Edad:</label>
-                    <input type="tell" id="edad" name="edad" value="{{ old('edad') }}" required>
-                    @error('edad')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+               
         
                 <!-- SEXO -->
                 <div class="campo">
@@ -312,10 +354,15 @@
                     <input type="hidden" name="tipo_paciente" value="administrativo">
                 </div>
 
-                <div class="campo hidden">
+                <div class="campo">
             <label for="tipo_personal">Tipo de Parentesco:</label>
-            <input type="hidden" name="tipo_personal" value="familiar">
+            <select name="tipo_personal" id="tipo_personal">
     
+                <option value="familiar" {{ old('tipo_personal') == 'familiar' ? 'selected' : '' }}>Padre o Madre</option>
+                <option value="tio" {{ old('tipo_personal') == 'tio' ? 'selected' : '' }}>Tío(a)</option>
+                <option value="sobrino" {{ old('tipo_personal') == 'sobrino' ? 'selected' : '' }}>Sobrino(a)</option>
+
+            </select>
         </div>
         
                 <div class="campo hidden">
@@ -351,19 +398,41 @@
                     <label for="numero_hijo">¿Qué número de hijo es? (Ej: 1, 2...):</label>
                     <input type="tell" id="numero_hijo" min="1" 
            data-cedula-padre="{{ $cedula_titular ?? '' }}" 
-           data-anio-padre="{{ $anio_titular ?? '00' }}" 
+           {{-- data-anio-padre="{{ $anio_titular ?? '00' }}"  --}}
            placeholder="Ingrese el número de hijo" required>
                 </div>
 
-                <div class="campo">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre_nino" name="nombre" required>
-                </div>
+                 <div class="campo">
+            <label for="nombre">Primer Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
 
-                <div class="campo">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido_nino" name="apellido" required>
-                </div>
+
+      <div class="campo">
+            <label for="apellido">Primer Apellido:</label>
+            <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        
+      <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
 
                 <div class="campo">
                     <label for="cedula2">Cédula Generada:</label>
@@ -383,10 +452,26 @@
                     <input type="text" id="direccion" name="direccion" required>
                 </div>
 
-                <div class="campo">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" required>
-                </div>
+               <div class="campo">
+            <label for="telefono">Teléfono:</label>
+              <div id="campoCedula">
+                <label for="codigo" class="hidden">Codigo:</label>
+                <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
+            <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
+                   placeholder="1234567"
+                   
+                    required>
+                 </div>
+                   @error('telefono')
+                       <span class="error-message">Dato inválido</span>
+                   @enderror
+        </div>
 
                 <div class="campo">
                     <label for="correo">Correo:</label>
@@ -395,13 +480,10 @@
 
                 <div class="campo">
                     <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                    <input type="date" id="fecha_nacimiento1" name="fecha_nacimiento" required>
                 </div>
 
-                <div class="campo">
-                    <label for="edad">Edad:</label>
-                    <input type="text" id="edad" name="edad" required>
-                </div>
+            
 
                 <div class="campo">
                     <label for="selectSexo">Sexo:</label>
@@ -422,13 +504,8 @@
 
                 <div class="campo hidden">
                     <label for="tipo_personal">Tipo de Parentesco:</label>
+                    <input type="hidden" name="tipo_personal" value="hijo" class="hidden">
                     
-                    <select id="tipo_personal" name="tipo_personal" required>
-                        <option value="hijo">Hijo(a)</option>
-                        <option value="casado">Esposo(a)</option>
-                        <option value="hermano">Hermano(a)</option>
-                        <option value="familiar">Padre o Madre</option>
-                    </select>
                 </div>
                 <input type="hidden" name="tipo_paciente" value="administrativo">
 

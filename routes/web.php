@@ -11,6 +11,7 @@ use App\Http\Controllers\RequestPasswordController;
 use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 use App\Http\Middleware\ValidateLinkPassword;
 use App\Http\Controllers\HistoriasController;
+use App\Http\Controllers\EspecialController;
 
 // --- PÚBLICAS ---
 Route::get('/', function () {
@@ -57,9 +58,14 @@ Route::middleware(['auth'])->group(function () {
 
  Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
  Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas');
- Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
+ 
 
-    
+    Route::middleware([CheckRole::class . ':especial'])->group(function () {
+        Route::get('/medico', [EspecialController::class, 'index'])->name('especial.dashboard');
+        Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
+        Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
+        Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
+    });
     // Rutas para PACIENTE
     // Usamos tu middleware CheckRole pasando el parámetro 'paciente'
     Route::middleware([CheckRole::class . ':paciente'])->group(function () {
@@ -76,6 +82,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
+        Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
         
         
     });

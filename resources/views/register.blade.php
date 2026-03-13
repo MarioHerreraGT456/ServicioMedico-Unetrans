@@ -17,8 +17,15 @@
       @csrf
       
         <div class="campo">
-            <label for="nombre">Nombre:</label>
+            <label for="nombre">Primer Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
             @error('nombre')
                 <span class="error-message">Dato inválido</span>
             @enderror
@@ -26,8 +33,16 @@
 
 
       <div class="campo">
-            <label for="apellido">Apellido:</label>
+            <label for="apellido">Primer Apellido:</label>
             <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        
+      <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
             @error('apellido')
                 <span class="error-message">Dato inválido</span>
             @enderror
@@ -52,6 +67,7 @@
 
 
        <div class="campo">
+        
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}" required>
             @error('direccion')
@@ -61,13 +77,23 @@
 
         <div class="campo">
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
-                   placeholder="04141234567 o +584141234567"
-                   pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$"
-                   title="Formato válido: +584121234567 o 014121234567" required>
-            @error('telefono')
-                <span class="error-message">Dato inválido</span>
-            @enderror
+              <div id="campoCedula">
+                <label for="codigo" class="hidden">Codigo:</label>
+                <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
+             <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
+                   placeholder="1234567"
+                   
+                    required>
+                 </div>
+                   @error('telefono')
+                       <span class="error-message">Dato inválido</span>
+                   @enderror
         </div>
 
      <div class="campo">
@@ -86,13 +112,6 @@
             @enderror
         </div>
 
-        <div class="campo">
-            <label for="edad">Edad:</label>
-            <input type="tell" id="edad" name="edad" value="{{ old('edad') }}" required>
-            @error('edad')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
 
       <!--SEXO-->
        <div class="campo">

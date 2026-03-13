@@ -535,6 +535,7 @@ body.menu-open .main-content {
     font-size: 1.3rem;
     font-weight: 600;
     color: #111827;
+    text-align: center;
 }
 
 .profile-role {
@@ -1603,6 +1604,10 @@ button.btn-cerrar-overlay:active {
 #tipo {
     width: 55px;
     height: 42px;
+}
+#codigo {
+    height: 42px;
+    width: auto;
 }
 
 /* Elementos que ocupan ambas columnas */

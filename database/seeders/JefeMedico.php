@@ -16,7 +16,9 @@ class JefeMedico extends Seeder
     {
         // Datos del médico jefe
         $nombre = 'Nahara';
+        $nombre2 = 'María';
         $apellido = 'Rivera'; 
+        $apellido2 = 'Fulana'; 
         $cedula = 32540243; // Cédula única, cámbiala si es necesario
         $correo = 'nahararivera20@gmail.com';
         $tipo = 'V'; // Tipo de cédula: V o E
@@ -25,9 +27,11 @@ class JefeMedico extends Seeder
         // 1. Insertar en la tabla personas (para autenticación)
         DB::table('personas')->insert([
             'nombre'      => $nombre,
+            'nombre2'     => $nombre2,
             'apellido'    => $apellido,
+            'apellido2'    => $apellido2,
             'tipo'        => $tipo,
-            'cedula'      => $cedula,
+            'cedula'      => $cedula, 
             'rol'         => 'medico', // Importante: rol 'medico'
             'password'    => Hash::make($password),
             'sesion'      => null,
@@ -35,8 +39,8 @@ class JefeMedico extends Seeder
             'foto'        => null,
             'fecha_nacimiento' => '2006-11-22', // Fecha de nacimiento ficticia
             'direccion'   => 'Los Teques', // Dirección ficticia
-            'telefono'    => '04126335800', // Teléfono ficticio
-            'edad'        => 19, // Edad ficticia
+            'codigo'      => '0412',
+            'telefono'    => '0000000', // Teléfono ficticio
             'correo'      => $correo,
             'sexo'        => 'femenino', // Sexo ficticio
             'created_at'  => Carbon::now(),

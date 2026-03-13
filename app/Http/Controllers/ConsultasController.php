@@ -19,7 +19,9 @@ class ConsultasController extends Controller
     {
         $request->validate([
             'nombre'       => 'required|string|max:255',
+            'nombre2'      => 'required|string|max:255',
             'apellido'     => 'required|string|max:255',
+            'apellido2'    => 'required|string|max:255',
             'tipo'              => 'required|in:V,E',
             'cedula'            => 'required|integer',
             'fecha_nacimiento'  => 'required|date',    
@@ -39,7 +41,9 @@ class ConsultasController extends Controller
           
             Consultas::create([
                 'nombre'       => $request->nombre,
+                'nombre2'      => $request->nombre2,
                 'apellido'     => $request->apellido,
+                'apellido2'    => $request->apellido2,
                 'tipo'         => $request->tipo,
                 'cedula'       => $request->cedula,
                 'fecha_nacimiento'       => $request->fecha_nacimiento,
@@ -70,7 +74,7 @@ class ConsultasController extends Controller
     if ($persona->rol === 'medico') {
         // Lógica de Médico: Solo busca si hay un parámetro
         if ($buscar) {
-            $consultas = Consultas::where('cedula', 'like', "%$buscar%")
+            $consultas = Consultas::where('cedula', 'like', "$buscar%")
                 ->orWhere('nombre', 'like', "%$buscar%")
                 ->orWhere('apellido', 'like', "%$buscar%")
                 ->get();

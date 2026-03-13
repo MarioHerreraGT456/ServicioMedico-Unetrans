@@ -15,17 +15,21 @@ return new class extends Migration
         $table->id(); // Opcional, pero útil como PK interna
         $table->bigInteger('cedula');
         $table->string('nombre');
+        $table->string('nombre2');
         $table->string('apellido');
+
         $table->enum('tipo', ['V', 'E']);
         $table->enum('sexo', ['masculino', 'femenino']);
         $table->date('fecha_nacimiento');
-        $table->integer('edad');
+      
         $table->string('direccion');
-        $table->string('telefono', 11);
+        $table->enum('codigo', ['0414', '0424', '0412', '0416', '0426']);
+        $table->string('telefono', 7);
        $table->string('motivo_consulta');
        $table->string('enfermedad');
        $table->string('antecedentes_familiares');
-       $table->enum('antecedentes_personales', ['hemorragia', 'cardiovascular', 'respiratorio', 'alergias', 'diabetes', 'epilepsia', 'tratamiento_medico', 'medicacion']);
+    //    $table->enum('antecedentes_personales', ['hemorragia', 'cardiovascular', 'respiratorio', 'alergias', 'diabetes', 'epilepsia', 'tratamiento_medico', 'medicacion']);
+       $table->json('antecedentes_personales')->nullable();
        $table->string('radiodiagnóstico');
        $table->string('tratamiento');
      

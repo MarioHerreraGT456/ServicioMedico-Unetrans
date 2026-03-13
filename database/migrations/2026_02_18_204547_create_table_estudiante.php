@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('estudiante', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('cedula');
-            $table->enum('carrera', ['informatica', 'administracion', 'contabilidad'])->nullable();
+            $table->enum('carrera', ['informatica', 'administracion', 'contabilidad', 'medico'])->nullable();
             $table->timestamps();
             $table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');
           
