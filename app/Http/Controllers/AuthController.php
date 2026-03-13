@@ -119,7 +119,7 @@ class AuthController extends Controller
        
         ]);
       
-       
+       //dd($data, $url);
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
@@ -130,6 +130,8 @@ class AuthController extends Controller
         // ]);
 
     }
+
+    
 
     public function emailRegisterPaciente (Request $request) {
         if ($request->tipo_personal !== null) {

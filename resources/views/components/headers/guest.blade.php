@@ -5,7 +5,6 @@
     </div>
     
     <ul class="main-header__list">
-      <li class="main-header__item"> <a class="main-header__link" href="{{ url('/') }}">Sobre Nosotros</a> </li>
       <li class="main-header__item"> <a class="main-header__link" href="{{ route('register') }}">Registrarse</a> </li>
       <li class="main-header__item"> <a class="main-header__link" href="{{ route('login') }}">Iniciar Sesión</a> </li>
     </ul>

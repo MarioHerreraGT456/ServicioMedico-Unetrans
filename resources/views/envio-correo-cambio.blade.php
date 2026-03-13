@@ -7,7 +7,7 @@
     <title>Agregar Contraseña</title>
 </head>
 <body>
-    <h1>Hola </h1>
+    <h1>Hola {{ $nombre }}</h1>
     <p>Se envio correo</p>
    
 </body>
