@@ -10,6 +10,8 @@ class Persona extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'personas';
+
     protected $fillable = [
         'nombre',
         'nombre2',
@@ -17,7 +19,6 @@ class Persona extends Authenticatable
         'apellido2',
         'sexo',
         'fecha_nacimiento',
-      
         'estado_civil',
         'correo',
         'direccion',
