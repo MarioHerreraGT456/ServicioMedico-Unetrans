@@ -78,6 +78,8 @@ class ConsultasController extends Controller
                 ->orWhere('nombre', 'like', "%$buscar%")
                 ->orWhere('apellido', 'like', "%$buscar%")
                 ->orWhere('fecha_consulta', 'like', "%$buscar%")
+                ->orWhere('especialidad', 'like', "%$buscar%")
+                ->orWhere('nombre_doctor', 'like', "%$buscar%")
                 ->get();
         }
     } elseif ($persona->rol === 'paciente') {

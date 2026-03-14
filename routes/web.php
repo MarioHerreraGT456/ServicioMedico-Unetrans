@@ -12,6 +12,7 @@ use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 use App\Http\Middleware\ValidateLinkPassword;
 use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\EspecialController;
+use App\Livewire\BuscadorHC;
 
 // --- PÚBLICAS ---
 Route::get('/', function () {
@@ -81,7 +82,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([CheckRole::class . ':medico'])->group(function () {
         Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
-        Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
+        Route::get('/crear-consultas', [BuscadorHC::class, 'render'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
         Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
         

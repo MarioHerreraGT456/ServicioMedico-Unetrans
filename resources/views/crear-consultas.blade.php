@@ -21,17 +21,57 @@
         {{ session('success') }}
     </div>
 @endif
+    <!--<div class="container-search">
+        <span class="container-search__icon material-symbols-outlined">
+          search
+        </span>
+        <form method="GET" action="{{ route('medico.dashboard') }}" class="form-buscar">
+          @csrf
+        <input
+          id="searchCedula"
+          class="container-search__bar"
+          type="text"
+          name="buscar"
+          placeholder="Ingresar Datos"
+        />
 
+        <button id="btnBuscarPaciente" class="container-search__btn">
+          Buscar
+        </button>
+        </form>
+    </div>-->
     <form id="formRegistroConsulta" method="POST" action="{{ route('consultas.store') }}" enctype="multipart/form-data">
       @csrf
-      
-     <div class="campo">
+
+        <div class="campo">
+            <label for="cedula">Cédula:</label>
+            <div id="campoCedula">
+                <label for="tipo" class="hidden">Tipo:</label>
+                <select name="tipo" id="tipo">
+                    <option value="V">V</option>
+                    <option value="E">E</option>
+                </select>
+                <input id="searchCedula" wire:model.live.debounce.1000ms="buscar" class="container-search__bar" type="text" name="buscar" placeholder="Buscar por cédula o nombre..." value="{{ $buscar }}">
+                
+            </div>
+            <!--@error('cedula')
+                <span class="error-message">Dato inválido</span>
+            @enderror-->
+        </div>
+        @foreach ($resultados as $resultado)
+        <div class="campo">
+            <input type="text" id="cedula" name="cedula" value="{{ $resultado->cedula }}"
+                       title="Formato válido: 12345678" placeholder="12345678" required>
+        </div>
+                    <div class="campo">
                         <label for="nombre_gen">Nombre:</label>
-                        <input type="text" id="nombre_gen" name="nombre" value="{{ old('nombre') }}" required>
+                        <input type="text" id="nombre_gen" name="nombre" value="{{ $resultado->nombre }}" required>
                     </div>
+
+                    @endforeach
                     <div class="campo">
                         <label for="nombre_gen">Segundo Nombre:</label>
-                        <input type="text" id="nombre_gen" name="nombre2" value="{{ old('nombre2') }}" required>
+                        <input type="text" id="nombre_gen" name="nombre2" value="{{ old('nombre2')}}" required>
                     </div>
 
                     <div class="campo">
@@ -42,24 +82,6 @@
                         <label for="apellido_gen">Segundo Apellido:</label>
                         <input type="text" id="apellido_gen" name="apellido2" value="{{ old('apellido2') }}" required>
                     </div>
-
-      
-       <div class="campo">
-            <label for="cedula">Cédula:</label>
-            <div id="campoCedula">
-                <label for="tipo" class="hidden">Tipo:</label>
-                <select name="tipo" id="tipo">
-                    <option value="V">V</option>
-                    <option value="E">E</option>
-                </select>
-                <input type="text" id="cedula" name="cedula" value="{{ old('cedula') }}"
-                       title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
-            </div>
-            @error('cedula')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-           
-        </div>
 
 
        <div class="campo">

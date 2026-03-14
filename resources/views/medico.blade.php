@@ -35,8 +35,7 @@
     </div>
     <div class="contenedor-principal">
     <div class="columna-setenta">
-        <!--<p>Esta es la columna del 70%.</p>-->
-        <!--AQUI VA ELL PERFIL-->
+      <!--<p>Esta es la columna del 70%.</p>-->
       
       <!--MENSAJE PARA CUANDO NO HAY NADA EN EL BUSCADOR-->
       @if (!request('buscar'))

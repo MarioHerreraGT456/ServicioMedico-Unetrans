@@ -64,7 +64,10 @@ class HistoriasController extends Controller
             $filtro = function($q) use ($buscar) {
                 $q->where('cedula', 'like', "{$buscar}%")
                   ->orWhere('nombre', 'like', "%{$buscar}%")
-                  ->orWhere('apellido', 'like', "%{$buscar}%");
+                  ->orWhere('apellido', 'like', "%{$buscar}%")
+                  ->orWhere('fecha_consulta', 'like', "%{$buscar}%")
+                  ->orWhere('especialidad', 'like', "%{$buscar}%")
+                  ->orWhere('nombre_doctor', 'like', "%{$buscar}%");
             };
 
             $consultas = $queryGeneral->where($filtro)
