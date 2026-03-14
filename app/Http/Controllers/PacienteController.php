@@ -39,19 +39,22 @@ class PacienteController extends Controller
             $request->validate([
                 // Datos de Persona (tabla users)
                 'nombre'            => 'required|string|max:255',
+                'nombre2'            => 'required|string|max:255',
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
+                 'apellido2'          => 'required|string|max:255',
                 'tipo'              => 'required|in:V,E',
                 'cedula'            => 'required|integer|unique:personas,cedula',
                 'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
-                'edad'              => 'required|integer|min:0',
+          
                 'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
                 'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
                 'categoria'         => 'required|in:estudiante,personal',
                 'correo'            => 'required|email|unique:personas,correo',
                 'direccion'         => 'required|string',
-                'telefono'          => 'required|string|size:11',
+                'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+                'telefono'          => 'required|string|size:7',
                 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'estado'            => 'boolean',
                 'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero', // <-- NUEVO para paciente
@@ -73,15 +76,18 @@ class PacienteController extends Controller
                 // 2. Crear User (Persona) - SOLO con datos de autenticación
                 $user = Persona::create([
                     'nombre'   => $request->nombre,
+                    'nombre2'   => $request->nombre2,
                     'apellido' => $request->apellido,
+                     'apellido2'   => $request->apellido2,
                     'tipo'     => $request->tipo,
                     'cedula'   => $request->cedula,
                     'fecha_nacimiento' => $request->fecha_nacimiento,
                     'sexo' => $request->sexo,
                     'estado_civil' => $request->estado_civil,
-                    'edad' => $request->edad,
+                    
                     'correo' => $request->correo,
                     'direccion' => $request->direccion,
+                    'codigo' => $request->codigo,
                     'telefono' => $request->telefono,
                     'rol'      => 'paciente',
                     'foto'     => $path, // Se actualizará después si se sube una foto
@@ -110,24 +116,27 @@ class PacienteController extends Controller
         } elseif ($request->categoria == 'estudiante'){
               $request->validate([
                 'nombre'            => 'required|string|max:255', 
+                'nombre2'            => 'required|string|max:255',
+                 'apellido2'          => 'required|string|max:255',
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
                 'tipo'              => 'required|in:V,E',
                 'cedula'            => 'required|integer|unique:personas,cedula',
                 'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
-                'edad'              => 'required|integer|min:0',
+                
                 'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
                 'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
                 'categoria'         => 'required|in:estudiante,personal',
                 'correo'            => 'required|email|unique:personas,correo',
                 'direccion'         => 'required|string',
-                'telefono'          => 'required|string|size:11',
+                'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+                'telefono'          => 'required|string|size:7',
                // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 //'estado'            => 'boolean',
                 'rol'               => 'required|in:paciente,medico',
                 'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
-                'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
+                'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad,medico',
             ]);
             DB::beginTransaction();
              try {
@@ -140,15 +149,18 @@ class PacienteController extends Controller
                 // 2. Crear User (Persona) - SOLO con datos de autenticación
                 $user = Persona::create([
                     'nombre'   => $request->nombre,
+                    'nombre2'   => $request->nombre2,
                     'apellido' => $request->apellido,
+                     'apellido2'   => $request->apellido2,
                     'tipo'     => $request->tipo,
                     'cedula'   => $request->cedula,
                     'fecha_nacimiento' => $request->fecha_nacimiento,
                     'sexo' => $request->sexo,
                     'estado_civil' => $request->estado_civil,
-                    'edad' => $request->edad,
+                  
                     'correo' => $request->correo,
                     'direccion' => $request->direccion,
+                    'codigo' => $request->codigo,
                     'telefono' => $request->telefono,
                     'rol'      => 'paciente',
                     'foto'     => $path, // Se actualizará después si se sube una foto

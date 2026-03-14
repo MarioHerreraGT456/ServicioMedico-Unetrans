@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Personal extends Model
+class Familiar extends Model
 {
     use HasFactory;
 
-    protected $table = 'personal';
+    protected $table = 'familiar';
 
     protected $fillable = [
         'cedula',

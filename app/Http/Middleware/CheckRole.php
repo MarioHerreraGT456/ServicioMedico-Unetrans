@@ -22,7 +22,7 @@ class CheckRole
             if ($user->rol === 'paciente') {
                 return redirect()->route('paciente.dashboard')
                     ->with('error', 'No tienes permiso para acceder a esa área');
-            } elseif ($user->rol === 'medico') {
+            } elseif ($user->rol === 'medico' || $user->rol === 'especial') {
                 return redirect()->route('medico.dashboard')
                     ->with('error', 'No tienes permiso para acceder a esa área');
             }

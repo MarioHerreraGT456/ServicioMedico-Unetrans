@@ -26,7 +26,7 @@
             <p><strong>Sexo:</strong> {{ $consulta->sexo }}</p>
             <p><strong>Dirección:</strong> {{ $consulta->direccion }}</p>
             <p><strong>Fecha de Nacimiento:</strong> {{ $consulta->fecha_nacimiento }}</p>
-            <p><strong>Edad:</strong> {{ $consulta->edad }}</p>
+            
             <p><strong>Enfermedad:</strong> {{ $consulta->enfermedad }}</p>
             <p><strong>Motivo:</strong> {{ $consulta->motivo_consulta }}</p>
             <p><strong>Antecedentes Familiares:</strong> {{ $consulta->antecedentes_familiares }}</p>

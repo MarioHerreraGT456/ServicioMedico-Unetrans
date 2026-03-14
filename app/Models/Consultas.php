@@ -14,7 +14,9 @@ class Consultas extends Model
 
     protected $fillable = [
         'nombre',
+        'nombre2',
         'apellido',
+        'apellido2',
         'tipo',
         'cedula',
         'sexo',

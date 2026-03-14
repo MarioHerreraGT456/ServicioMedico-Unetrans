@@ -50,12 +50,12 @@
       </button>
     </a>
 
-    <a href="{{ route('historias') }}" style="text-decoration: none;">
+    <!--<a href="{{ route('historias') }}" style="text-decoration: none;">
     <button class="sidebar__item" data-view="historias">
       <span class="material-symbols-outlined">folder</span>
       Historias
     </button>
-    </a>
+    </a>-->
 
     <a href="{{ route('perfil') }}" style="text-decoration: none;">
       <button class="sidebar__item" data-view="perfil">

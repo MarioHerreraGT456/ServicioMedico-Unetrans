@@ -45,7 +45,7 @@ class HistoriasController extends Controller
         $queryOdonto = DB::table('historias-odontologo')
             ->select(array_merge($camposComunes, [
                 'examen', 
-                'diente',
+                'dientes',
                 DB::raw("'Odontología' as especialidad")
             ]));
 
@@ -62,7 +62,7 @@ class HistoriasController extends Controller
         } elseif ($persona->rol === 'medico' && $buscar) {
             // El médico solo ve si busca algo
             $filtro = function($q) use ($buscar) {
-                $q->where('cedula', 'like', "%{$buscar}%")
+                $q->where('cedula', 'like', "{$buscar}%")
                   ->orWhere('nombre', 'like', "%{$buscar}%")
                   ->orWhere('apellido', 'like', "%{$buscar}%");
             };
@@ -81,18 +81,20 @@ class HistoriasController extends Controller
         // 1. Definimos las reglas básicas comunes para ambas tablas
         $rules = [
             'nombre'                  => 'required|string|max:255',
+            'nombre2'                  => 'required|string|max:255',
             'apellido'                => 'required|string|max:255',
+            'apellido2'                  => 'required|string|max:255',
             'tipo'                    => 'required|in:V,E',
             'cedula'                  => 'required|integer', 
-            'telefono'                => 'required|string|max:11',
+            'codigo'                    => 'required|in:0412,0414,0416,0424,0426',
+            'telefono'                => 'required|string|max:7',
             'direccion'               => 'required|string',
-            'edad'                    => 'required|integer|min:0',
             'fecha_nacimiento'        => 'required|date',
             'sexo'                    => 'required|in:masculino,femenino',
             'motivo_consulta'         => 'required|string',
             'enfermedad'              => 'required|string',
             'antecedentes_familiares' => 'required|string',
-            'antecedentes_personales' => 'required|in:hemorragia,cardiovascular,respiratorio,alergias,diabetes,epilepsia,tratamiento_medico,medicacion',
+            'antecedentes_personales' => 'required|json',
             'radiodiagnóstico'        => 'required|string',
             'tratamiento'             => 'required|string',
         ];
@@ -101,8 +103,8 @@ class HistoriasController extends Controller
         $esOdontologia = $request->has('diente');
 
         if ($esOdontologia) {
-            $rules['examen'] = 'required|in:labios,lengua,piso_bucal,encias,atm,oclusion';
-            $rules['diente'] = 'required|in:18,17,16,15,14,13,12,11,21,22,23,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38';
+            $rules['examen'] = 'required|json';
+            $rules['dientes'] = 'required|json';
             $rules['odontograma'] = 'nullable|string';
         }
 

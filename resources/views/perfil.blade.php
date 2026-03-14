@@ -67,7 +67,7 @@
           <span class="label">Edad</span>
           <span class="value" id="perfilEdad">
           <!--{{ \Carbon\Carbon::parse($user->fecha_nacimiento)->age }} años-->
-            {{ $user->edad }} años
+          <!--{{ $user->edad }} años-->
           </span>
         </div>
 

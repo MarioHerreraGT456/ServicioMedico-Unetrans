@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('table_consultas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('nombre2');
             $table->string('apellido');
+            $table->string('apellido2');
             $table->enum('tipo', ['V', 'E']);
             $table->bigInteger('cedula'); /*referencia a tabla pacientes*/ 
             $table->enum('sexo', ['Masculino', 'Femenino']);

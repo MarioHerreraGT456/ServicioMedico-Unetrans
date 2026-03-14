@@ -46,16 +46,20 @@ class AuthController extends Controller
     {
         if ($request->rol === 'paciente') {
             if ($request->tipo_personal !== null) {
-                $required = ['nombre', 'apellido', 'tipo', 'cedula','cedula2', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_personal', 'tipo_paciente'];
+                $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula','cedula2', 'correo', 'direccion','codigo', 'telefono', 'estado_civil', 'sexo', 'categoria',  'fecha_nacimiento', 'rol', 'tipo_personal', 'tipo_paciente'];
             } elseif ($request->tipo_personal == null && $request->categoria == 'personal') {
-                $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_paciente'];
+                $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion','codigo', 'telefono', 'estado_civil', 'sexo', 'categoria',  'fecha_nacimiento', 'rol', 'tipo_paciente'];
 
             } elseif ($request->categoria == 'estudiante'){
-                $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'estado_civil', 'sexo', 'categoria', 'edad', 'fecha_nacimiento', 'rol', 'tipo_paciente', 'carrera'];
+                $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion','codigo', 'telefono', 'estado_civil', 'sexo', 'categoria',  'fecha_nacimiento', 'rol', 'tipo_paciente', 'carrera'];
             }
   
         } elseif ($request->rol === 'medico') {
-            $required = ['nombre', 'apellido', 'tipo', 'cedula', 'correo', 'direccion', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil','edad'];
+            $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion', 'codigo', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil'];
+        } elseif ($request->rol === 'especial') {
+            $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion', 'codigo', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil', 'tipo_personal', 'tipo_paciente', 'carrera'];
+        } else {
+            abort(403, "Rol no válido.");
         }
 
         foreach ($required as $field) {
@@ -74,40 +78,49 @@ class AuthController extends Controller
         return $this->emailRegisterPaciente($request);
     } elseif ($request->rol === 'medico') {
         return $this->emailRegisterMedico($request);
-    }
-    }
+    } elseif ($request->rol === 'especial') {
+        return $this->emailRegisterEspecial($request);  
+    }}
 
-    public function emailRegisterMedico (Request $request) {
-
+    public function emailRegisterEspecial (Request $request) {
         $data = $request->validate([
             'nombre'            => 'required|string|max:255', 
-            'apellido'          => 'required|string|max:255',      // <-- NUEVO
+            'nombre2'            => 'required|string|max:255',
+            'apellido'          => 'required|string|max:255',  
+            'apellido2'         => 'required|string|max:255',    // <-- NUEVO
             'tipo'              => 'required|in:V,E',
             'cedula'            => 'required|integer|unique:personas,cedula',
             'fecha_nacimiento'  => 'required|date',
-            'edad'              => 'required|integer|min:0',
+         
             // Datos específicos de Médico
-            'especialidad'      => 'required|in:general,odontologia,psiquiatria', // <-- NUEVO
-            'cargo'            => 'required|in:jefe,asistente',
+           'especialidad' => 'required|in:general,odontologia,psiquiatria,fisiatria,traumatologia', // <-- NUEVO
+            'cargo'            => 'required|in:jefe,asistente,medico',
             'correo'            => 'required|email|unique:personas,correo',
             'direccion'         => 'required|string',
-            'telefono'          => 'required|string|size:11',
+            'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+            'telefono'          => 'required|string|size:7',
             'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
+            'rol'               => 'required|in:paciente,medico, especial',
+             'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
+            'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
+            'carrera'           => 'nullable|in:informatica,administracion,contabilidad',
             
-           
-            'rol'               => 'required|in:paciente,medico',
         ]);
         
       
         $url = URL::temporarySignedRoute('password',                
         now()->addHours(1), [
             'nombre' => $data['nombre'],
+            'nombre2' => $data['nombre2'],
             'apellido' => $data['apellido'],
+            'apellido2' => $data['apellido2'],
             'tipo' => $data['tipo'],
             'cedula' => $data['cedula'],
             'correo' => $data['correo'],
             'direccion' => $data['direccion'],
+            'codigo' => $data['codigo'],
+
             'telefono' => $data['telefono'],
              'especialidad' => $data['especialidad'],
                 'cargo' => $data['cargo'],
@@ -115,7 +128,67 @@ class AuthController extends Controller
              'fecha_nacimiento'  => $data['fecha_nacimiento'],
              'sexo' => $data['sexo'],
              'estado_civil' => $data['estado_civil'],
-             'edad' => $data['edad'],
+             'tipo_personal' => $data['tipo_personal'],
+            'tipo_paciente' => $data['tipo_paciente'],
+            'carrera' => $data['carrera'],
+       
+        ]);
+      
+       
+        
+        Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
+
+        return view('envio-correo', ['nombre' => $data['nombre']]);
+        //  return response()->json([
+        //     'success' => true,
+        //     'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'
+        // ]);
+    }
+    public function emailRegisterMedico (Request $request) {
+
+        $data = $request->validate([
+            'nombre'            => 'required|string|max:255', 
+            'nombre2'            => 'required|string|max:255',
+            'apellido'          => 'required|string|max:255',  
+            'apellido2'         => 'required|string|max:255',    // <-- NUEVO
+            'tipo'              => 'required|in:V,E',
+            'cedula'            => 'required|integer|unique:personas,cedula',
+            'fecha_nacimiento'  => 'required|date',
+         
+            // Datos específicos de Médico
+            'especialidad' => 'required|in:general,odontologia,psiquiatria,fisiatria,traumatologia', // <-- NUEVO
+            'cargo'            => 'required|in:jefe,asistente,medico',
+            'correo'            => 'required|email|unique:personas,correo',
+            'direccion'         => 'required|string',
+            'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+            'telefono'          => 'required|string|size:7',
+            'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
+            'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
+            
+           
+            'rol'               => 'required|in:paciente,medico, especial',
+        ]);
+        
+      
+        $url = URL::temporarySignedRoute('password',                
+        now()->addHours(1), [
+            'nombre' => $data['nombre'],
+            'nombre2' => $data['nombre2'],
+            'apellido' => $data['apellido'],
+            'apellido2' => $data['apellido2'],
+            'tipo' => $data['tipo'],
+            'cedula' => $data['cedula'],
+            'correo' => $data['correo'],
+            'direccion' => $data['direccion'],
+            'codigo' => $data['codigo'],
+
+            'telefono' => $data['telefono'],
+             'especialidad' => $data['especialidad'],
+                'cargo' => $data['cargo'],
+             'rol' => $data['rol'],
+             'fecha_nacimiento'  => $data['fecha_nacimiento'],
+             'sexo' => $data['sexo'],
+             'estado_civil' => $data['estado_civil'],
        
         ]);
       
@@ -137,25 +210,28 @@ class AuthController extends Controller
         if ($request->tipo_personal !== null) {
          $data = $request->validate([
             'nombre'            => 'required|string|max:255', 
-            'apellido'          => 'required|string|max:255',      // <-- NUEVO
+                'nombre2'            => 'required|string|max:255',
+                'apellido'          => 'required|string|max:255',  
+                'apellido2'         => 'required|string|max:255',    // <-- NUEVO     // <-- NUEVO
             'tipo'              => 'required|in:V,E',
             'cedula'            => 'required|integer',
             'cedula2'           => 'required|integer|unique:pacientes,cedula|unique:personas,cedula|different:cedula',
             //'password'          => 'required|min:8|confirmed',
             // Datos específicos de Paciente
             'fecha_nacimiento'  => 'required|date',
-            'edad'              => 'required|integer|min:0',
+          
             'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             'categoria'         => 'required|in:estudiante,personal',
             'correo'            => 'required|email|unique:personas,correo',
             'direccion'         => 'required|string',
-            'telefono'          => 'required|string|size:11',
+            'telefono'          => 'required|string|size:7',
+            'codigo'            => 'required|in:0412,0414,0416,0424,0426',
            // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             //'estado'            => 'boolean',
-            'rol'               => 'required|in:paciente,medico',
+            'rol'               => 'required|in:paciente,medico,especial',
             'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
-            'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
+            'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar,tio,sobrino,primo',
             'carrera'           => 'nullable|in:informatica,administracion,contabilidad',
           
         ]);
@@ -163,17 +239,20 @@ class AuthController extends Controller
         $url = URL::temporarySignedRoute('password',                
         now()->addHours(1), [
             'nombre' => $data['nombre'],
+            'nombre2' => $data['nombre2'],
+             'apellido2' => $data['apellido2'],
             'apellido' => $data['apellido'],
             'tipo' => $data['tipo'],
             'cedula' => $data['cedula'],
             'cedula2' => $data['cedula2'],
             'correo' => $data['correo'],
             'direccion' => $data['direccion'],
+            'codigo' => $data['codigo'],
             'telefono' => $data['telefono'],
             'estado_civil' => $data['estado_civil'],
             'sexo' => $data['sexo'],
             'categoria' => $data['categoria'],
-             'edad' => $data['edad'],
+            
             'fecha_nacimiento'  => $data['fecha_nacimiento'],
             'rol' => $data['rol'],
             'tipo_personal' => $data['tipo_personal'],
@@ -187,22 +266,25 @@ class AuthController extends Controller
             
             $data = $request->validate([
                 'nombre'            => 'required|string|max:255', 
+                'nombre2'           => 'required|string|max:255', 
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
+                'apellido2'          => 'required|string|max:255',
                 'tipo'              => 'required|in:V,E',
                 'cedula'            => 'required|integer|unique:personas,cedula',
                 //'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
-                'edad'              => 'required|integer|min:0',
+            
                 'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
                 'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
                 'categoria'         => 'required|in:estudiante,personal',
                 'correo'            => 'required|email|unique:personas,correo',
                 'direccion'         => 'required|string',
-                'telefono'          => 'required|string|size:11',
+                'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+                'telefono'          => 'required|string|size:7',
                // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 //'estado'            => 'boolean',
-                'rol'               => 'required|in:paciente,medico',
+                'rol'               => 'required|in:paciente,medico,especial',
                 'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
                 // 'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
             ]);
@@ -211,16 +293,18 @@ class AuthController extends Controller
             $url = URL::temporarySignedRoute('password',                
             now()->addHours(1), [
                 'nombre' => $data['nombre'],
+                'nombre2' => $data['nombre2'],
                 'apellido' => $data['apellido'],
+                 'apellido2' => $data['apellido2'],
                 'tipo' => $data['tipo'],
                 'cedula' => $data['cedula'],
                 'correo' => $data['correo'],
                 'direccion' => $data['direccion'],
+                'codigo' => $data['codigo'],
                 'telefono' => $data['telefono'],
                 'estado_civil' => $data['estado_civil'],
                 'sexo' => $data['sexo'],
                 'categoria' => $data['categoria'],
-                 'edad' => $data['edad'],
                 'fecha_nacimiento'  => $data['fecha_nacimiento'],
                 'rol' => $data['rol'],
                 'tipo_paciente' => $data['tipo_paciente'],
@@ -230,22 +314,25 @@ class AuthController extends Controller
         } elseif ($request->categoria == 'estudiante') {
              $data = $request->validate([
                 'nombre'            => 'required|string|max:255', 
+                'nombre2'           => 'required|string|max:255', 
+                    'apellido2'          => 'required|string|max:255',
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
                 'tipo'              => 'required|in:V,E',
                 'cedula'            => 'required|integer|unique:personas,cedula',
                 //'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
-                'edad'              => 'required|integer|min:0',
+              
                 'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
                 'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
                 'categoria'         => 'required|in:estudiante,personal',
                 'correo'            => 'required|email|unique:personas,correo',
                 'direccion'         => 'required|string',
-                'telefono'          => 'required|string|size:11',
+                'codigo'              => 'required|in:0412,0414,0416,0424,0426',
+                'telefono'          => 'required|string|size:7',
                // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 //'estado'            => 'boolean',
-                'rol'               => 'required|in:paciente,medico',
+                'rol'               => 'required|in:paciente,medico,especial',
                 'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
                 'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
             ]);
@@ -254,16 +341,18 @@ class AuthController extends Controller
             $url = URL::temporarySignedRoute('password',                
             now()->addHours(1), [
                 'nombre' => $data['nombre'],
+                'nombre2' => $data['nombre2'],
                 'apellido' => $data['apellido'],
+                 'apellido2' => $data['apellido2'],
                 'tipo' => $data['tipo'],
                 'cedula' => $data['cedula'],
                 'correo' => $data['correo'],
                 'direccion' => $data['direccion'],
+                'codigo' => $data['codigo'],
                 'telefono' => $data['telefono'],
                 'estado_civil' => $data['estado_civil'],
                 'sexo' => $data['sexo'],
                 'categoria' => $data['categoria'],
-                 'edad' => $data['edad'],
                 'fecha_nacimiento'  => $data['fecha_nacimiento'],
                 'rol' => $data['rol'],
                 'tipo_paciente' => $data['tipo_paciente'],
@@ -289,7 +378,7 @@ class AuthController extends Controller
     {
         // 1. Validamos solo el rol para saber a quién llamar
         $request->validate([
-            'rol' => 'required|in:paciente,medico',
+            'rol' => 'required|in:paciente,medico,especial',
         ]);
         
        
@@ -297,8 +386,10 @@ class AuthController extends Controller
         // Usamos app() para instanciar el controlador con sus dependencias
         if ($request->rol === 'paciente') {
             return app(PacienteController::class)->store($request);
-        } elseif ($request->rol === 'medico') {
+        } elseif ($request->rol === 'medico' ) {
             return app(MedicoController::class)->store($request);
+        } elseif ($request->rol === 'especial') {
+            return app(EspecialController::class)->store($request);
         }
     }
 
@@ -321,7 +412,7 @@ class AuthController extends Controller
 
         if ($user->rol === 'paciente') {
             return redirect()->route('paciente.dashboard');
-        } elseif ($user->rol === 'medico') {
+        } elseif ($user->rol === 'medico' || $user->rol === 'especial') {
             return redirect()->route('medico.dashboard');
         }
 

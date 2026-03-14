@@ -2015,101 +2015,6 @@ button.btn-cerrar-overlay:active {
     color: #2563eb;
 }
 
-<<<<<<< HEAD
-
-/* CONTENEDOR */
-
-#view-perfil{
-    max-width: 1000px;
-    margin: auto;
-    padding: 10px;
-}
-
-/* TARJETA */
-
-.card-consulta{
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    transition: all .25s ease;
-}
-
-.card-consulta:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-/* TITULO */
-
-.card-consulta h2{
-    font-size: 20px;
-    margin-bottom: 16px;
-    color: #1e3a5f;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 8px;
-}
-
-/* GRID DE DATOS */
-
-.card-consulta{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 30px;
-}
-
-/* EL TITULO OCUPA TODO */
-
-.card-consulta h2{
-    grid-column: span 2;
-}
-
-/* TEXTOS */
-
-.card-consulta p{
-    margin: 0;
-    font-size: 15px;
-    color: #444;
-}
-
-.card-consulta p strong{
-    color: #1e3a5f;
-}
-
-/* MOTIVO Y TRATAMIENTO MÁS GRANDES */
-
-.card-consulta p:nth-last-child(2),
-.card-consulta p:last-child{
-    grid-column: span 2;
-}
-
-/* ALERTA */
-
-.alert-info{
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    background: #f5f7fb;
-    border: 1px dashed #ccd6e0;
-    color: #3a4b63;
-}
-
-/* ----------- RESPONSIVE ----------- */
-@media (max-width: 600px) {
-    .card-consulta {
-        grid-template-columns: 1fr;
-    }
-    .card-consulta h2 {
-        grid-column: span 1;
-    }
-    .card-consulta p:nth-last-child(2),
-    .card-consulta p:last-child {
-        grid-column: span 1;
-    }
-}  
-=======
 /* Historia odontologica selección de dientes */
 
 .odontograma-container {
@@ -2223,4 +2128,3 @@ button.btn-cerrar-overlay:active {
     transform: scale(1.1);
     box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
 }
->>>>>>> 175f7b07c927d9f879aea802083bc018f3a2da34

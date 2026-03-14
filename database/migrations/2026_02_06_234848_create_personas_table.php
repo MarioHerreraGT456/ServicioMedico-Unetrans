@@ -15,16 +15,18 @@ return new class extends Migration
              $table->id(); // Opcional, pero útil como PK interna
         $table->bigInteger('cedula')->unique();
         $table->string('nombre');
+        $table->string('nombre2');
         $table->string('apellido');
+        $table->string('apellido2');
         $table->enum('tipo', ['V', 'E']);
         $table->enum('sexo', ['masculino', 'femenino']);
         $table->date('fecha_nacimiento');
-        $table->integer('edad');
         $table->enum('estado_civil', ['Casado(a)', 'Soltero(a)', 'Divorciado(a)', 'Viudo(a)']);
         $table->string('correo')->unique();
         $table->string('direccion');
-        $table->string('telefono', 11);
-        $table->enum('rol', ['medico', 'paciente']);
+         $table->enum('codigo', ['0414', '0424', '0412', '0416', '0426']);
+        $table->string('telefono', 7);
+        $table->enum('rol', ['medico', 'paciente', 'especial']);
         $table->string('foto')->nullable();
         $table->boolean('estado')->default(true);
         $table->string('password');  // Solo aquí

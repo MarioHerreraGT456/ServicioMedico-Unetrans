@@ -26,21 +26,23 @@
       @csrf
       
      <div class="campo">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
-            @error('nombre')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
+                        <label for="nombre_gen">Nombre:</label>
+                        <input type="text" id="nombre_gen" name="nombre" value="{{ old('nombre') }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="nombre_gen">Segundo Nombre:</label>
+                        <input type="text" id="nombre_gen" name="nombre2" value="{{ old('nombre2') }}" required>
+                    </div>
 
+                    <div class="campo">
+                        <label for="apellido_gen">Apellido:</label>
+                        <input type="text" id="apellido_gen" name="apellido" value="{{ old('apellido') }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="apellido_gen">Segundo Apellido:</label>
+                        <input type="text" id="apellido_gen" name="apellido2" value="{{ old('apellido2') }}" required>
+                    </div>
 
-      <div class="campo">
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
-            @error('apellido')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
       
        <div class="campo">
             <label for="cedula">Cédula:</label>

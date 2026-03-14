@@ -14,8 +14,8 @@ return new class extends Migration
     Schema::create('medicos', function (Blueprint $table) {
        $table->id();
         $table->bigInteger('cedula')->unique(); // Relación con personas
-        $table->enum('cargo', ['jefe', 'asistente']);
-        $table->enum('especialidad', ['general', 'odontologia', 'psiquiatria']);
+        $table->enum('cargo', ['jefe', 'medico', 'asistente']);
+        $table->enum('especialidad', ['general', 'odontologia', 'psiquiatria', 'fisiatria', 'traumatologia']);
         $table->timestamps();
 
         // Clave foránea

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medico;
 use App\Models\Persona;
-use App\Models\Personal;
+use App\Models\Familiar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class MedicoController extends Controller
 {
     // Vista del Dashboard (protegida)
-    public function index(Request $request) 
+   public function index(Request $request) 
 {
     $user = Auth::user();
     $medico = $user->medico;
@@ -27,8 +27,8 @@ class MedicoController extends Controller
     if ($buscar) {
         if ($medico->categoria === 'personal') {
             // Lógica para categoría personal (búsqueda cruzada)
-            $relaciones = Personal::where('cedula', 'LIKE', "%$buscar%")
-                ->orWhere('cedula2', 'LIKE', "%$buscar%")
+            $relaciones = Familiar::where('cedula', 'LIKE', "$buscar%")
+                ->orWhere('cedula2', 'LIKE', "$buscar%")
                 ->get();
 
             $cedulas = $relaciones->pluck('cedula')
@@ -38,13 +38,13 @@ class MedicoController extends Controller
             $resultados = Persona::whereIn('cedula', $cedulas)
                 ->orWhere('nombre', 'LIKE', "%$buscar%")
                 ->orWhere('apellido', 'LIKE', "%$buscar%")
-                ->orWhere('cedula', 'LIKE', "%$buscar%")
+                ->orWhere('cedula', 'LIKE', "$buscar%")
                 ->get();
         } else {
             // Lógica de búsqueda normal
-            $resultados = Persona::where('cedula', 'LIKE', "%$buscar%")
+            $resultados = Persona::where('cedula', 'LIKE', "$buscar%")
                 ->orWhere('nombre', 'LIKE', "%$buscar%")
-                ->orWhere('apellido', 'LIKE', "%$buscar%")
+                 ->orWhere('apellido', 'LIKE', "%$buscar%")
                 ->get();
         }
     }
@@ -61,20 +61,23 @@ class MedicoController extends Controller
     {
         $request->validate([
             'nombre'       => 'required|string|max:255',
+                'nombre2'       => 'required|string|max:255',
             'apellido'     => 'required|string|max:255',
+             'apellido2'     => 'required|string|max:255',
+      
             'tipo'        => 'required|in:V,E',
             'cedula'       => 'required|integer|unique:personas,cedula',
             'password'     => 'required|min:8|confirmed',
             // Específicos médico
             'correo'       => 'required|email|unique:personas,correo',
-            'telefono'      => 'required|string|size:11',
+            'codigo'        => 'required|in:0412,0414,0416,0424,0426',
+            'telefono'      => 'required|string|size:7',
             'direccion'     => 'required|string',
-            'edad'          => 'required|integer|min:0',
             'fecha_nacimiento' => 'required|date',
             'sexo'          => 'required|in:masculino,femenino',
             'estado_civil'  => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
-            'cargo'        => 'required|in:jefe,asistente',
-            'especialidad' => 'required|in:general,odontologia,psiquiatria',
+            'cargo'        => 'required|in:jefe,asistente,medico',
+            'especialidad' => 'required|in:general,odontologia,psiquiatria,fisiatria,traumatologia',
             'foto'         => 'nullable|image|max:2048',
         ]);
 
@@ -91,15 +94,18 @@ class MedicoController extends Controller
             // 2. Crear User
             $user = Persona::create([
                 'nombre'   => $request->nombre,
+                'nombre2'   => $request->nombre2,
                 'apellido' => $request->apellido,
+                'apellido2'   => $request->apellido2,
                 'tipo'     => $request->tipo,
                 'cedula'   => $request->cedula,
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'sexo' => $request->sexo,
                 'estado_civil' => $request->estado_civil,
-                'edad' => $request->edad,
+          
                 'correo' => $request->correo,
                 'direccion' => $request->direccion,
+                'codigo' => $request->codigo,
                 'telefono' => $request->telefono,
                 'rol'      => 'medico',
                 'foto'     => $path, // Se actualizará después si se sube una foto

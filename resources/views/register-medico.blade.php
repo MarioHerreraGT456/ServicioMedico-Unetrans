@@ -17,8 +17,15 @@
       @csrf
       
         <div class="campo">
-            <label for="nombre">Nombre:</label>
+            <label for="nombre">Primer Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
             @error('nombre')
                 <span class="error-message">Dato inválido</span>
             @enderror
@@ -26,8 +33,16 @@
 
 
       <div class="campo">
-            <label for="apellido">Apellido:</label>
+            <label for="apellido">Primer Apellido:</label>
             <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        
+      <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
             @error('apellido')
                 <span class="error-message">Dato inválido</span>
             @enderror
@@ -59,17 +74,26 @@
             @enderror
         </div>
 
-        <div class="campo">
+       <div class="campo">
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
-                   placeholder="04141234567 o +584141234567"
-                   pattern="^(\+58|0)(414|424|412|422|416|426)[0-9]{7}$"
-                   title="Formato válido: +584121234567 o 014121234567" required>
-            @error('telefono')
-                <span class="error-message">Dato inválido</span>
-            @enderror
+              <div id="campoCedula">
+                <label for="codigo" class="hidden">Codigo:</label>
+                <select name="codigo" id="codigo">
+                    <option value="0414">0414</option>
+                    <option value="0424">0424</option>
+                    <option value="0412">0412</option>
+                    <option value="0416">0416</option>
+                    <option value="0426">0426</option>
+                </select>
+              <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
+                   placeholder="1234567"
+                   
+                    required>
+                 </div>
+                   @error('telefono')
+                       <span class="error-message">Dato inválido</span>
+                   @enderror
         </div>
-
      <div class="campo">
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" value="{{ old('correo') }}" required>
@@ -86,13 +110,7 @@
             @enderror
         </div>
 
-        <div class="campo">
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad" value="{{ old('edad') }}" required>
-            @error('edad')
-                <span class="error-message">Dato inválido</span>
-            @enderror
-        </div>
+        
 
       <!--SEXO-->
        <div class="campo">
@@ -125,6 +143,7 @@
             <select id="cargo" name="cargo" required>
                 <option value="jefe" {{ old('cargo') == 'jefe' ? 'selected' : '' }}>Jefe</option>
                 <option value="asistente" {{ old('cargo') == 'asistente' ? 'selected' : '' }}>Asistente</option>
+                <option value="medico" {{ old('cargo') == 'medico' ? 'selected' : '' }}>Médico</option>
             </select>
             @error('cargo')
                 <span class="error-message">Dato inválido</span>
@@ -137,6 +156,8 @@
                 <option value="general" {{ old('especialidad') == 'medicina general' ? 'selected' : '' }}>Medicina General</option>
                 <option value="odontologia" {{ old('especialidad') == 'odontologia' ? 'selected' : '' }}>Odontología</option>
                 <option value="psiquiatria" {{ old('especialidad') == 'psiquiatria' ? 'selected' : '' }}>Psiquiatría</option>    
+                <option value="fisiatria" {{ old('especialidad') == 'fisiatria' ? 'selected' : '' }}>Fisiatria</option>  
+                <option value="traumatologia" {{ old('especialidad') == 'traumatologia' ? 'selected' : '' }}>Traumatología</option>  
             </select>
             @error('especialidad')
                 <span class="error-message">Dato inválido</span>

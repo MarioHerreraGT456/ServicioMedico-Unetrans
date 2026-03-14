@@ -12,13 +12,16 @@ class Persona extends Authenticatable
 
     protected $fillable = [
         'nombre',
+        'nombre2',
         'apellido',
+        'apellido2',
         'sexo',
         'fecha_nacimiento',
-        'edad',
+      
         'estado_civil',
         'correo',
         'direccion',
+        'codigo',
         'telefono',
         'tipo',
         'cedula',
