@@ -33,6 +33,6 @@ public function estudiante()
 
 public function personal()
 {
-    return $this->hasOne(Personal::class, 'cedula', 'cedula');
+    return $this->hasOne(Familiar::class, 'cedula', 'cedula');
 }
 }
