@@ -460,17 +460,29 @@ textarea {
     padding: 15px;
 }
 /* Contenedor de servicios */
-.container-services {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 30px;
+
+.container-services{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    margin-top:30px;
+}
+
+.container-services > div{
+    width:300px;
+    height:340px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 /* Estilos comunes para todas las secciones de servicios */
 .container-services__general-medicine,
 .container-services__dentistry,
 .container-services__psychiatry,
+.container-services__traumatology,
+.container-services__physiatry,
 .container-services__calendario {
     margin-top: 10px;
     background-color: white;
@@ -492,6 +504,8 @@ textarea {
 .container-services__general-medicine:hover,
 .container-services__dentistry:hover,
 .container-services__psychiatry:hover,
+.container-services__traumatology:hover,
+.container-services__physiatry:hover,  
 .container-services__calendario:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -499,25 +513,20 @@ textarea {
 
 /* Contenedores de imágenes */
 .container-services__img,
-.container-services__container-img {
-    width: 100%;
-    height: 180px;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e9ecef;
-    flex-shrink: 0;
+.container-services__container-img{
+    width:100%;
+    height:180px;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:15px;
 }
 
 .container-services__img img,
-.container-services__container-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+.container-services__container-img img{
+    width:100%;
+    height:110%;
+    object-fit:cover;
+    aspect-ratio:16/9;
 }
 
 /* Títulos de servicios */
@@ -549,6 +558,22 @@ textarea {
 }
 .container-services__psychiatry::after {
     content: "Psiquiatría";
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 10px;
+    display: block;
+}
+.container-services__traumatology::after {
+    content: "Traumatología";
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 10px;
+    display: block;
+}
+.container-services__physiatry::after {
+    content: "Fisiatría";
     font-size: 1.3rem;
     font-weight: bold;
     color: #000000;

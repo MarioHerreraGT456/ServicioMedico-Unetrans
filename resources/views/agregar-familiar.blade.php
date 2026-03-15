@@ -27,7 +27,7 @@
             <div class="selector-options">
                 <button type="button" class="btn-selector" data-target="form-nino">
                     <span class="material-symbols-outlined">child_care</span>
-                    Niño (Menor de 12 años)
+                    Niño (Menor de 10 años)
                 </button>
                 <button type="button" class="btn-selector" data-target="form-tercera">
                     <span class="material-symbols-outlined">elderly</span>

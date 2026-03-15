@@ -82,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
     // Usamos tu middleware CheckRole pasando el parámetro 'medico'
     Route::middleware([CheckRole::class . ':medico'])->group(function () {
         Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
+        Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
+        //para enviar el correo
         Route::post('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');

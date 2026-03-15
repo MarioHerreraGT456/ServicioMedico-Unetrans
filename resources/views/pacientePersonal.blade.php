@@ -73,6 +73,24 @@
                onerror="this.style.display='none'"/>
         </div>
       </section>
+
+      <section class="container-services__traumatology">
+        <div class="container-services__container-img">
+          <img src="img/traumatologia.jpg"
+               alt="traumatología"
+               class="container-services_img-traumatology"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
+
+      <section class="container-services__physiatry">
+         <div class="container-services__container-img">
+          <img src="img/fisiatria.jpg"
+               alt="fisiatría"
+               class="container-services_img-physiatry"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
     </div>
   </section>
 

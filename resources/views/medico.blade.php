@@ -265,14 +265,26 @@
         </div>
       </section>
       @endif
-      <section class="container-services__calendario">
+      @if($medico->especialidad === 'traumatologia')
+      <section class="container-services__traumatology">
         <div class="container-services__img">
-          <img src="img/calendario.png"
-               alt="calendario"
-               class="container-services__img-general-medicine"
+          <img src="img/traumatologia.jpg"
+               alt="traumatología"
+               class="container-services_img-traumatology"
                onerror="this.style.display='none'"/>
         </div>
       </section>
+      @endif
+      @if($medico->especialidad === 'fisiatria')
+      <section class="container-services__physiatry">
+        <div class="container-services__img">
+          <img src="img/fisiatria.jpg"
+               alt="fisiatría"
+               class="container-services_img-physiatry"
+               onerror="this.style.display='none'"/>
+        </div>
+      </section>
+      @endif
     </div>
 </div>
 
