@@ -42,7 +42,7 @@
         
         <div id="form-ninguno" class="view hidden">
           
-            <form id="formRegistroPersonal" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
+            <form id="formRegistroPersonal" method="POST" enctype="multipart/form-data">
                 @csrf
         
                  <div class="campo">
@@ -218,7 +218,7 @@
         <div id="form-tercera" class="view hidden">
             
             <h2 class="title-form">Registrar Persona Tercera Edad</h2>
-             <form id="formRegistroPersonal" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
+             <form id="formRegistroPersonal" method="POST" enctype="multipart/form-data">
                 @csrf
         
                 <div class="campo">
@@ -521,6 +521,14 @@
     </button>
         </div>
           @endauth
+
+    <script>
+        window.envioCorreoUrl = "{{ route('envio.correo') }}";
+        window.csrfToken = "{{ csrf_token() }}";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/correoRegisterFamiliar.js') }}"></script>
 
     <script src="js/app.js" defer></script>
     <script src="js/selector-familiar.js" defer></script>

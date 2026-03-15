@@ -38,7 +38,11 @@
             <label for="apellido">Primer Apellido:</label>
             <input type="text" name="apellido" wire:model="apellido" required>
         </div>
-            
+        
+        <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" name="apellido2" wire:model="apellido2" required>
+        </div>
      
 
        <div class="campo">

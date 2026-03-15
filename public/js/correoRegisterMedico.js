@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const form = document.getElementById("formCambiarClave");
+    const form = document.getElementById("formRegistroMedico");
 
     if (!form) return;
 
@@ -8,36 +8,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
         e.preventDefault();
 
+        const formData = new FormData(form);
+
+        // ALERT DE CARGA
         Swal.fire({
-            title: "Procesando",
+            title: "Creando cuenta",
             html: `
                 <div class="loader-container">
                     <div class="loader"></div>
-                    <p>Enviando enlace para crear tu nueva contraseña...</p>
+                    <p>Enviando enlace para crear tu contraseña...</p>
                 </div>
             `,
             showConfirmButton: false,
             allowOutsideClick: false
         });
 
-        fetch(window.perfilUpdateClaveUrl, {
+        fetch(window.envioCorreoUrl, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 "X-CSRF-TOKEN": window.csrfToken
             },
-            body: JSON.stringify({})
+            body: formData
         })
         .then(res => res.json())
         .then(data => {
+
+            Swal.close();
 
             if (data.success) {
 
                 Swal.fire({
                     icon: "success",
                     title: "Correo enviado",
-                    text: data.message
+                    text: data.message,
+                    confirmButtonText: "OK"
                 });
+
+                form.reset();
 
             } else {
 
@@ -51,13 +58,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         })
         .catch(error => {
+
             console.error(error);
 
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Ocurrió un problema al procesar la solicitud."
+                text: "Ocurrió un problema al procesar el registro."
             });
+
         });
 
     });

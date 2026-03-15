@@ -13,7 +13,7 @@
     </div>
     @endif
 
-    <form id="formRegistroPaciente" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
+    <form id="formRegistroPaciente" method="POST" enctype="multipart/form-data">
       @csrf
       
         <div class="campo">
@@ -188,7 +188,7 @@
                 <span class="error-message">Dato inválido</span>
             @enderror
       </div>
-{{-- 
+<!--{{-- 
       <div class="campo">
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
@@ -203,7 +203,7 @@
             @error('password_confirmation')
                 <span class="error-message">Dato inválido</span>
             @enderror
-        </div> --}}
+        </div> --}} -->
 
         <div class="hidden">
             <label for="rol" class="hidden">Rol:</label>
@@ -218,5 +218,14 @@
 
 
     </form>
-    <script src="js/register.js" defer></script>
+    
+    <script>
+    window.envioCorreoUrl = "{{ route('envio.correo') }}";
+    window.csrfToken = "{{ csrf_token() }}";
+    </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ asset('js/register.js') }}"></script>
+  <script src="{{ asset('js/correoRegister.js') }}"></script>
+  
     @endsection

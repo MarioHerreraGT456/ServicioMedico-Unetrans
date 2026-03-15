@@ -13,7 +13,7 @@
     </div>
     @endif
 
-    <form id="formRegistroMedico" method="POST" action="{{ route('envio.correo') }}" enctype="multipart/form-data">
+    <form id="formRegistroMedico" method="POST" enctype="multipart/form-data">
       @csrf
       
         <div class="campo">
@@ -193,5 +193,12 @@
 
 
     </form>
-    <script src="js/app.js" defer></script>
+    
+    <script>
+    window.envioCorreoUrl = "{{ route('envio.correo') }}";
+    window.csrfToken = "{{ csrf_token() }}";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/correoRegisterMedico.js') }}"></script>
     @endsection

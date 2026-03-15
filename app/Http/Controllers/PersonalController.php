@@ -72,7 +72,7 @@ class PersonalController extends Controller
             $user = Persona::create([
                 'nombre'   => $request->nombre,
                 'nombre2'   => $request->nombre2,
-                 'apellido2'   => $request->apellido2,
+                'apellido2'   => $request->apellido2,
                 'apellido' => $request->apellido,
                 'tipo'     => $request->tipo,
                 // 'cedula'   => $request->Auth::user()->cedula,
