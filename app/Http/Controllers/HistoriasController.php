@@ -20,64 +20,60 @@ class HistoriasController extends Controller
     }
 
    public function index(Request $request)
-    {
-        $persona = Auth::user();
-        $buscar = $request->input('buscar');
-        $consultas = collect();
+{
+    $buscar = $request->input('buscar');
+    $esOdontologia = $request->has('dientes');
 
-        // Lista de campos comunes en ambas tablas según tus migraciones
-        $camposComunes = [
-            'id', 'cedula', 'nombre', 'apellido', 'tipo', 'sexo', 
-            'fecha_nacimiento', 'edad', 'direccion', 'telefono', 
-            'motivo_consulta', 'enfermedad', 'antecedentes_familiares', 
-            'antecedentes_personales', 'radiodiagnóstico', 'tratamiento', 'created_at'
-        ];
-
-        // 1. Consulta Historias Generales (Agregamos NULL en los campos que NO tiene)
-        $queryGeneral = DB::table('historias')
-            ->select(array_merge($camposComunes, [
-                DB::raw('NULL as examen'), // No existe en historias
-                DB::raw('NULL as diente'), // No existe en historias
-                DB::raw("'General' as especialidad")
-            ]));
-
-        // 2. Consulta Historias Odontología (Tiene todos los campos)
-        $queryOdonto = DB::table('historias-odontologo')
-            ->select(array_merge($camposComunes, [
-                'examen', 
-                'dientes',
-                DB::raw("'Odontología' as especialidad")
-            ]));
-
-        // --- LÓGICA DE FILTRADO ---
-
-        if ($persona->rol === 'paciente') {
-            // El paciente ve lo suyo automáticamente
-            $cedula = $persona->cedula;
-            $consultas = $queryGeneral->where('cedula', $cedula)
-                ->union($queryOdonto->where('cedula', $cedula))
-                ->orderBy('created_at', 'desc')
-                ->get();
-
-        } elseif ($persona->rol === 'medico' && $buscar) {
-            // El médico solo ve si busca algo
-            $filtro = function($q) use ($buscar) {
-                $q->where('cedula', 'like', "{$buscar}%")
-                  ->orWhere('nombre', 'like', "%{$buscar}%")
-                  ->orWhere('apellido', 'like', "%{$buscar}%")
-                  ->orWhere('fecha_consulta', 'like', "%{$buscar}%")
-                  ->orWhere('especialidad', 'like', "%{$buscar}%")
-                  ->orWhere('nombre_doctor', 'like', "%{$buscar}%");
-            };
-
-            $consultas = $queryGeneral->where($filtro)
-                ->union($queryOdonto->where($filtro))
-                ->orderBy('created_at', 'desc')
-                ->get();
-        }
-
-        return view('historias', compact('consultas', 'buscar', 'persona'));
+    if (empty($buscar)) {
+        return view('historias', ['consultas' => collect(), 'buscar' => $buscar]);
     }
+    
+    // 1. Definir campos comunes (asegúrate de que coincidan exactamente con la DB)
+    $camposComunes = [
+        'id', 'cedula', 'nombre', 'apellido', 'tipo', 'sexo', 
+        'fecha_nacimiento', 'direccion', 'telefono', 
+        'motivo_consulta', 'enfermedad', 'antecedentes_familiares', 
+        'antecedentes_personales', 'radiodiagnóstico', 'tratamiento', 'created_at'
+    ];
+
+    // 2. Query para Historias Generales
+    $queryGeneral = DB::table('historias')
+        ->select(array_merge($camposComunes, [
+            DB::raw('NULL as examen'), 
+            DB::raw('NULL as diente'), // Alias unificado
+            DB::raw("'General' as especialidad")
+        ]));
+
+    // 3. Query para Historias Odontología
+    $queryOdonto = DB::table('historias-odontologo')
+        ->select(array_merge($camposComunes, [
+            'examen', 
+            'dientes as diente', // Renombramos 'dientes' a 'diente' para el UNION
+            DB::raw("'Odontología' as especialidad")
+        ]));
+
+    // 4. Aplicar filtros si existe una búsqueda
+    if ($buscar) {
+        $filtro = function($q) use ($buscar) {
+            $q->where('cedula', 'like', "{$buscar}%")
+              ->orWhere('nombre', 'like', "%{$buscar}%")
+              ->orWhere('apellido', 'like', "%{$buscar}%")
+              ->orWhere('motivo_consulta', 'like', "%{$buscar}%")
+              ->orWhere('tratamiento', 'like', "%{$buscar}%");
+        };
+
+        $queryGeneral->where($filtro);
+        $queryOdonto->where($filtro);
+    }
+
+    // 5. Unir y ejecutar (Ordenamos por la fecha de creación más reciente)
+    $consultas = $queryGeneral
+        ->union($queryOdonto)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('historias', compact('consultas', 'buscar'));
+}
     
     public function store(Request $request)
     {
@@ -103,15 +99,18 @@ class HistoriasController extends Controller
         ];
 
         // 2. Validación para Odontología: Si viene el campo 'diente', hacemos obligatorios sus campos
-        $esOdontologia = $request->has('diente');
+        $esOdontologia = $request->has('dientes');
 
         if ($esOdontologia) {
-            $rules['examen'] = 'required|json';
+            $rules['examen'] = 'required|in:labios,lengua,piso_bucal,encias,atm,oclusion';
             $rules['dientes'] = 'required|json';
             $rules['odontograma'] = 'nullable|string';
         }
 
         $validatedData = $request->validate($rules);
+
+        // dd($validatedData, $esOdontologia);
+        
 
         DB::beginTransaction();
 

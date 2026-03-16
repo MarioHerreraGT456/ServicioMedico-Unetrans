@@ -78,13 +78,14 @@
       <span class="material-symbols-outlined">bar_chart</span>
       Estadísticas
     </button>
-
+   @if ($perfil->cargo === 'asistente')
     <a href="{{ route('crear-consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>
             Crear Consultas
         </button>
     </a>
+    @endif
     
     <a href="{{ route('crear-historias') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
