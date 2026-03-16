@@ -381,20 +381,62 @@ img {
 }
 
 /* Footer */
-.main-footer,
-.footer {
-    background: #fff;
-    color: #000000;
-    text-align: center;
-    padding: 18px 10px;
-    flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+.footer{
+    background:#ffffff;
+    color:#000000;
+    padding:40px 20px 15px;
+    margin-top:50px;
 }
 
-.copyright {
-    margin: 0;
-    font-size: 13px;
-    opacity: 0.95;
+.footer-container{
+    display:flex;
+    justify-content:space-between;
+    max-width:1200px;
+    margin:auto;
+    flex-wrap:wrap;
+    gap:30px;
+}
+
+.footer h4,
+.footer h5{
+    margin-bottom:10px;
+}
+
+.footer a:hover{
+    color:white;
+}
+
+.footer-social{
+    text-align:center;
+}
+
+.instagram-circle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);
+    color:white;
+    font-size:20px;
+    text-decoration:none;
+    margin-top:8px;
+    transition:0.3s;
+}
+
+.instagram-circle:hover{
+    transform:scale(1.15);
+    box-shadow:0 6px 12px rgba(0,0,0,0.25);
+}
+
+.footer-copyright{
+    width:100%;
+    text-align:center;
+    margin-top:20px;
+    padding-top:10px;
+    font-size:14px;
+    color:#000000;
 }
 
 /* Botones y mejoras visuales */
@@ -1511,3 +1553,17 @@ textarea {
         padding: 12px 15px;
     }
 }
+@media (max-width: 480px) {
+    .medical-history {
+        grid-template-columns: 1fr;
+    }
+
+    .user-query__container-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .user-query__user h1 {
+        font-size: 24px;
+    }
+}   

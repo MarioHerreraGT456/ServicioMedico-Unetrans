@@ -118,45 +118,40 @@
         <input type="text" id="especialidad" name="especialidad" value="{{ $especialidad }}">
     </div>
 @endisset
-      <!--SEXO-->
+      
        <div class="campo hidden">
             <label for="sexo">Sexo:</label>
             <input type="text" id="sexo" name="sexo" value="{{ $sexo }}" required>  
         </div>
 
-        <!-- ESTADO CIVIL -->
+        
         <div class="campo hidden">
             <label for="selectEstadoCivil">Estado Civil:</label>
             <input type="text" id="estado_civil" name="estado_civil" value="{{ $estado_civil }}" required>
             
             
         </div>
+        <!--EL PROBLEMA ESTABA EN ESTE ISSET NO SE PORQUEEE-->
+       @isset($categoria)
+        <div class="campo hidden">
+            <input type="hidden" id="categoria" name="categoria" value="{{ $categoria }}">
+        </div>
 
-        <!-- TIPO DE PACIENTE -->
-        @isset($categoria)
         <div class="campo hidden">
-            <label for="categoria">Tipo de Paciente:</label>
-            <input type="text" id="categoria" name="categoria" value="{{ $categoria }}" required>
-          
+            <input type="hidden" id="tipo_paciente" name="tipo_paciente" value="{{ $tipo_paciente }}">
         </div>
+
+        @if ($categoria == 'personal' && isset($tipo_personal))
         <div class="campo hidden">
-            <label for="tipo_paciente">Tipo de Personal:</label>
-            <input type="text" id="tipo_paciente" name="tipo_paciente" value="{{ $tipo_paciente }}" required>
-          
+            <input type="hidden" id="tipo_personal" name="tipo_personal" value="{{ $tipo_personal }}">
         </div>
-        @isset($cedula2)
-         @if ($categoria == 'personal')
+        @endif
+
+        @if ($categoria == 'estudiante' && isset($carrera))
         <div class="campo hidden">
-            <label for="tipo_personal">Tipo de Parentesco:</label>
-            <input type="text" id="tipo_personal" name="tipo_personal" value="{{ $tipo_personal }}" required>
+            <input type="hidden" id="carrera" name="carrera" value="{{ $carrera }}">
         </div>
-        @elseif ($categoria == 'estudiante')
-        <div class="campo hidden">
-            <label for="carrera">Tipo de Parentesco:</label>
-            <input type="text" id="carrera" name="carrera" value="{{ $carrera }}" required>
-        </div>
-            @endif
-            @endisset
+        @endif
         @endisset
       <div class="campo ">
             <label for="password">Contraseña:</label>
@@ -190,3 +185,4 @@
     <script src="js/app.js" defer></script>
 
 @endsection
+
