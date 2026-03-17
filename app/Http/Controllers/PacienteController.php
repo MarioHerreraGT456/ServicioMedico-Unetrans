@@ -136,7 +136,8 @@ class PacienteController extends Controller
                 //'estado'            => 'boolean',
                 'rol'               => 'required|in:paciente,medico',
                 'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
-                'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad,medico',
+                'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
+                electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales',
             ]);
             DB::beginTransaction();
              try {
