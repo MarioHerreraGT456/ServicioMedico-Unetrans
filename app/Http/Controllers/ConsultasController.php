@@ -27,7 +27,7 @@ class ConsultasController extends Controller
             'fecha_nacimiento'  => 'required|date',    
             'fecha_consulta'    => 'required|date',               // <-- NUEVO
             'nombre_doctor'     => 'required|string|max:255',
-            'especialidad'      => 'required|in:general,odontologia,psiquiatria',
+            'especialidad'      => 'required|in:general,odontologia,psiquiatria,fisiatria,traumatologia',
             'TA'              => 'required|integer',
             'motivo'       => 'required|string|max:255',
             'tratamiento'       => 'required|string|max:255',

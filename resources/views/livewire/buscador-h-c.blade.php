@@ -100,6 +100,9 @@
                 <option value="general" {{ old('especialidad') == 'general' ? 'selected' : '' }}>Medicina General</option>
                 <option value="odontologia" {{ old('especialidad') == 'odontologia' ? 'selected' : '' }}>Odontología</option>
                 <option value="psiquiatria" {{ old('especialidad') == 'psiquiatria' ? 'selected' : '' }}>Psiquiatría</option>    
+                 <option value="fisiatria" {{ old('especialidad') == 'fisiatria' ? 'selected' : '' }}>Fisiatria</option>  
+                <option value="traumatologia" {{ old('especialidad') == 'traumatologia' ? 'selected' : '' }}>Traumatología</option>  
+
             </select>
             @error('especialidad')
                 <span class="error-message">Dato inválido</span>

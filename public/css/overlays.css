@@ -2092,6 +2092,7 @@ button.btn-cerrar-overlay:active {
     width: 100%;
     max-width: 1200px;
     margin-top: 2rem;
+    transform: scale(0.8);
 }
 
 .submit-button {
@@ -2216,6 +2217,7 @@ button.btn-cerrar-overlay:active {
         margin: 0 !important;
         padding: 10px !important;
         top: -20%;
+        border: none;
     }
 
     .btn-diente {
@@ -2245,8 +2247,10 @@ button.btn-cerrar-overlay:active {
 }
 
 .card-consulta {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+    margin: 20px;
+    padding: 50px;
+    border: 1px solid gray;
+    border-radius: 25px;
 }
 
 .card-consulta h3 {
@@ -2278,6 +2282,7 @@ button.btn-cerrar-overlay:active {
     margin: 0 !important;
     padding: 5mm 5mm 5mm 5mm !important;
     box-sizing: border-box !important;
+    transform: scale(0.9);
     background: white !important;
     position: relative !important;
     top: 0 !important;
