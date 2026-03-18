@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     const form = document.getElementById("formRegistroPaciente");
 
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
-
         e.preventDefault();
 
         const formData = new FormData(form);
@@ -20,55 +18,64 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `,
             showConfirmButton: false,
-            allowOutsideClick: false
+            allowOutsideClick: false,
         });
 
         fetch(window.envioCorreoUrl, {
             method: "POST",
             headers: {
-                "X-CSRF-TOKEN": window.csrfToken
+                "X-CSRF-TOKEN": window.csrfToken,
+                Accept: "application/json", // ¡Importante para recibir los errores de validación!
             },
-            body: formData
+            body: formData,
         })
-        .then(res => res.json())
-        .then(data => {
+            .then(async (res) => {
+                const data = await res.json();
 
-            Swal.close();
+                // Si Laravel detecta que la cédula (u otro dato) es inválido, devuelve un estado 422
+                if (!res.ok) {
+                    if (res.status === 422 && data.errors) {
+                        // Extraemos el primer mensaje de error de la lista (ej. el de la cédula)
+                        const primerError = Object.values(data.errors)[0][0];
+                        throw new Error(primerError);
+                    }
+                    // Si es otro tipo de error (ej. error 500)
+                    throw new Error(
+                        data.message || "Ocurrió un error inesperado.",
+                    );
+                }
 
-            if (data.success) {
+                return data;
+            })
+            .then((data) => {
+                Swal.close();
 
-                Swal.fire({
-                    icon: "success",
-                    title: "Correo enviado",
-                    text: data.message,
-                    confirmButtonText: "OK"
-                });
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Correo enviado",
+                        text: data.message,
+                        confirmButtonText: "OK",
+                    });
+                    form.reset();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.message,
+                    });
+                }
+            })
+            .catch((error) => {
+                Swal.close();
+                console.error(error);
 
-                form.reset();
-
-            } else {
-
+                // Aquí mostramos el mensaje exacto que configuraste en ExisteEnUniversidad.php
                 Swal.fire({
                     icon: "error",
-                    title: "Error",
-                    text: data.message
+                    title: "Atención",
+                    text: error.message,
                 });
-
-            }
-
-        })
-        .catch(error => {
-
-            console.error(error);
-
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ocurrió un problema al procesar el registro."
             });
-
-        });
-
     });
-
 });

@@ -271,7 +271,7 @@ function exportarPDF(idElemento, cedulaPaciente) {
 
         // Opciones del PDF: márgenes mínimos para que el contenido empiece arriba
         const opciones = {
-            margin: [0, 0, 0, 0], // [top, right, bottom, left] en mm (puedes poner 0 si quieres)
+            margin: [0, 0, 0, 0], // [top, right, bottom, left] en mm
             filename: `Historia_${cedulaPaciente}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: {
@@ -303,7 +303,7 @@ function exportarPDF(idElemento, cedulaPaciente) {
                 overlay.style.display = 'none';
                 alert('Hubo un error al generar el PDF. Intenta de nuevo.');
             });
-    }, 1000); // 50ms es suficiente para que el overlay aparezca
+    }, 1000); 
 }
 </script>
 @endsection

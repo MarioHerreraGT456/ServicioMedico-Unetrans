@@ -195,7 +195,7 @@
     </form>
     
     <script>
-    window.envioCorreoUrl = "{{ route('envio.correo') }}";
+     window.envioCorreoUrl = "{{ route('register.submit') }}";
     window.csrfToken = "{{ csrf_token() }}";
     </script>
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
+use App\Rules\ExisteEnUniversidad; 
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
@@ -74,6 +75,7 @@ class AuthController extends Controller
     }
 
     public function enviarCorreo (Request $request) {
+    
         if ($request->rol === 'paciente') {
         return $this->emailRegisterPaciente($request);
     } elseif ($request->rol === 'medico') {
@@ -89,7 +91,7 @@ class AuthController extends Controller
             'apellido'          => 'required|string|max:255',  
             'apellido2'         => 'required|string|max:255',    // <-- NUEVO
             'tipo'              => 'required|in:V,E',
-            'cedula'            => 'required|integer|unique:personas,cedula',
+            'cedula' => ['required', 'integer', 'unique:personas,cedula', new ExisteEnUniversidad],
             'fecha_nacimiento'  => 'required|date',
          
             // Datos específicos de Médico
@@ -101,7 +103,7 @@ class AuthController extends Controller
             'telefono'          => 'required|string|size:7',
             'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
-            'rol'               => 'required|in:paciente,medico, especial',
+            'rol'               => 'required|in:paciente,medico,especial',
              'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
             'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
             'carrera'           => 'nullable|in:informatica,administracion,contabilidad',
@@ -152,7 +154,7 @@ class AuthController extends Controller
             'apellido'          => 'required|string|max:255',  
             'apellido2'         => 'required|string|max:255',    // <-- NUEVO
             'tipo'              => 'required|in:V,E',
-            'cedula'            => 'required|integer|unique:personas,cedula',
+            'cedula' => ['required', 'integer', 'unique:personas,cedula', new ExisteEnUniversidad],
             'fecha_nacimiento'  => 'required|date',
          
             // Datos específicos de Médico
@@ -166,7 +168,7 @@ class AuthController extends Controller
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             
            
-            'rol'               => 'required|in:paciente,medico, especial',
+            'rol'               => 'required|in:paciente,medico,especial',
         ]);
         
       
@@ -268,7 +270,7 @@ class AuthController extends Controller
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
                 'apellido2'          => 'required|string|max:255',
                 'tipo'              => 'required|in:V,E',
-                'cedula'            => 'required|integer|unique:personas,cedula',
+                'cedula' => ['required', 'integer', 'unique:personas,cedula', new ExisteEnUniversidad],
                 //'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
@@ -316,7 +318,7 @@ class AuthController extends Controller
                     'apellido2'          => 'required|string|max:255',
                 'apellido'          => 'required|string|max:255',      // <-- NUEVO
                 'tipo'              => 'required|in:V,E',
-                'cedula'            => 'required|integer|unique:personas,cedula',
+                'cedula' => ['required', 'integer', 'unique:personas,cedula', new ExisteEnUniversidad],
                 //'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
@@ -359,12 +361,12 @@ class AuthController extends Controller
             ]);
         }  
       
-    //    dd($data, $url);
+    // dd($data, $url);
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
    
-        //return view('envio-correo', ['nombre' => $data['nombre']]);
+        // return view('envio-correo', ['nombre' => $data['nombre']]);
         return response()->json([
              'success' => true,
              'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'

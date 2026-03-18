@@ -13,7 +13,7 @@
     </div>
     @endif
 
-    <form id="formRegistroPaciente" method="POST" enctype="multipart/form-data">
+    <form id="formRegistroPaciente" method="POST"  enctype="multipart/form-data">
       @csrf
       
         <div class="campo">
@@ -220,7 +220,7 @@
     </form>
     
     <script>
-    window.envioCorreoUrl = "{{ route('envio.correo') }}";
+    window.envioCorreoUrl = "{{ route('register.submit') }}";
     window.csrfToken = "{{ csrf_token() }}";
     </script>
 

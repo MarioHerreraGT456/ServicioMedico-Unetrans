@@ -34,7 +34,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Registro (Unificado en la URL, dividido en lógica)
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 // Esta ruta recibe el POST, AuthController decide si llama a Paciente o Medico
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'enviarCorreo'])->name('register.submit');
 //Ruta para que el paciente pueda agregar a su familiar
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
