@@ -180,9 +180,19 @@
       <div class="campo" id="container_carrera" >
         <label for="carrera" >Carrera:</label>
         <select id="carrera" name="carrera" class="select-placeholder ">
-          <option value="informatica" {{ old('carrera') == 'informatica' ? 'selected' : '' }}>Informática</option>
-          <option value="administracion" {{ old('carrera') == 'administracion' ? 'selected' : '' }}>Administración</option>
-          <option value="contabilidad" {{ old('carrera') == 'contabilidad' ? 'selected' : '' }}>Contabilidad</option>
+          <option value="administracion" {{ old('carrera') == 'administracion' ? 'selected' : '' }}>PNF en Administración</option>
+          <option value="contaduria" {{ old('carrera') == 'contaduria' ? 'selected' : '' }}>PNF en Contaduría</option>
+          <option value="civil" {{ old('carrera') == 'civil' ? 'selected' : '' }}>PNF en Construcción Civil</option>
+          <option value="electricidad" {{ old('carrera') == 'electricidad' ? 'selected' : '' }}>PNF en Electricidad</option>
+          <option value="electronica" {{ old('carrera') == 'electronica' ? 'selected' : '' }}>PNF en Electrónica</option>
+          <option value="instrumentos" {{ old('carrera') == 'instrumentos' ? 'selected' : '' }}>PNF en Instrumentos y Control</option>
+          <option value="informatica" {{ old('carrera') == 'informatica' ? 'selected' : '' }}>PNF en Informática</option>
+          <option value="industrial" {{ old('carrera') == 'industrial' ? 'selected' : '' }}>PNF en Mecánica Industrial</option>
+          <option value="automotriz" {{ old('carrera') == 'automotriz' ? 'selected' : '' }}>PNF en Mecánica Automotriz</option>
+          <option value="pq" {{ old('carrera') == 'pq' ? 'selected' : '' }}>PNF en Procesos Químicos</option>
+          <option value="calidad" {{ old('carrera') == 'calidad' ? 'selected' : '' }}>PNF en Sist. de Calidad y Ambiente</option>
+          <option value="quimica" {{ old('carrera') == 'quimica' ? 'selected' : '' }}>PNF en Química</option>
+          <option value="materiales" {{ old('carrera') == 'materiales' ? 'selected' : '' }}>PNF en Materiales Industriales</option>
         </select>
         @error('tipo_paciente')
                 <span class="error-message">Dato inválido</span>

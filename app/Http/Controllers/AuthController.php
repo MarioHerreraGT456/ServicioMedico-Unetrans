@@ -106,7 +106,8 @@ class AuthController extends Controller
             'rol'               => 'required|in:paciente,medico,especial',
              'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
             'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
-            'carrera'           => 'nullable|in:informatica,administracion,contabilidad',
+            'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
+            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimicamateriales',
             
         ]);
         
@@ -232,7 +233,8 @@ class AuthController extends Controller
             'rol'               => 'required|in:paciente,medico,especial',
             'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
             'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar,tio,sobrino,primo',
-            'carrera'           => 'nullable|in:informatica,administracion,contabilidad',
+            'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
+            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimicamateriales',
           
         ]);
 
@@ -334,7 +336,8 @@ class AuthController extends Controller
                 //'estado'            => 'boolean',
                 'rol'               => 'required|in:paciente,medico,especial',
                 'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
-                'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
+                'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
+                electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimicamateriales',
             ]);
             
           $data['tipo_paciente'] = 'estudiante';
