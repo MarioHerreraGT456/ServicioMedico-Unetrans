@@ -20,7 +20,7 @@
       <li class="main-header__item">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="main-header__link" style="background: none; border: none; cursor: pointer;">Cerrar Sesión</button>
+            <button  type="button" class="main-header__link btn-logout" style="background: none; border: none; cursor: pointer;">Cerrar Sesión</button>
         </form>
       </li>
     </ul>
@@ -111,7 +111,7 @@
     <div class="mobile-only" style="width: 100%; margin-top: 10px;">
         <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
             @csrf
-            <button type="submit" class="sidebar__item" style="width: 100%; justify-content: flex-start; background: #ffebee; color: #c62828;">
+            <button type="button" class="btn-logout"style="width: 100%; justify-content: flex-start; background: #ffebee; color: #c62828;">
                 <span class="material-symbols-outlined">logout</span>
                 Cerrar Sesión
             </button>
@@ -120,3 +120,5 @@
 
   </nav>
 </aside>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/cerrarSesion.js') }}"></script>
