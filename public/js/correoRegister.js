@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
                     icon: "error",
                     title: "Atención",
-                    text: error.message,
+                    text: "Usted no hace parte de la comunidad universitaria, por favor, verifique su cédula de identidad.",
                 });
             });
     });

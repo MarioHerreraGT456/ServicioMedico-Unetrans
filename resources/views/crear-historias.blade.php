@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="title-form">Crear Historia</h2>
+    <!--<h2 class="title-form">Crear Historia</h2>-->
     
     @if ($errors->any())
         <div class="alert alert-danger">

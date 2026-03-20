@@ -14,9 +14,7 @@
         100% { transform: rotate(360deg); }
     }
 </style>
-    <div class="container-welcome">
-        <h1>Historial de Consultas</h1>
-    </div>
+    <h1 class="hero__title-historial">Historial de Consultas</h1>
 
     {{-- MOSTRAR BUSCADOR SOLO A MÉDICOS --}}
     @if ($persona->rol === 'medico')

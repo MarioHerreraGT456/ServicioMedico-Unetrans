@@ -14,8 +14,8 @@
   border-radius: 18px;
   overflow:hidden;
   box-shadow: 0 12px 40px rgba(0,0,0,.10);
-  display:grid;
-  grid-template-columns: 0.85fr 1.25fr;
+  margin: auto;
+  display:flex;
 }
 
 @media (max-width: 900px){
@@ -24,12 +24,13 @@
 }
 
 .auth-side{
-    background: linear-gradient(135deg, #2f6fb7, #1f4f8f);
+  background: linear-gradient(135deg, #2f6fb7, #1f4f8f);
   color:#fff;
   padding: 44px 34px;
   display:flex;
   flex-direction:column;
   justify-content:center;
+  flex: 0.8;
 }
 
 .auth-side h2{
@@ -46,8 +47,18 @@
   opacity:.92;
 }
 
-.auth-main{
-  padding: 44px 40px;
+.auth-main {
+  width: 100%;
+  flex: 1.6;
+  padding: 10px 25px; 
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.auth-main form {
+  width: 100%;
+  max-width: 100%;
 }
 
 .auth-title{
@@ -67,14 +78,22 @@
   width:100%;
 }
 
-.auth-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px 14px;
+.auth-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-@media (max-width: 560px){
-  .auth-grid{ grid-template-columns: 1fr; }
+.auth-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
 }
 
 .auth-field{
@@ -113,21 +132,6 @@
   flex-direction:column;
   gap: 12px;
 }
-
-.auth-btn{
-  width:100%;
-  padding: 14px 16px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 15px;
-  cursor:pointer;
-  background:#2563eb;
-  color:#fff;
-  transition: .18s ease;
-}
-
-.auth-btn:hover{ filter: brightness(.95); }
 
 .auth-inline-links{
   display:flex;
@@ -189,3 +193,85 @@
   font-weight:900;
   color:#0f172a;
 }
+
+/*ESTO ES PARA SOLUCIONAR UN PROBLEMA CON LOS ESTILOS DEL REGISTER*/
+
+/* ===== CADA CAMPO ===== */
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px; 
+  width: 100%;
+}
+
+/* ===== LABEL ===== */
+.campo label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+/* ===== INPUTS Y SELECT ===== */
+.campo input,
+.campo select {
+  width: 100%;
+  height: 45px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background: #f9fafc;
+}
+
+/* ===== EFECTO FOCUS ===== */
+.campo input:focus,
+.campo select:focus {
+  border-color: #1c3d6d;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(28,61,109,0.1);
+  outline: none;
+}
+
+/* ===== INPUTS DOBLES (cedula / telefono) ===== */
+#campoCedula {
+  display: flex;
+  gap: 10px;
+}
+
+#campoCedula select {
+  width: 80px;
+}
+
+#campoCedula input {
+  flex: 1;
+}
+
+/* ===== BOTON ===== */
+.auth-btn {
+  width: 100%;
+  height: 50px;
+  background: #1c3d6d;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* HOVER */
+.auth-btn:hover {
+  background: #163257;
+  transform: translateY(-1px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (min-width: 600px) {
+  form {
+    padding: 20px 30px; 
+  }
+}
+
