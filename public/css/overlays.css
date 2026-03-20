@@ -2370,3 +2370,83 @@ button.btn-cerrar-overlay:active {
 .card-consulta.pdf-export .btn-download {
     display: none !important;
 }
+
+/* =========================
+   TARJETAS CONSULTAS / HISTORIAS
+========================= */
+
+.card-consulta {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+/* Hover elegante */
+.card-consulta:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* TÍTULO */
+.card-consulta h2,
+.card-consulta h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c3d6d;
+    margin-bottom: 12px;
+}
+
+/* TEXTOS */
+.card-consulta p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+}
+
+/* LABELS (strong) */
+.card-consulta p strong {
+    color: #0b0135;
+    font-weight: 600;
+}
+
+/* GRID PARA HISTORIAS */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 20px;
+    margin-bottom: 10px;
+}
+
+/* BOTÓN DESCARGAR */
+.btn-download {
+    margin-top: 15px;
+    padding: 10px 16px;
+    background: #1c3d6d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-download:hover {
+    background: #2952a3;
+    transform: scale(1.03);
+}
+
+/* ALERTA SIN RESULTADOS */
+.alert-info {
+    background: #f4f8ff;
+    border: 1px solid #dbe7ff;
+    color: #1c3d6d;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+}

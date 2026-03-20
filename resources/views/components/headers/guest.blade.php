@@ -1,7 +1,7 @@
 <header class="main-header">
   <nav class="main-header__nav" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
     <div class="main-header__logo">
-      <img alt="imagen de logo" class="main-header__img" onerror="this.style.display='none'" src="img/logo.png"/>
+      <img alt="imagen de logo" class="main-header__img" onerror="this.style.display='none'" src="img/logo.jpg"/>
     </div>
     
     <ul class="main-header__list">

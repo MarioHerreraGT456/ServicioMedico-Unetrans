@@ -1,0 +1,279 @@
+/* =====================================
+   RESET CONTROLADO
+===================================== */
+* {
+    box-sizing: border-box;
+}
+
+/* =====================================
+   FONDO GENERAL
+===================================== */
+body {
+    background: #e5e5e5;
+    margin: 0;
+}
+
+/* =====================================
+   HOJA TIPO DOCUMENTO
+===================================== */
+.historia-doc {
+    max-width: 850px;
+    margin: 20px auto 40px auto;
+    background: #fff;
+    padding: 40px 50px;
+    border: 1px solid #bbb;
+    box-shadow: none;
+    font-family: "Times New Roman", serif;
+    color: #000;
+}
+
+/* =====================================
+   ENCABEZADO
+===================================== */
+.historia-doc__encabezado {
+    margin-bottom: 20px;
+}
+
+.historia-doc__logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.historia-doc__cintillo {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.historia-doc__cintillo img {
+    width: 100%;
+    max-width: 700px; /* controla tamaño */
+    height: auto;
+}
+
+.logo-left,
+.logo-right {
+    width: 120px; /* más grande */
+    height: auto;
+    object-fit: contain;
+}
+
+.logos-texto {
+    text-align: center;
+    font-size: 12px;
+    flex: 1;
+}
+
+.historia-doc__titulo-central {
+    text-align: center;
+    margin-top: 45px;
+}
+
+.historia-doc__titulo-central h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.historia-doc__numero {
+    text-align: right;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.historia-doc__numero input {
+    border: none;
+    border-bottom: 1px solid #000;
+    width: 150px;
+    background: transparent;
+}
+
+/* =====================================
+   FILAS
+===================================== */
+.historia-doc__row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+/* dos columnas */
+.historia-doc__row--two .historia-doc__field {
+    flex: 1;
+}
+
+/* cuatro columnas */
+.historia-doc__row--four .historia-doc__field {
+    flex: 1;
+}
+
+.historia-doc__row--three .historia-doc__field {
+    flex: 1;
+}
+
+.historia-doc__row--one {
+    display: block;
+}
+
+/* =====================================
+   CAMPOS
+===================================== */
+.historia-doc__field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* LABELS */
+.historia-doc__field label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+/* INPUTS ESTILO DOCUMENTO */
+.historia-doc__field input,
+.historia-doc__field select,
+.historia-doc__field textarea {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    padding: 2px 0;
+    font-size: 13px;
+    font-family: "Times New Roman", serif;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* FOCUS */
+.historia-doc__field input:focus,
+.historia-doc__field textarea:focus,
+.historia-doc__field select:focus {
+    outline: none;
+    border-bottom: 2px solid #000;
+}
+
+/* TEXTAREA */
+.historia-doc textarea {
+    resize: none;
+}
+
+/* =====================================
+   CAMPOS EN LÍNEA (teléfono, cédula)
+===================================== */
+.historia-doc__inline-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* =====================================
+   CAMPOS GRANDES (líneas largas)
+===================================== */
+.historia-doc__field--full {
+    margin-bottom: 12px;
+}
+
+.historia-doc__field--full input,
+.historia-doc__field--full textarea {
+    width: 100%;
+}
+
+/* =====================================
+   ANTECEDENTES
+===================================== */
+.historia-doc__selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.btn-ant {
+    border: 1px solid #1c3d6d; /* azul institucional */
+    background: #f5f8fc; /* fondo suave */
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    color: #1c3d6d;
+}
+
+/* hover suave */
+.btn-ant:hover {
+    background: #e3ecf7;
+    border-color: #16345c;
+}
+
+/* activo */
+.btn-ant.active {
+    background: #1c3d6d;
+    color: #fff;
+    border-color: #1c3d6d;
+}
+
+/* =====================================
+   BOTÓN (discreto)
+===================================== */
+.historia-doc__actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.historia-doc__actions button {
+    padding: 8px 18px;
+    border: 1px solid #000;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.historia-doc__actions button:hover {
+    background: #000;
+    color: white;
+}
+
+/* =====================================
+   ELIMINAR ESTILOS MODERNOS GLOBALES
+===================================== */
+input,
+select,
+textarea {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* =====================================
+   MODO IMPRESIÓN
+===================================== */
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .historia-doc {
+        border: none;
+        margin: 0;
+        padding: 20px;
+        width: 100%;
+    }
+
+    button {
+        display: none;
+    }
+
+    .historia-doc__numero input {
+        border-bottom: 1px solid #000;
+    }
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+@media (max-width: 768px) {
+    .historia-doc__row {
+        flex-direction: column;
+    }
+}

@@ -37,9 +37,7 @@
 
   <!-- ===== INICIO ===== -->
   <section id="view-inicio" class="view">
-    <div class="container-welcome">
-      <h1>Bienvenido al Servicio Médico</h1>
-    </div>
+    <h1 class="hero__title">Bienvenido al Servicio Médico</h1>
 
     <div class="container-services">
       <section class="container-services__general-medicine">

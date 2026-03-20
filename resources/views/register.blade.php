@@ -6,12 +6,12 @@
     <div class="auth-card">
         <aside class="auth-side">
             <h2>UNETRANS</h2>
-            <p>Accede al sistema para gestionar tu perfil y los servicios del centro médico.</p>
+            <p>Crea tu cuenta en el sistema para gestionar tu perfil y los servicios del centro médico.</p>
         </aside>
 
         <section class="auth-main">
-            <h2 class="auth-title">Registro</h2>
-
+            <h1 class="auth-title">Registro</h1>
+            <p class="auth-sub">Completa el siguiente formulario para crear tu cuenta.</p>                       
             @if ($errors->any())
                 <div class="auth-alert">
                     <ul>
@@ -22,56 +22,57 @@
                 </div>
             @endif
 
-            <form id="formRegistroPaciente" class="auth-form" method="POST" enctype="multipart/form-data">
-                @csrf
+    <form id="formRegistroPaciente" method="POST" enctype="multipart/form-data">
+      @csrf
+      
+        <div class="campo">
+            <label for="nombre">Primer Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+            <label for="nombre2">Segundo Nombre:</label>
+            <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
+            @error('nombre')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
 
-                <div class="campo">
-                    <label for="nombre">Primer Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
-                    @error('nombre')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
 
-                <div class="campo">
-                    <label for="nombre2">Segundo Nombre:</label>
-                    <input type="text" id="nombre2" name="nombre2" value="{{ old('nombre2') }}" required>
-                    @error('nombre')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
-
-                <div class="campo">
-                    <label for="apellido">Primer Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
-                    @error('apellido')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
-
-                <div class="campo">
-                    <label for="apellido2">Segundo Apellido:</label>
-                    <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
-                    @error('apellido')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
-
-                <div class="campo">
-                    <label for="cedula">Cédula:</label>
-                    <div id="campoCedula">
-                        <label for="tipo" class="hidden">Tipo:</label>
-                        <select name="tipo" id="tipo">
-                            <option value="V">V</option>
-                            <option value="E">E</option>
-                        </select>
-                        <input type="text" id="cedula" name="cedula" value="{{ old('cedula') }}"
-                               title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
-                    </div>
-                    @error('cedula')
-                        <span class="error-message">Dato inválido</span>
-                    @enderror
-                </div>
+      <div class="campo">
+            <label for="apellido">Primer Apellido:</label>
+            <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        
+      <div class="campo">
+            <label for="apellido2">Segundo Apellido:</label>
+            <input type="text" id="apellido2" name="apellido2" value="{{ old('apellido2') }}" required>
+            @error('apellido')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+      
+       <div class="campo">
+            <label for="cedula">Cédula:</label>
+            <div id="campoCedula">
+                <label for="tipo" class="hidden">Tipo:</label>
+                <select name="tipo" id="tipo">
+                    <option value="V">V</option>
+                    <option value="E">E</option>
+                </select>
+                <input type="text" id="cedula" name="cedula" value="{{ old('cedula') }}"
+                       title="Formato válido: V12345678, E12345678" placeholder="12345678" required>
+            </div>
+            @error('cedula')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+           
+        </div>
 
                 <div class="campo">
                     <label for="direccion">Dirección:</label>
@@ -198,15 +199,13 @@
                     <button type="submit" class="auth-btn" id="btnRegistroContinuar">Registrar</button>
                 </div>
 
-            </form>
-        </section>
-    </div>
-</div>
 
-<script>
-    window.envioCorreoUrl = "{{ route('envio.correo') }}";
-    window.csrfToken = "{{ csrf_token() }}";
-</script>
+    </form>
+    
+    <script>
+        window.envioCorreoUrl = "{{ route('register.submit') }}";
+        window.csrfToken = "{{ csrf_token() }}";
+    </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/register.js') }}"></script>

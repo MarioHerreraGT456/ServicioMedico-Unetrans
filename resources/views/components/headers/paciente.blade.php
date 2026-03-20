@@ -11,7 +11,7 @@
       </div>
 
       <div class="main-header__logo">
-        <img src="img/logo.png" alt="imagen de logo" class="main-header__img" onerror="this.style.display='none'"/>
+        <img src="img/logo.jpg" alt="imagen de logo" class="main-header__img" onerror="this.style.display='none'"/>
       </div>
 
     </div>

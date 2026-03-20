@@ -61,11 +61,12 @@ img {
     gap: 850px;
 }
 .main-header__logo {
+    margin-left: 20px;
     display: flex;
     align-items: center;
 }
 .main-header__img {
-    height: 70px;
+    height: 40px;
 }
 .main-header__list {
     list-style: none;
@@ -133,15 +134,37 @@ img {
 .hero__container-text {
     padding: 6px 0;
 }
+.container-welcome {
+    background: transparent; /* elimina el fondo gris */
+    box-shadow: none; /* elimina efecto tarjeta */
+    border: none;
+    padding: 10px 0;
+    text-align: center;
+}
+
 .hero__title,
-.container-welcome h1,
 .user-query__user h1 {
     font-size: 32px;
     line-height: 1.15;
     color: #0b0135;
     margin: 0 0 12px;
     font-weight: 800;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
+
+.hero__title-historial{
+    font-size: 28px;
+    line-height: 1.15;
+    color: #0b0135;
+    margin: 0 0 12px;
+    font-weight: 800;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
 .container-module h1,
 .container-main__title h1 {
     font-size: 32px;
@@ -646,12 +669,14 @@ textarea {
     width: 100%;
     padding: 12px 4px;
     border: none;
+    border-bottom: 1px solid #000;
     border-radius: 0;
     font-size: 16px;
-    background-color: transparent;
+    background: transparent;
     outline: none;
     box-shadow: none;
 }
+
 .container-search__bar::-webkit-calendar-picker-indicator {
     opacity: 0.75;
 }

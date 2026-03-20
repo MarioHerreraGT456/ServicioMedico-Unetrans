@@ -2,18 +2,27 @@
 
 @section('content')
     
-    <h2 class="title-form">Registro Médico</h2>
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+<div class="auth-page">
+    <div class="auth-card">
+        <aside class="auth-side">
+            <h2>UNETRANS</h2>
+            <p>Registra otros médicos en el sistema de gestión del servicio médico</p>
+        </aside>
 
-    <form id="formRegistroMedico" method="POST" enctype="multipart/form-data">
+        <section class="auth-main">
+            <h1 class="auth-title">Registro Médico</h1>
+            <p class="auth-sub">Completa el siguiente formulario para registrar a otros médicos.</p>                       
+            @if ($errors->any())
+                <div class="auth-alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+    <form id="formRegistroMedico" class="form-grid-modern" method="POST" enctype="multipart/form-data">
       @csrf
       
         <div class="campo">
@@ -141,7 +150,7 @@
         <div class="campo">
             <label for="cargo">Cargo:</label>
             <select id="cargo" name="cargo" required>
-                <option value="jefe" {{ old('cargo') == 'jefe' ? 'selected' : '' }}>Jefe</option>
+                <!--<option value="jefe" {{ old('cargo') == 'jefe' ? 'selected' : '' }}>Jefe</option>-->
                 <option value="asistente" {{ old('cargo') == 'asistente' ? 'selected' : '' }}>Asistente</option>
                 <option value="medico" {{ old('cargo') == 'medico' ? 'selected' : '' }}>Médico</option>
             </select>
@@ -195,10 +204,11 @@
     </form>
     
     <script>
-    window.envioCorreoUrl = "{{ route('envio.correo') }}";
-    window.csrfToken = "{{ csrf_token() }}";
+        window.envioCorreoUrl = "{{ route('register.submit') }}";
+        window.csrfToken = "{{ csrf_token() }}";
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/correoRegisterMedico.js') }}"></script>
-    @endsection
+
+@endsection

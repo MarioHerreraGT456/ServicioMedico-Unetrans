@@ -112,6 +112,18 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'supabase_univer' => [ // Le damos un nombre distinto para no confundir
+    'driver' => 'pgsql',
+    'host' => 'aws-1-us-east-1.pooler.supabase.com',
+    'port' => env('SUPABASE_EXTERNAL_PORT', '5432'),
+    'database' => env('SUPABASE_EXTERNAL_DATABASE'),
+    'username' => env('SUPABASE_EXTERNAL_USERNAME'),
+    'password' => env('SUPABASE_EXTERNAL_PASSWORD'),
+    'charset' => 'utf8',
+    'prefix' => '',
+    'schema' => 'public',
+    'sslmode' => 'require', 
+],
 
     ],
 

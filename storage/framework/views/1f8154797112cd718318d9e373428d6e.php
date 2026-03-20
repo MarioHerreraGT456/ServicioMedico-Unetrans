@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Overlay de carga para PDF -->
 <div id="pdf-loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; font-family: Arial, sans-serif;">
     <div style="font-size: 24px; margin-bottom: 20px;">Generando PDF...</div>
@@ -18,43 +16,43 @@
 
     <div class="container-search" style="margin-bottom: 20px;">
         <span class="container-search__icon material-symbols-outlined">search</span>
-        <form method="GET" action="{{ route('historias') }}" class="form-buscar">
-            <input class="container-search__bar" type="text" name="buscar" placeholder="Cédula o nombre..." value="{{ $buscar }}">
+        <form method="GET" action="<?php echo e(route('historias')); ?>" class="form-buscar">
+            <input class="container-search__bar" type="text" name="buscar" placeholder="Cédula o nombre..." value="<?php echo e($buscar); ?>">
             <button type="submit" class="container-search__btn">Buscar</button>
         </form>
     </div>
 
     <div id="view-perfil" class="view">
-        @foreach($consultas as $index => $consulta)
-    <div class="card-consulta" id="card-{{ $index }}">
-        <h3>{{ $consulta->nombre }} {{ $consulta->apellido }} ({{ $consulta->especialidad }})</h3>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $consultas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $consulta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoop($loop->index); ?><?php endif; ?>
+    <div class="card-consulta" id="card-<?php echo e($index); ?>">
+        <h3><?php echo e($consulta->nombre); ?> <?php echo e($consulta->apellido); ?> (<?php echo e($consulta->especialidad); ?>)</h3>
         
         <div class="info-grid">
-            <p><strong>Cédula:</strong> {{ $consulta->tipo }}-{{ $consulta->cedula }}</p>
-            <p><strong>Teléfono:</strong> {{ $consulta->telefono }}</p>
-            <p><strong>Sexo:</strong> {{ $consulta->sexo }}</p>
-            <p><strong>Dirección:</strong> {{ $consulta->direccion }}</p>
-            <p><strong>Fecha de Nacimiento:</strong> {{ $consulta->fecha_nacimiento }}</p>
+            <p><strong>Cédula:</strong> <?php echo e($consulta->tipo); ?>-<?php echo e($consulta->cedula); ?></p>
+            <p><strong>Teléfono:</strong> <?php echo e($consulta->telefono); ?></p>
+            <p><strong>Sexo:</strong> <?php echo e($consulta->sexo); ?></p>
+            <p><strong>Dirección:</strong> <?php echo e($consulta->direccion); ?></p>
+            <p><strong>Fecha de Nacimiento:</strong> <?php echo e($consulta->fecha_nacimiento); ?></p>
             
-            <p><strong>Enfermedad:</strong> {{ $consulta->enfermedad }}</p>
-            <p><strong>Motivo:</strong> {{ $consulta->motivo_consulta }}</p>
-            <p><strong>Antecedentes Familiares:</strong> {{ $consulta->antecedentes_familiares }}</p>
+            <p><strong>Enfermedad:</strong> <?php echo e($consulta->enfermedad); ?></p>
+            <p><strong>Motivo:</strong> <?php echo e($consulta->motivo_consulta); ?></p>
+            <p><strong>Antecedentes Familiares:</strong> <?php echo e($consulta->antecedentes_familiares); ?></p>
         </div>
 
-        {{-- Campos específicos --}}
-        @if($consulta->especialidad === 'Odontología')
+        
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($consulta->especialidad === 'Odontología'): ?>
             <div class="dental-info" style="background: #f0f7ff; padding: 10px; margin-top: 10px;">
-                @php
+                <?php
                     $dientesArray = json_decode($consulta->diente, true);
                     if (is_string($dientesArray)) {
                         $dientesArray = json_decode($dientesArray, true);
                     }
-                @endphp
+                ?>
         
-                <div class="card-odontograma" data-dientes-seleccionados="{{ $consulta->diente }}">
+                <div class="card-odontograma" data-dientes-seleccionados="<?php echo e($consulta->diente); ?>">
                     <div class="dientes-block">
                         <div class="campo odontologia-section">
-                            <input type="hidden" id="input_diente" name="dientes" value="{{ old('dientes') }}">
+                            <input type="hidden" id="input_diente" name="dientes" value="<?php echo e(old('dientes')); ?>">
 
                             <div class="odontograma-container2">
                                 <div class="fila-dientes">
@@ -198,15 +196,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> {{-- Cierre odontograma-container2 --}}
-                        </div> {{-- Cierre campo odontologia-section --}}
-                    </div> {{-- Cierre dientes-block --}}
-                    <p><strong>Examen Bucal:</strong> {{ $consulta->examen }}</p>
-                </div> {{-- Cierre card-odontograma --}}
-            </div> {{-- Cierre dental-info --}}
-        @endif
+                            </div> 
+                        </div> 
+                    </div> 
+                    <p><strong>Examen Bucal:</strong> <?php echo e($consulta->examen); ?></p>
+                </div> 
+            </div> 
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-        @php
+        <?php
             $antecedentesArray = json_decode($consulta->antecedentes_personales, true);
             if (is_string($antecedentesArray)) {
                 $antecedentesArray = json_decode($antecedentesArray, true);
@@ -214,15 +212,15 @@
             $antecedentesTexto = is_array($antecedentesArray) && !empty($antecedentesArray) 
                                  ? implode(', ', array_map('ucfirst', $antecedentesArray)) 
                                  : 'Ninguno';
-        @endphp
+        ?>
 
-        <p><strong>Antecedentes Personales:</strong> {{ $antecedentesTexto }}</p>
-        <p><strong>Tratamiento:</strong> {{ $consulta->tratamiento }}</p>
-        <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
+        <p><strong>Antecedentes Personales:</strong> <?php echo e($antecedentesTexto); ?></p>
+        <p><strong>Tratamiento:</strong> <?php echo e($consulta->tratamiento); ?></p>
+        <button type="button" class="btn-download" onclick="exportarPDF('card-<?php echo e($index); ?>', '<?php echo e($consulta->cedula); ?>')">
             Descargar PDF
         </button>
     </div>
-@endforeach
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
     </div>
 </main>
 
@@ -304,4 +302,5 @@ function exportarPDF(idElemento, cedulaPaciente) {
     }, 1000); 
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\Unetrans\resources\views/historias.blade.php ENDPATH**/ ?>

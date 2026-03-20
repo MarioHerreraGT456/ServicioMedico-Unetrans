@@ -39,7 +39,7 @@
     </div>
 
     <div class="profile-main-info">
-      <h2 class="profile-name">{{ ucfirst($user->nombre) }}</h2>
+      <h2 class="profile-name">{{ ucfirst($user->nombre) }} {{ ucfirst($user->apellido) }}</h2>
       <span class="profile-role">{{ ucfirst($user->rol) }}</span>
     </div>
 
@@ -66,8 +66,7 @@
         <div class="profile-item">
           <span class="label">Edad</span>
           <span class="value" id="perfilEdad">
-          <!--{{ \Carbon\Carbon::parse($user->fecha_nacimiento)->age }} años-->
-          <!--{{ $user->edad }} años-->
+          {{ \Carbon\Carbon::parse($user->fecha_nacimiento)->age }} años
           </span>
         </div>
 
