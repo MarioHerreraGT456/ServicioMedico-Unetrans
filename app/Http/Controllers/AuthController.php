@@ -58,7 +58,7 @@ class AuthController extends Controller
         } elseif ($request->rol === 'medico') {
             $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion', 'codigo', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil'];
         } elseif ($request->rol === 'especial') {
-            $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion', 'codigo', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil', 'tipo_personal', 'tipo_paciente', 'carrera'];
+            $required = ['nombre','nombre2', 'apellido', 'apellido2', 'tipo', 'cedula', 'correo', 'direccion', 'codigo', 'telefono', 'especialidad', 'cargo', 'rol', 'fecha_nacimiento', 'sexo', 'estado_civil', 'tipo_paciente', 'tipo_personal', 'carrera', 'categoria'];
         } else {
             abort(403, "Rol no válido.");
         }
@@ -70,6 +70,7 @@ class AuthController extends Controller
         }
 
         $data = $request->only($required);
+        
 
         return view('password', $data);
     }
@@ -85,6 +86,7 @@ class AuthController extends Controller
     }}
 
     public function emailRegisterEspecial (Request $request) {
+        Log::info('Iniciando emailRegisterEspecial', $request->all());
         $data = $request->validate([
             'nombre'            => 'required|string|max:255', 
             'nombre2'            => 'required|string|max:255',
@@ -93,6 +95,7 @@ class AuthController extends Controller
             'tipo'              => 'required|in:V,E',
             'cedula' => ['required', 'integer', 'unique:personas,cedula', new ExisteEnUniversidad],
             'fecha_nacimiento'  => 'required|date',
+            'categoria'         => 'required|in:estudiante,personal',
          
             // Datos específicos de Médico
            'especialidad' => 'required|in:general,odontologia,psiquiatria,fisiatria,traumatologia', // <-- NUEVO
@@ -104,10 +107,10 @@ class AuthController extends Controller
             'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
             'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
             'rol'               => 'required|in:paciente,medico,especial',
-             'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
-            'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar',
+             'tipo_paciente'     => 'required_if:categoria,estudiante|in:administrativo,docente,obrero,estudiante',
+            'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar,hermano,tio,sobrino,primo',
             'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
-            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales',
+            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales,medico',
             
         ]);
         
@@ -121,6 +124,7 @@ class AuthController extends Controller
             'tipo' => $data['tipo'],
             'cedula' => $data['cedula'],
             'correo' => $data['correo'],
+            'categoria' => $data['categoria'],
             'direccion' => $data['direccion'],
             'codigo' => $data['codigo'],
 
@@ -131,12 +135,13 @@ class AuthController extends Controller
              'fecha_nacimiento'  => $data['fecha_nacimiento'],
              'sexo' => $data['sexo'],
              'estado_civil' => $data['estado_civil'],
-             'tipo_personal' => $data['tipo_personal'],
+             'tipo_personal' => $data['tipo_personal'] ?? '',
             'tipo_paciente' => $data['tipo_paciente'],
-            'carrera' => $data['carrera'],
+            'carrera'       => $data['carrera'],
        
         ]);
-      
+    //    dd($data, $url);
+    Log::info($url);
        
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
@@ -231,10 +236,10 @@ class AuthController extends Controller
            // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             //'estado'            => 'boolean',
             'rol'               => 'required|in:paciente,medico,especial',
-            'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante',
+            'tipo_paciente'     => 'required_if:categoria,personal|in:administrativo,docente,obrero,estudiante,medico',
             'tipo_personal'     => 'nullable|in:hijo,casado,hermano,familiar,tio,sobrino,primo',
             'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
-            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales',
+            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales,medico',
           
         ]);
 
@@ -287,7 +292,7 @@ class AuthController extends Controller
                // 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 //'estado'            => 'boolean',
                 'rol'               => 'required|in:paciente,medico,especial',
-                'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
+                'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante,medico',
                 // 'carrera'           => 'required_if:categoria,estudiante|in:informatica,administracion,contabilidad',
             ]);
             
@@ -337,7 +342,7 @@ class AuthController extends Controller
                 'rol'               => 'required|in:paciente,medico,especial',
                 'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante',
                 'carrera'           => 'required_if:categoria,estudiante|in:administracion,contaduria,civil,
-                electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales',
+                electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales,medico',
             ]);
             
           $data['tipo_paciente'] = 'estudiante';
@@ -383,7 +388,7 @@ class AuthController extends Controller
         $request->validate([
             'rol' => 'required|in:paciente,medico,especial',
         ]);
-       
+    //    dd($request->all());
        
         // 2. Delegamos la lógica completa al controlador correspondiente
         // Usamos app() para instanciar el controlador con sus dependencias

@@ -17,8 +17,8 @@ class EspecialController extends Controller
      public function store(Request $request){
          if ($request->tipo_personal !== null) {
           return app(PersonalController::class)->store($request);
-        } elseif ($request->tipo_personal == null && $request->categoria == 'personal'){
-
+        } elseif ($request->tipo_personal == null && $request->categoria == 'estudiante') {
+   
             // ✅ Validación con los nuevos campos
             $request->validate([
                 // Datos de Persona (tabla users)
@@ -31,6 +31,7 @@ class EspecialController extends Controller
                 'password'          => 'required|min:8|confirmed',
                 // Datos específicos de Paciente
                 'fecha_nacimiento'  => 'required|date',
+                'rol'               => 'required|in:paciente,medico,especial',
           
                 'sexo'              => 'required|in:masculino,femenino', // <-- NUEVO
                 'estado_civil'      => 'required|in:Casado(a),Soltero(a),Divorciado(a),Viudo(a)',
@@ -42,8 +43,10 @@ class EspecialController extends Controller
                 'foto'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'estado'            => 'boolean',
                 'especialidad' => 'required|in:general,odontologia,psiquiatria,fisiatria,traumatologia',
-                'tipo_paciente'     => 'required|in:administrativo,docente,obrero,estudiante', // <-- NUEVO para paciente
-                'carrera'           => 'required|in:informatica,administracion,contabilidad,medico', // <-- NUEVO para estudiante
+                'tipo_paciente'     => 'nullable|in:administrativo,docente,obrero,estudiante', // <-- NUEVO para paciente
+                'cargo'        => 'required|in:jefe,asistente,medico',
+                'carrera'           => 'required|in:administracion,contaduria,civil,
+            electricidad,electronica,instrumentos,informatica,industrial,automotriz,pq,calidad,quimica,materiales,medico' // <-- NUEVO para estudiante
                 
             ]);
             
@@ -74,7 +77,7 @@ class EspecialController extends Controller
                     'direccion' => $request->direccion,
                     'codigo' => $request->codigo,
                     'telefono' => $request->telefono,
-                    'rol'      => 'paciente',
+                    'rol'      => 'especial',
                     'foto'     => $path, // Se actualizará después si se sube una foto
                     'estado'   => $request->estado ?? true,
                     'password' => Hash::make($request->password),
@@ -114,7 +117,8 @@ class EspecialController extends Controller
       public function index(Request $request) 
 {
     $user = Auth::user();
-    $especial = $user->especial;
+    // $medico = $user->medico;
+    $medico = Medico::where('cedula', $user->cedula)->first();
 
     $buscar = $request->get('buscar');
 
@@ -123,7 +127,7 @@ class EspecialController extends Controller
 
     // SOLO si el usuario escribió algo en el buscador, realizamos la consulta
     if ($buscar) {
-        if ($especial->categoria === 'personal') {
+        if ($medico->categoria === 'personal') {
             // Lógica para categoría personal (búsqueda cruzada)
             $relaciones = Familiar::where('cedula', 'LIKE', "$buscar%")
                 ->orWhere('cedula2', 'LIKE', "$buscar%")

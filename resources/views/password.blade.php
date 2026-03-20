@@ -8,7 +8,9 @@
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+                <li>
+                 
+                    {{ $error }}</li>
             @endforeach
         </ul>
     </div>
@@ -144,6 +146,10 @@
         @if ($categoria == 'personal' && isset($tipo_personal))
         <div class="campo hidden">
             <input type="hidden" id="tipo_personal" name="tipo_personal" value="{{ $tipo_personal }}">
+        </div>
+        @elseif ($categoria == 'estudiante')
+        <div class="campo hidden">
+            <input type="hidden" id="tipo_personal" name="tipo_personal" value="">
         </div>
         @endif
 

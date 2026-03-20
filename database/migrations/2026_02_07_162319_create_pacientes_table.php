@@ -15,7 +15,7 @@ return new class extends Migration
        $table->id();
         $table->bigInteger('cedula')->unique();
         $table->enum('categoria', ['estudiante', 'personal']);
-        $table->enum('tipo_paciente', ['administrativo', 'obrero', 'docente', 'estudiante'])->nullable();
+        $table->enum('tipo_paciente', ['administrativo', 'obrero', 'docente', 'estudiante','medico'])->nullable();
         $table->timestamps();
 
         $table->foreign('cedula')

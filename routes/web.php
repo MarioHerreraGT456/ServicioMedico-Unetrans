@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\PersonalController;
@@ -66,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
  
 
     Route::middleware([CheckRole::class . ':especial'])->group(function () {
-        Route::get('/medico', [EspecialController::class, 'index'])->name('especial.dashboard');
+        // Route::get('/medico', [EspecialController::class, 'index'])->name('especial.dashboard');
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
         Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
@@ -83,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     // Rutas para MÉDICO
     // Usamos tu middleware CheckRole pasando el parámetro 'medico'
     Route::middleware([CheckRole::class . ':medico'])->group(function () {
-        Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
+        // Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         
         //para enviar el correo
@@ -94,5 +95,15 @@ Route::middleware(['auth'])->group(function () {
         
         
     });
+
+    Route::middleware([CheckRole::class . ':medico,especial'])->group(function () {
+    Route::get('/medico', function () {
+        // Si necesitas lógica diferente según el rol
+        if (Auth::user()->rol === 'especial') {
+            return app(EspecialController::class)->index(request());
+        }
+        return app(MedicoController::class)->index(request());
+    })->name('medico.dashboard');
+});
 
 });
