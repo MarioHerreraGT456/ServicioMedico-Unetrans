@@ -35,6 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 // Esta ruta recibe el POST, AuthController decide si llama a Paciente o Medico
 Route::post('/register', [AuthController::class, 'enviarCorreo'])->name('register.submit');
+//Route::post('/register-medico', [AuthController::class, 'enviarCorreo'])->name('registrar.medico.submit');
 //Ruta para que el paciente pueda agregar a su familiar
 Route::post('/agregar-familiar', [PersonalController::class, 'store'])->name('personal.store');
 Route::post('/crear-consultas', [ConsultasController::class, 'store'])->name('consultas.store');
@@ -47,6 +48,7 @@ Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('env
 Route::post('passwordRequest', [RequestPasswordController::class, 'recoveryClave'])->name('passwordRequest.recoveryClave');
 //esta es la nueva ruta para el envio de correo de cambio contraseña
 //Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
+Route::post('/password', [AuthController::class, 'register'])->name('password.register');
 
 Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');
@@ -83,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([CheckRole::class . ':medico'])->group(function () {
         Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
+        
         //para enviar el correo
         Route::post('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');

@@ -383,7 +383,7 @@ class AuthController extends Controller
         $request->validate([
             'rol' => 'required|in:paciente,medico,especial',
         ]);
-        
+       
        
         // 2. Delegamos la lógica completa al controlador correspondiente
         // Usamos app() para instanciar el controlador con sus dependencias
