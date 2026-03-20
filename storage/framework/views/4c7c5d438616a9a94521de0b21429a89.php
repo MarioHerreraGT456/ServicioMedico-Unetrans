@@ -257,9 +257,19 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
       <div class="campo" id="container_carrera" >
         <label for="carrera" >Carrera:</label>
         <select id="carrera" name="carrera" class="select-placeholder ">
-          <option value="informatica" <?php echo e(old('carrera') == 'informatica' ? 'selected' : ''); ?>>Informática</option>
-          <option value="administracion" <?php echo e(old('carrera') == 'administracion' ? 'selected' : ''); ?>>Administración</option>
-          <option value="contabilidad" <?php echo e(old('carrera') == 'contabilidad' ? 'selected' : ''); ?>>Contabilidad</option>
+          <option value="administracion" <?php echo e(old('carrera') == 'administracion' ? 'selected' : ''); ?>>PNF en Administración</option>
+          <option value="contaduria" <?php echo e(old('carrera') == 'contaduria' ? 'selected' : ''); ?>>PNF en Contaduría</option>
+          <option value="civil" <?php echo e(old('carrera') == 'civil' ? 'selected' : ''); ?>>PNF en Construcción Civil</option>
+          <option value="electricidad" <?php echo e(old('carrera') == 'electricidad' ? 'selected' : ''); ?>>PNF en Electricidad</option>
+          <option value="electronica" <?php echo e(old('carrera') == 'electronica' ? 'selected' : ''); ?>>PNF en Electrónica</option>
+          <option value="instrumentos" <?php echo e(old('carrera') == 'instrumentos' ? 'selected' : ''); ?>>PNF en Instrumentos y Control</option>
+          <option value="informatica" <?php echo e(old('carrera') == 'informatica' ? 'selected' : ''); ?>>PNF en Informática</option>
+          <option value="industrial" <?php echo e(old('carrera') == 'industrial' ? 'selected' : ''); ?>>PNF en Mecánica Industrial</option>
+          <option value="automotriz" <?php echo e(old('carrera') == 'automotriz' ? 'selected' : ''); ?>>PNF en Mecánica Automotriz</option>
+          <option value="pq" <?php echo e(old('carrera') == 'pq' ? 'selected' : ''); ?>>PNF en Procesos Químicos</option>
+          <option value="calidad" <?php echo e(old('carrera') == 'calidad' ? 'selected' : ''); ?>>PNF en Sist. de Calidad y Ambiente</option>
+          <option value="quimica" <?php echo e(old('carrera') == 'quimica' ? 'selected' : ''); ?>>PNF en Química</option>
+          <option value="materiales" <?php echo e(old('carrera') == 'materiales' ? 'selected' : ''); ?>>PNF en Materiales Industriales</option>
         </select>
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['tipo_paciente'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
