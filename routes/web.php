@@ -57,8 +57,6 @@ Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/passwordRequest', [RequestPasswordController::class, 'showPasswordForm'])->name('passwordRequest');
 });
 
-
-
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
 
 Route::middleware(['auth'])->group(function () {

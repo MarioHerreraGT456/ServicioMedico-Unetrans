@@ -33,7 +33,7 @@
         @csrf
 
         <div class="auth-field">
-          <label for="recEmail">Correo electrónico</label>
+          <label for="recEmail" type="hidden">Correo electrónico</label>
           <input type="hidden" id="correo" name="correo" value="{{ $correo }}" required>
           <input type="hidden" id="cedula" name="cedula" value="{{ $cedula }}" required>
         </div>

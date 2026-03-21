@@ -106,23 +106,23 @@ class PerfilController extends Controller
 
     public function updateClave(Request $request)
     {   
-        // 1. Obtenemos al usuario que tiene la sesión iniciada
         $user = Auth::user();
         
-        // Creamos un array de data mínimo si tu clase de correo lo requiere
         $data = ['correo' => $user->correo];
 
-        // 2. Generamos la URL firmada
+        //ahora incluyo la cedula pq me daba error
         $url = URL::temporarySignedRoute(
-            'passwordRequest', now()->addMinutes(30), ['correo' => $user->correo]
+            'passwordRequest',
+            now()->addMinutes(30),
+            [
+                'correo' => $user->correo,
+                'cedula' => $user->cedula
+            ]
         );
 
-        // 3. Enviamos el correo
         Mail::to($user->correo)->send(new CambioCorreoClave($url, $data)); 
 
-        // 4. Retornamos la vista de éxito
-        //return view('envio-correo-cambio'); 
-         return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' para continuar con el cambio de contraseña.'
         ]);

@@ -73,7 +73,7 @@
     </section>
   </div>
 </div>
-<script>
+  <script>
     window.perfilUpdateClaveUrl = "{{ route('login.recoveryClave') }}";
     window.csrfToken = "{{ csrf_token() }}";
   </script>

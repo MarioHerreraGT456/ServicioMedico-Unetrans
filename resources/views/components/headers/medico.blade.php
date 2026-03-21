@@ -20,7 +20,9 @@
       <li class="main-header__item">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button  type="button" class="main-header__link btn-logout" style="background: none; border: none; cursor: pointer;">Cerrar Sesión</button>
+            <button type="button" class="main-header__link btn-logout" style="background: none; border: none; cursor: pointer;">
+                Cerrar Sesión
+            </button>
         </form>
       </li>
     </ul>
@@ -34,14 +36,16 @@
     @auth
     @php
         $user = Auth::user();
-        $foto = $user->foto; // Suponiendo que el campo foto está en la tabla Personas
+        $foto = $user->foto;
+        $cargo = $user->medico->cargo ?? $user->cargo ?? null;
     @endphp
     <img src="{{ asset('storage/' . $foto) }}" alt="Foto de Perfil" onerror="this.style.display='none'">
-    <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
+    <span class="sidebar__name">{{ $user->nombre }}</span>
   </div>
 
   <nav class="sidebar__nav">
 
+    <!-- SIEMPRE -->
     <a href="{{ route('medico.dashboard') }}" style="text-decoration: none;">
       <button class="sidebar__item" data-view="inicio">
         <span class="material-symbols-outlined">home</span>
@@ -56,62 +60,60 @@
       </button>
     </a>
 
+    <!-- MÉDICO NORMAL -->
+    @if($cargo !== 'jefe' && $cargo !== 'asistente')
     <a href="{{ route('consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">search</span>
-          Consultas
+            Consultas
         </button>
     </a>
+
     <a href="{{ route('historias') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
-            <span class="material-symbols-outlined">search</span>
-          Historias
+            <span class="material-symbols-outlined">description</span>
+            Historias
         </button>
     </a>
+    @endif
 
-    <!--<button class="sidebar__item" data-view="historial">
-      <span class="material-symbols-outlined">folder</span>
-      Historial
-    </button>-->
-
-    <!--<button class="sidebar__item" data-view="estadisticas">
-      <span class="material-symbols-outlined">bar_chart</span>
-      Estadísticas
-    </button>-->
-   @if ($user->cargo === 'asistente')
+    <!-- ASISTENTE -->
+    @if($cargo === 'asistente')
     <a href="{{ route('crear-consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
-            <span class="material-symbols-outlined">person</span>
+            <span class="material-symbols-outlined">assignment_add</span>
             Crear Consultas
         </button>
     </a>
     @endif
     
+    <!-- MÉDICO NORMAL -->
+    @if($cargo !== 'jefe' && $cargo !== 'asistente')
     <a href="{{ route('crear-historias') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
-            <span class="material-symbols-outlined">person</span>
+            <span class="material-symbols-outlined">note_add</span>
             Crear Historias
         </button>
     </a>
+    @endif
 
-    @php
-        $user = auth()->user();
-    @endphp
-
+    <!-- JEFE -->
     @if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe')
         <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
-        <button class="sidebar__item" data-view="solicitar">
-            <span class="material-symbols-outlined">person</span>
-            Crear Médicos
-        </button>
+            <button class="sidebar__item" data-view="solicitar">
+                <span class="material-symbols-outlined">group_add</span>
+                Crear Médicos
+            </button>
         </a>
     @endif
+
     @endauth
 
     <div class="mobile-only" style="width: 100%; margin-top: 10px;">
         <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
             @csrf
-            <button type="button" class="btn-logout"style="width: 100%; justify-content: flex-start; background: #ffebee; color: #c62828;">
+            <button type="button" class="btn-logout"
+                style="width: 100%; justify-content: flex-start; background: #ffebee; color: #c62828;">
                 <span class="material-symbols-outlined">logout</span>
                 Cerrar Sesión
             </button>
@@ -120,5 +122,6 @@
 
   </nav>
 </aside>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/cerrarSesion.js') }}"></script>

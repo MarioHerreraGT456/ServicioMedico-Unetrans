@@ -139,6 +139,7 @@
   gap: 10px;
   flex-wrap:wrap;
   margin-top: 6px;
+  margin-bottom: 14px;
 }
 
 .auth-inline-links a{
@@ -152,6 +153,7 @@
 
 .auth-switch{
   margin-top: 18px;
+  margin-bottom: 25px;
   text-align:center;
 }
 
