@@ -2450,3 +2450,15 @@ button.btn-cerrar-overlay:active {
     border-radius: 10px;
     font-size: 14px;
 }
+.password-recovery {
+    background: transparent;
+    border: none;
+    color: #2563eb;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.password-recovery:hover {
+    text-decoration: underline;
+}

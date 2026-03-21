@@ -30,6 +30,7 @@ Route::view('/passwordRequest', 'passwordRequest')->name('passwordRequest');
 // Autenticación (Login / Logout)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login/passwordRequest', [RequestPasswordController::class, 'recoveryClave'])->name('login.recoveryClave');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Registro (Unificado en la URL, dividido en lógica)
@@ -46,10 +47,10 @@ Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store')
 Route::post('/perfil/clave', [PerfilController::class, 'updateClave'])->name('perfil.updateClave');
 Route::post('/perfil/contacto', [PerfilController::class, 'updateContacto'])->name('perfil.updateContacto');
 Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('envio.correo');
-Route::post('passwordRequest', [RequestPasswordController::class, 'recoveryClave'])->name('passwordRequest.recoveryClave');
 //esta es la nueva ruta para el envio de correo de cambio contraseña
 //Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
 Route::post('/password', [AuthController::class, 'register'])->name('password.register');
+Route::post('/passwordRequest', [RequestPasswordController::class, 'store'])->name('passwordRequest.store');
 
 Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');

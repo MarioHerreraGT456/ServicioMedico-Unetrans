@@ -23,6 +23,12 @@
           </ul>
         </div>
       <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
+    <div class="auth-alert" style="background-color: #d4edda; color: #155724; border-color: #c3e6cb;">
+        <?php echo e(session('success')); ?>
+
+    </div>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
       <form id="loginForm" class="auth-form" method="POST" action="<?php echo e(route('login')); ?>">
         <?php echo csrf_field(); ?>
@@ -61,18 +67,53 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
         <div class="auth-actions">
           <button class="auth-btn" type="submit">Iniciar sesión</button>
 
-          <div class="auth-inline-links">
-            <a href="<?php echo e(route('passwordRequest')); ?>">¿Olvidaste tu contraseña?</a>
-          </div>
 
+          
+        </div>
+      </form>
+      <form method="POST" id="formCambiarClave">
+    <?php echo csrf_field(); ?>
+    
+    
+    <div class="auth-inline-links">
+        <button type="submit" class="password-recovery">¿Olvidaste tu contraseña?</button>
+    </div>
+</form>
           <div class="auth-switch">
             <p>¿No tienes cuenta?</p>
             <a href="<?php echo e(route('register')); ?>">Registrarse</a>
           </div>
-        </div>
-      </form>
     </section>
   </div>
 </div>
+<script>
+    window.perfilUpdateClaveUrl = "<?php echo e(route('login.recoveryClave')); ?>";
+    window.csrfToken = "<?php echo e(csrf_token()); ?>";
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <script>
+    (function() {
+        const formRecuperar = document.getElementById('formCambiarClave');
+        if (!formRecuperar) return;
+
+        // Guardamos la URL base original (la que definió el backend)
+        const originalUrl = window.perfilUpdateClaveUrl;
+
+        formRecuperar.addEventListener('submit', function(e) {
+            const inputCedula = document.getElementById('cedula');
+            const cedula = inputCedula ? inputCedula.value.trim() : '';
+            if (cedula) {
+                // Añadimos la cédula como parámetro GET
+                window.perfilUpdateClaveUrl = originalUrl + '?cedula=' + encodeURIComponent(cedula);
+            }
+            // No cancelamos el evento; el JS de correo.js lo hará después
+        });
+    })();
+</script>
+
+
+<script src="<?php echo e(asset('js/correo.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\Unetrans\resources\views/login.blade.php ENDPATH**/ ?>

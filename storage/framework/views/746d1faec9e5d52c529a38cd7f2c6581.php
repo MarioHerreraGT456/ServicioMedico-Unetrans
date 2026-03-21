@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="css/correos.css" rel="stylesheet"/>
-    <title>Agregar Contraseña</title>
+    <title>Cambiar Contraseña</title>
 </head>
 <body>
     <div class="email-wrapper">
         <div class="email-card">
             <div class="email-header">
-                <h1>Hola <?php echo e($data['nombre']); ?> </h1>
-                <span><?php echo e($data['apellido']); ?></span>
+                <h1>Hola</h1>
             </div>
             <div class="email-body">
-                <p>Te has registrado en Unetrans.</p>
+                <p>Usted ha solicitado cambiar su contraseña de acceso al sistema del servicio médico de la UNETRANS.</p>
                 <p>Para confirmar, haz clic en el siguiente enlace:</p>
-                <a href="<?php echo e($url); ?>" class="email-button">Completar registro</a>
+                <a href="<?php echo e($url); ?>" class="email-button">Cambiar Contraseña</a>
                 <p>Si no solicitaste esta cita, ignora este mensaje.</p>
             </div>
         </div>
     </div>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\Unetrans\resources\views/mail/password-email.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\Unetrans\resources\views/mail/updatePassword-email.blade.php ENDPATH**/ ?>

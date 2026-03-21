@@ -1,6 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
+ @if ($errors->any())
+        <div class="auth-alert">
+          <ul style="margin:0; padding-left:18px;">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="auth-page">
   <div class="auth-card">
     <aside class="auth-side">
@@ -10,38 +24,46 @@
 
     <section class="auth-main">
       <h1 class="auth-title">Recuperar contraseña</h1>
-      <p class="auth-sub">Puedes reenviar el correo después de <span class="countdown" id="reenvioCountdown">120</span>s.</p>
+    
 
       <div class="auth-success oai-hidden" id="msgRecuperarOk"></div>
       <div class="auth-alert oai-hidden" id="msgRecuperarErr"></div>
 
-      <form id="formRecuperarEmail" class="auth-form" method="POST" action="{{ route('passwordRequest.recoveryClave') }}">
+      <form id="formRecuperarEmail" class="auth-form" method="POST" action="{{ route('passwordRequest.store') }}">
         @csrf
 
         <div class="auth-field">
           <label for="recEmail">Correo electrónico</label>
-          <input type="email" id="recEmail" name="email" required>
+          <input type="hidden" id="correo" name="correo" value="{{ $correo }}" required>
+          <input type="hidden" id="cedula" name="cedula" value="{{ $cedula }}" required>
         </div>
 
-        <div class="auth-actions">
-          <button type="submit" class="auth-btn">Enviar código</button>
-
-          <button type="button" class="auth-btn" id="btnReenviar" disabled style="background:#0f172a;">
-            Reenviar correo (<span id="reenvioCountdownBtn">120</span>s)
-          </button>
-
-          <div class="auth-switch">
-            <p>¿Recordaste tu contraseña?</p>
-            <a href="{{ route('login') }}">Volver a iniciar sesión</a>
-          </div>
+        <div class="campo ">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            @error('password')
+                <span class="error-message">Dato inválido</span>
+            @enderror
         </div>
+
+        <div class="campo ">
+            <label for="password_confirmation">Confirme contraseña:</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required>
+            @error('password_confirmation')
+                <span class="error-message">Dato inválido</span>
+            @enderror
+        </div>
+        <div class="campo">
+        <button type="submit" id="btnRegistroContinuar">Confirmar</button>
+
+      </div>
       </form>
     </section>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/password-recovery.js') }}"></script>
+    {{-- <script src="{{ asset('js/password-recovery.js') }}"></script> --}}
   </div>
 </div>
 @endsection
