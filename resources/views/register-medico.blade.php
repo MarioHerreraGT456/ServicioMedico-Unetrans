@@ -189,11 +189,31 @@
             @enderror
         </div> --}}
 
-        <div class="hidden">
-            <label for="rol" class="hidden">Rol:</label>
-            <input type="hidden" name="rol" value="medico">
-        </div>
+        <div class="campo">
+    <label for="rol">Rol:</label>
+    <select name="rol" id="rol" required>
+        <option value="medico" {{ old('rol') == 'medico' ? 'selected' : '' }}>Médico</option>
+        <option value="especial" {{ old('rol') == 'especial' ? 'selected' : '' }}>Especial</option>
+    </select>
+</div>
+
+     
+<div id="container_tipo_paciente" style="display: none;">
+    <div class="campo">
+        <label for="tipo_paciente">Tipo de Personal:</label>
         
+        <input type="hidden" name="categoria" value="estudiante">
+        <input type="hidden" id="tipo_paciente" name="tipo_paciente" value="estudiante">
+        <input type="hidden" name="tipo_personal" value="">
+        <input type="hidden" name="carrera" value="medico">
+    </div> 
+    
+    
+    @error('tipo_paciente')
+        <span class="error-message">Dato inválido</span>
+    @enderror
+</div>
+
       {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
       <div class="campo">
         <button type="submit" id="btnRegistroContinuar">Registrar</button>
@@ -209,6 +229,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/registerMedico.js') }}"></script>
     <script src="{{ asset('js/correoRegisterMedico.js') }}"></script>
 
 @endsection

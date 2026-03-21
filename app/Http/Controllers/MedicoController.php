@@ -16,7 +16,8 @@ class MedicoController extends Controller
    public function index(Request $request) 
 {
     $user = Auth::user();
-    $medico = $user->medico;
+    // $medico = $user->medico;
+    $medico = Medico::where('cedula', $user->cedula)->first();
 
     $buscar = $request->get('buscar');
 

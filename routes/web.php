@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\PersonalController;
@@ -29,6 +30,7 @@ Route::view('/passwordRequest', 'passwordRequest')->name('passwordRequest');
 // Autenticación (Login / Logout)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login/passwordRequest', [RequestPasswordController::class, 'recoveryClave'])->name('login.recoveryClave');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Registro (Unificado en la URL, dividido en lógica)
@@ -45,10 +47,10 @@ Route::post('/perfil', [PerfilController::class, 'store'])->name('perfil.store')
 Route::post('/perfil/clave', [PerfilController::class, 'updateClave'])->name('perfil.updateClave');
 Route::post('/perfil/contacto', [PerfilController::class, 'updateContacto'])->name('perfil.updateContacto');
 Route::post('/envio-correo', [AuthController::class, 'enviarCorreo'])->name('envio.correo');
-Route::post('passwordRequest', [RequestPasswordController::class, 'recoveryClave'])->name('passwordRequest.recoveryClave');
 //esta es la nueva ruta para el envio de correo de cambio contraseña
 //Route::post('/envio-correo-cambio', [PerfilController::class, 'enviarCorreoCambio'])->name('envio.correo.cambio');
 Route::post('/password', [AuthController::class, 'register'])->name('password.register');
+Route::post('/passwordRequest', [RequestPasswordController::class, 'store'])->name('passwordRequest.store');
 
 Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/password', [AuthController::class, 'showPasswordForm'])->name('password');
@@ -66,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
  
 
     Route::middleware([CheckRole::class . ':especial'])->group(function () {
-        Route::get('/medico', [EspecialController::class, 'index'])->name('especial.dashboard');
+        // Route::get('/medico', [EspecialController::class, 'index'])->name('especial.dashboard');
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
         Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
@@ -83,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     // Rutas para MÉDICO
     // Usamos tu middleware CheckRole pasando el parámetro 'medico'
     Route::middleware([CheckRole::class . ':medico'])->group(function () {
-        Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
+        // Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         
         //para enviar el correo
@@ -94,5 +96,15 @@ Route::middleware(['auth'])->group(function () {
         
         
     });
+
+    Route::middleware([CheckRole::class . ':medico,especial'])->group(function () {
+    Route::get('/medico', function () {
+        // Si necesitas lógica diferente según el rol
+        if (Auth::user()->rol === 'especial') {
+            return app(EspecialController::class)->index(request());
+        }
+        return app(MedicoController::class)->index(request());
+    })->name('medico.dashboard');
+});
 
 });

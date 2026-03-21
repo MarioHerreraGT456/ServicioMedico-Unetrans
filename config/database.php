@@ -114,7 +114,7 @@ return [
         ],
         'supabase_univer' => [ // Le damos un nombre distinto para no confundir
         'driver' => 'pgsql',
-        'host' => 'aws-1-eu-west-1.pooler.supabase.com',
+        'host' => env('SUPABASE_EXTERNAL_HOST'),
         'port' => env('SUPABASE_EXTERNAL_PORT', '5432'),
         'database' => env('SUPABASE_EXTERNAL_DATABASE'),
         'username' => env('SUPABASE_EXTERNAL_USERNAME'),

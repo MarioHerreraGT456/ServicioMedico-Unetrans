@@ -75,7 +75,7 @@
         $user = auth()->user();
     @endphp
 
-    @if($user->rol === 'paciente' && $user->paciente && $user->paciente->categoria === 'personal')
+    @if($user->rol === 'paciente' && $user->paciente && $user->paciente->categoria === 'personal'&& $user->familiar && $user->familiar->tipo_personal !== null)
       <a href="{{ route('agregar-familiar') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>
