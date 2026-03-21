@@ -2407,6 +2407,7 @@ button.btn-cerrar-overlay:active {
     font-size: 14px;
     color: #444;
     line-height: 1.5;
+    margin-top: 10px;
 }
 
 /* LABELS (strong) */

@@ -33,8 +33,8 @@
   <div class="sidebar__header">
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
     <?php
-        $perfil = Auth::user()->perfil();
-        $foto = $perfil ? $perfil->foto : null;
+        $user = Auth::user();
+        $foto = $user->foto; // Suponiendo que el campo foto está en la tabla Personas
     ?>
     <img src="<?php echo e(asset('storage/' . $foto)); ?>" alt="Foto de Perfil" onerror="this.style.display='none'">
     <span class="sidebar__name"><?php echo e(Auth::user()->nombre); ?></span>
@@ -78,7 +78,7 @@
       <span class="material-symbols-outlined">bar_chart</span>
       Estadísticas
     </button>-->
-   <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($perfil->cargo === 'asistente'): ?>
+   <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($user->cargo === 'asistente'): ?>
     <a href="<?php echo e(route('crear-consultas')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>

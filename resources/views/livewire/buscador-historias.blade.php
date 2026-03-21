@@ -171,8 +171,13 @@
             @csrf
 
             <div class="historia-doc historia-doc--odontologia">
+
+                <div class="historia-doc__cintillo">
+                    <img src="img/cintillo.jpeg" class="logo-left">
+                </div>
+
                 <div class="historia-doc__header">
-                    <h3 class="historia-doc__title">HISTORIA ODONTOLÓGICA</h3>
+                    <h3 class="historia-doc__titulo-central">HISTORIA ODONTOLÓGICA</h3>
                 </div>
 
                 <div class="historia-doc__body">
@@ -333,7 +338,7 @@
 
                     <div class="dientes-block">
                         <div class="campo odontologia-section historia-doc__field historia-doc__field--full">
-                            <label for="dientes">Seleccione el Diente Tratado (Solo Odontología):</label>
+                            <label for="dientes">Odontograma:</label>
 
                             <input type="hidden" id="input_diente" name="dientes" value="{{ old('dientes') }}">
 

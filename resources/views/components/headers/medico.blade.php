@@ -33,8 +33,8 @@
   <div class="sidebar__header">
     @auth
     @php
-        $perfil = Auth::user()->perfil();
-        $foto = $perfil ? $perfil->foto : null;
+        $user = Auth::user();
+        $foto = $user->foto; // Suponiendo que el campo foto está en la tabla Personas
     @endphp
     <img src="{{ asset('storage/' . $foto) }}" alt="Foto de Perfil" onerror="this.style.display='none'">
     <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
@@ -78,7 +78,7 @@
       <span class="material-symbols-outlined">bar_chart</span>
       Estadísticas
     </button>-->
-   @if ($perfil->cargo === 'asistente')
+   @if ($user->cargo === 'asistente')
     <a href="{{ route('crear-consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">person</span>

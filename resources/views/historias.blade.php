@@ -215,9 +215,10 @@
                                  ? implode(', ', array_map('ucfirst', $antecedentesArray)) 
                                  : 'Ninguno';
         @endphp
-
+        <div class="info-grid">
         <p><strong>Antecedentes Personales:</strong> {{ $antecedentesTexto }}</p>
         <p><strong>Tratamiento:</strong> {{ $consulta->tratamiento }}</p>
+        </div>
         <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
             Descargar PDF
         </button>

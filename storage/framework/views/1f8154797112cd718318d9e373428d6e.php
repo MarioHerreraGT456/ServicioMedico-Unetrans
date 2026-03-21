@@ -213,9 +213,10 @@
                                  ? implode(', ', array_map('ucfirst', $antecedentesArray)) 
                                  : 'Ninguno';
         ?>
-
+        <div class="info-grid">
         <p><strong>Antecedentes Personales:</strong> <?php echo e($antecedentesTexto); ?></p>
         <p><strong>Tratamiento:</strong> <?php echo e($consulta->tratamiento); ?></p>
+        </div>
         <button type="button" class="btn-download" onclick="exportarPDF('card-<?php echo e($index); ?>', '<?php echo e($consulta->cedula); ?>')">
             Descargar PDF
         </button>
