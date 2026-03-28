@@ -18,8 +18,8 @@
 
     <ul class="main-header__list">
       <li class="main-header__item">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+        <form method="POST" action="<?php echo e(route('logout')); ?>">
+            <?php echo csrf_field(); ?>
             <button type="button" class="main-header__link btn-logout" style="background: none; border: none; cursor: pointer;">
                 Cerrar Sesión
             </button>
@@ -36,104 +36,104 @@
  <div class="close">&times;</div>
   
   <div class="sidebar__header">
-    @auth
-    @php
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+    <?php
         $user = auth()->user();
         $foto = $user->foto;
-    @endphp
+    ?>
 
-    @if($foto)
-        <img src="{{ asset('storage/' . $foto) }}" 
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($foto): ?>
+        <img src="<?php echo e(asset('storage/' . $foto)); ?>" 
             alt="Foto de Perfil"
             style="object-fit: cover;"
             onerror="this.style.display='none'">
-    @else
-        <img src="{{ asset('img/perfil.jpg') }}" 
+    <?php else: ?>
+        <img src="<?php echo e(asset('img/perfil.jpg')); ?>" 
             alt="Foto por defecto"
             style="object-fit: cover;">
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-    <span class="sidebar__name">{{ $user->nombre }} {{ $user->apellido}}</span>
-    @endauth
+    <span class="sidebar__name"><?php echo e($user->nombre); ?> <?php echo e($user->apellido); ?></span>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
   </div>
 
   <nav class="sidebar__nav">
 
     <!-- SIEMPRE -->
-    <a href="{{ route('medico.dashboard') }}" style="text-decoration: none;">
+    <a href="<?php echo e(route('medico.dashboard')); ?>" style="text-decoration: none;">
       <button class="sidebar__item" data-view="inicio">
         <span class="material-symbols-outlined">home</span>
         Inicio
       </button>
     </a>
 
-    <a href="{{ route('perfil') }}" style="text-decoration: none;">
+    <a href="<?php echo e(route('perfil')); ?>" style="text-decoration: none;">
       <button class="sidebar__item" data-view="perfil">
         <span class="material-symbols-outlined">person</span>
         Perfil
       </button>
     </a>
 
-    @php
+    <?php
         $cargo = $user->medico->cargo ?? null;
-    @endphp
+    ?>
     <!-- MÉDICO NORMAL -->
-    @if($cargo !== 'jefe' && $cargo !== 'asistente')
-    <a href="{{ route('consultas') }}" style="text-decoration: none;">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo !== 'jefe' && $cargo !== 'asistente'): ?>
+    <a href="<?php echo e(route('consultas')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">search</span>
             Consultas
         </button>
     </a>
 
-    <a href="{{ route('historias') }}" style="text-decoration: none;">
+    <a href="<?php echo e(route('historias')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">description</span>
             Historias
         </button>
     </a>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!-- ASISTENTE -->
-    @if($cargo === 'asistente')
-    <a href="{{ route('crear-consultas') }}" style="text-decoration: none;">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo === 'asistente'): ?>
+    <a href="<?php echo e(route('crear-consultas')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">assignment_add</span>
             Crear Consultas
         </button>
     </a>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     
     <!-- MÉDICO NORMAL -->
-    @if($cargo !== 'jefe' && $cargo !== 'asistente')
-    <a href="{{ route('crear-historias') }}" style="text-decoration: none;">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo !== 'jefe' && $cargo !== 'asistente'): ?>
+    <a href="<?php echo e(route('crear-historias')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">note_add</span>
             Crear Historias
         </button>
     </a>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!-- JEFE -->
-    @if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe')
-        <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe'): ?>
+        <a href="<?php echo e(route('registrar-medico')); ?>" style="text-decoration: none;">
             <button class="sidebar__item" data-view="solicitar">
                 <span class="material-symbols-outlined">group_add</span>
                 Crear Médicos
             </button>
         </a>
 
-        <a href="{{ route('usuarios.inactivar') }}" style="text-decoration: none;">
+        <a href="<?php echo e(route('usuarios.inactivar')); ?>" style="text-decoration: none;">
             <button class="sidebar__item" data-view="solicitar">
                 <span class="material-symbols-outlined">block</span>
                 Inactivar Cuentas
             </button>
         </a>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <div class="mobile-only" style="width: 100%; margin-top: 10px;">
-        <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
-            @csrf
+        <form method="POST" action="<?php echo e(route('logout')); ?>" style="width: 100%;">
+            <?php echo csrf_field(); ?>
             <button type="button" class="btn-logout"
                 style="width: 100%; justify-content: flex-start; background: #ffebee; color: #c62828;">
                 <span class="material-symbols-outlined">logout</span>
@@ -146,4 +146,4 @@
 </aside>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('js/cerrarSesion.js') }}"></script>
+<script src="<?php echo e(asset('js/cerrarSesion.js')); ?>"></script><?php /**PATH C:\xampp\htdocs\Unetrans\resources\views/components/headers/medico.blade.php ENDPATH**/ ?>

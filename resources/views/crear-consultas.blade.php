@@ -2,10 +2,6 @@
 
 @section('content')
   
-  
-
-
-    <h2 class="title-form">Crear Consulta</h2>
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -17,7 +13,7 @@
     
 @endif
 @if (session('success'))
-    <div class="alert alert-success">
+    <div class="alert-success">
         {{ session('success') }}
     </div>
 @endif

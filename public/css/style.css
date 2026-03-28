@@ -524,8 +524,15 @@ textarea {
 
     padding: 15px;
 }
-/* Contenedor de servicios */
 
+/* NUEVA CLASE PARA CENTRAR Y EXPANDIR EN LA BUSQUEDA DE MEDICOS (INACTIVAR)*/
+.columna-centro {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Contenedor de servicios */
 .container-services{
     display:flex;
     flex-wrap:wrap;
@@ -650,7 +657,6 @@ textarea {
     max-width: 350px;
     display: flex;
     align-items: center;
-    gap: 10px;
     margin: 0 auto;
     padding: 6px 12px;
     border: 2px solid #e0e0e0;
@@ -663,18 +669,6 @@ textarea {
     color: #7a7a7a;
     font-size: 22px;
     line-height: 1;
-}
-
-.container-search__bar {
-    width: 100%;
-    padding: 12px 4px;
-    border: none;
-    border-bottom: 1px solid #000;
-    border-radius: 0;
-    font-size: 16px;
-    background: transparent;
-    outline: none;
-    box-shadow: none;
 }
 
 .container-search__bar::-webkit-calendar-picker-indicator {
@@ -1236,6 +1230,7 @@ textarea {
     margin-bottom: 30px;
     display: flex;
     justify-content: flex-end;
+    padding: 2px 8px;
 }
 
 .container-search__bar {
@@ -1245,6 +1240,7 @@ textarea {
     font-size: 16px;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 /* Contenedor de historias médicas */
@@ -1338,6 +1334,87 @@ textarea {
 .alert {
     text-align: center;
 }
+
+/* ===== CARD BASE ===== */
+.info-medica-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background: #ffffff;
+    padding: 20px 24px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+    transition: all 0.25s ease;
+
+    border-left: 6px solid #1a3f8a;
+
+    max-width: 650px;
+}
+
+/* HOVER SUAVE */
+.info-medica-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+
+/* ===== TITULO ===== */
+.info-medica-card h3 {
+    min-width: 150px;
+
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a3f8a;
+
+    margin: 0;
+}
+
+/* ===== TEXTO ===== */
+.info-medica-card p {
+    margin: 0;
+
+    font-size: 16px;
+    color: #000000;
+
+    line-height: 1.6;
+}
+
+/* ===== COLORES POR ESPECIALIDAD ===== */
+.general {
+    border-left-color: #1a3f8a;
+}
+
+.odontologia {
+    border-left-color: #2563eb;
+}
+
+.psiquiatria {
+    border-left-color: #7c3aed;
+}
+
+.fisiatria {
+    border-left-color: #059669;
+}
+
+.traumatologia {
+    border-left-color: #dc2626;
+}
+
+#mensajeBuscarPaciente {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#mensajeBuscarPaciente span {
+    display: inline-block;
+    font-size: 15px;
+    color: #555;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .medical-history-data {
@@ -1370,6 +1447,7 @@ textarea {
         font-size: 13px;
     }
 }
+
 /* Para hacerlo responsive */
 @media (max-width: 768px) {
     .main {

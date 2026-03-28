@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//esto nada mas ees para probar --NAHARA
+//esto nada mas es para probar --NAHARA
 Route::view('/jefeMedico', 'jefeMedico')->name('jefeMedico');
 Route::view('/pacientePersonal', 'pacientePersonal')->name('pacientePersonal');
 Route::view('/passwordRequest', 'passwordRequest')->name('passwordRequest');
@@ -57,32 +57,27 @@ Route::middleware(ValidateLinkPassword::class)->group(function () {
     Route::get('/passwordRequest', [RequestPasswordController::class, 'showPasswordForm'])->name('passwordRequest');
 });
 
+Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
 
 Route::middleware(['auth'])->group(function () {
 
  Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
  Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas');
- 
 
-    Route::middleware([CheckRole::class . ':especial'])->group(function () {
-        // Route::get('/medico', [EspecialController::class, 'index'])->name('especial.dashboard');
-        Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
-        Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
-        Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
-    });
+
+    
     // Rutas para PACIENTE
     // Usamos tu middleware CheckRole pasando el parámetro 'paciente'
     Route::middleware([CheckRole::class . ':paciente'])->group(function () {
         Route::get('/paciente', [PacienteController::class, 'index'])->name('paciente.dashboard');
-        Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
         //Route::view('/agendar', 'agendar')->name('paciente.agendar');
         
     });
 
     // Rutas para MÉDICO
     // Usamos tu middleware CheckRole pasando el parámetro 'medico'
-    Route::middleware([CheckRole::class . ':medico'])->group(function () {
+    //Route::middleware([CheckRole::class . ':medico'])->group(function () {
         // Route::get('/medico', [MedicoController::class, 'index'])->name('medico.dashboard');
         Route::get('/register-medico', [MedicoController::class, 'showMedicoForm'])->name('registrar-medico');
         
@@ -91,9 +86,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
         Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
+        Route::get('/inactivar-usuarios', [MedicoController::class, 'inactivarUsuarios'])
+        ->name('usuarios.inactivar');
         
-        
-    });
+    //});
 
     Route::middleware([CheckRole::class . ':medico,especial'])->group(function () {
     Route::get('/medico', function () {

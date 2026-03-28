@@ -74,8 +74,10 @@
   color: #64748b;
 }
 
-.auth-form{
-  width:100%;
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .auth-grid {
@@ -188,6 +190,12 @@
   border-radius: 12px;
   margin-bottom: 16px;
   font-size: 14px;
+}
+
+.grupo-password {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* Password request countdown */

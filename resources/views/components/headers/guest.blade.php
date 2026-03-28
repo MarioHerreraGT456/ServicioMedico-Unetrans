@@ -19,7 +19,6 @@
     <div class="sidebar__header">
       <nav class="sidebar_nav">
         <ul class="main-header__list" style="display: flex !important; flex-direction: column; padding: 0; list-style: none; gap: 10px;">
-          <li class="main-header__item"> <a class="sidebar_item" href="{{ url('/') }}">Sobre Nosotros</a> </li>
           <li class="main-header__item"> <a class="sidebar_item" href="{{ route('register') }}">Registrarse</a> </li>
           <li class="main-header__item"> <a class="sidebar_item" href="{{ route('login') }}">Iniciar Sesión</a> </li>
         </ul>

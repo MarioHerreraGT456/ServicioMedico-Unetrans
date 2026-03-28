@@ -152,6 +152,7 @@ class AuthController extends Controller
             'message' => 'Se ha enviado el correo al ' . $data['correo'] . ' con las instrucciones.'
         ]);
     }
+    
     public function emailRegisterMedico (Request $request) {
 
         $data = $request->validate([

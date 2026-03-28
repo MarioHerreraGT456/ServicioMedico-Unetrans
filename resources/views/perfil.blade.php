@@ -116,17 +116,11 @@
 
         <div class="profile-contact-item">
           <span class="contact-label">Teléfono</span>
-          <!--<div class="contact-value">
-            <span id="perfilTelefono">{{ $user->telefono }}</span>
-            <span class="material-symbols-outlined contact-edit"
-                  title="Próximamente editable">
-              edit
-            </span>
-          </div>-->
+    
           <div class="contact-value">
           <input type="text" 
           id="perfilTelefono"
-          value="{{ $user->telefono }}"
+          value="{{ $user->codigo}}-{{ $user->telefono }}"
           readonly
           class="input-contact">
 
@@ -139,13 +133,6 @@
 
         <div class="profile-contact-item">
           <span class="contact-label">Dirección</span>
-          <!--<div class="contact-value">
-            <span id="perfilDireccion">{{ $user->direccion }}</span>
-            <span class="material-symbols-outlined contact-edit"
-                  title="Próximamente editable">
-              edit
-            </span>
-          </div>-->
 
           <div class="contact-value">
             <input type="text" 

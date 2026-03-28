@@ -26,37 +26,110 @@
 
     <div id="view-perfil" class="view">
         @foreach($consultas as $index => $consulta)
-    <div class="card-consulta" id="card-{{ $index }}">
-        <h3>{{ $consulta->nombre }} {{ $consulta->apellido }} ({{ $consulta->especialidad }})</h3>
-        
-        <div class="info-grid">
-            <p><strong>Cédula:</strong> {{ $consulta->tipo }}-{{ $consulta->cedula }}</p>
-            <p><strong>Teléfono:</strong> {{ $consulta->telefono }}</p>
-            <p><strong>Sexo:</strong> {{ $consulta->sexo }}</p>
-            <p><strong>Dirección:</strong> {{ $consulta->direccion }}</p>
-            <p><strong>Fecha de Nacimiento:</strong> {{ $consulta->fecha_nacimiento }}</p>
-            
-            <p><strong>Enfermedad:</strong> {{ $consulta->enfermedad }}</p>
-            <p><strong>Motivo:</strong> {{ $consulta->motivo_consulta }}</p>
-            <p><strong>Antecedentes Familiares:</strong> {{ $consulta->antecedentes_familiares }}</p>
+        <div class="historia-doc" id="card-{{ $index }}">
+
+        <div class="historia-doc__cintillo">
+            <img src="img/cintillo.jpeg" class="logo-left">
+        </div>
+    <div class="historia-doc__header">
+        <h3 class="historia-doc__titulo-central">
+            {{ $consulta->especialidad === 'Odontología' ? 'HISTORIA ODONTOLÓGICA' : 'HISTORIA MÉDICA' }}
+        </h3>
+    </div>
+
+    <div class="historia-doc__body">
+
+        <!-- DATOS PERSONALES -->
+        <div class="historia-doc__row historia-doc__row--two">
+            <div class="historia-doc__field">
+                <label>Cédula:</label>
+                <input type="text" value="{{ $consulta->tipo }}-{{ $consulta->cedula }}" readonly>
+            </div>
+
+            <div class="historia-doc__field">
+                <label>Teléfono:</label>
+                <input type="text" value="{{ $consulta->telefono }}" readonly>
+            </div>
         </div>
 
-        {{-- Campos específicos --}}
-        @if($consulta->especialidad === 'Odontología')
-            <div class="dental-info" style="background: #f0f7ff; padding: 10px; margin-top: 10px;">
-                @php
-                    $dientesArray = json_decode($consulta->diente, true);
-                    if (is_string($dientesArray)) {
-                        $dientesArray = json_decode($dientesArray, true);
-                    }
-                @endphp
-        
-                <div class="card-odontograma" data-dientes-seleccionados="{{ $consulta->diente }}">
-                    <div class="dientes-block">
-                        <div class="campo odontologia-section">
-                            <input type="hidden" id="input_diente" name="dientes" value="{{ old('dientes') }}">
+        <div class="historia-doc__row historia-doc__row--two">
+            <div class="historia-doc__field">
+                <label>Paciente:</label>
+                <input type="text" value="{{ $consulta->nombre }} {{ $consulta->apellido }}" readonly>
+            </div>
 
-                            <div class="odontograma-container2">
+            <div class="historia-doc__field">
+                <label>Sexo:</label>
+                <input type="text" value="{{ $consulta->sexo }}" readonly>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--two">
+            <div class="historia-doc__field">
+                <label>Dirección:</label>
+                <input type="text" value="{{ $consulta->direccion }}" readonly>
+            </div>
+
+            <div class="historia-doc__field">
+                <label>Fecha de Nacimiento:</label>
+                <input type="text" value="{{ $consulta->fecha_nacimiento }}" readonly>
+            </div>
+        </div>
+
+        <!-- MÉDICO GENERAL -->
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Motivo de consulta:</label>
+                <input type="text" value="{{ $consulta->motivo_consulta }}" readonly>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Enfermedad actual:</label>
+                <input type="text" value="{{ $consulta->enfermedad }}" readonly>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Antecedentes familiares:</label>
+                <input type="text" value="{{ $consulta->antecedentes_familiares }}" readonly>
+            </div>
+        </div>
+
+        @php
+            $antecedentesArray = json_decode($consulta->antecedentes_personales, true);
+            if (is_string($antecedentesArray)) {
+                $antecedentesArray = json_decode($antecedentesArray, true);
+            }
+            $antecedentesTexto = is_array($antecedentesArray) && !empty($antecedentesArray) 
+                                 ? implode(', ', array_map('ucfirst', $antecedentesArray)) 
+                                 : 'Ninguno';
+        @endphp
+
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Antecedentes personales:</label>
+                <input type="text" value="{{ $antecedentesTexto }}" readonly>
+            </div>
+        </div>
+
+        <!-- BLOQUE ODONTOLÓGICO -->
+        @if($consulta->especialidad === 'Odontología')
+
+            <div class="historia-doc__row historia-doc__row--one">
+                <div class="historia-doc__field historia-doc__field--full">
+                    <label>Examen Bucal:</label>
+                    <input type="text" value="{{ $consulta->examen }}" readonly>
+                </div>
+            </div>
+
+            <!-- ODONTOGRAMA -->
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Odontograma:</label>
+
+                <div class="odontograma-container2 card-odontograma" data-dientes-seleccionados="{{ $consulta->diente }}">
                                 <div class="fila-dientes">
                                     <div class="cuadrante cuadrante-izq">
                                         <div class="diente-center">
@@ -198,31 +271,26 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> {{-- Cierre odontograma-container2 --}}
-                        </div> {{-- Cierre campo odontologia-section --}}
-                    </div> {{-- Cierre dientes-block --}}
-                    <p><strong>Examen Bucal:</strong> {{ $consulta->examen }}</p>
-                </div> {{-- Cierre card-odontograma --}}
-            </div> {{-- Cierre dental-info --}}
+                            </div>
+            </div>
+
         @endif
 
-        @php
-            $antecedentesArray = json_decode($consulta->antecedentes_personales, true);
-            if (is_string($antecedentesArray)) {
-                $antecedentesArray = json_decode($antecedentesArray, true);
-            }
-            $antecedentesTexto = is_array($antecedentesArray) && !empty($antecedentesArray) 
-                                 ? implode(', ', array_map('ucfirst', $antecedentesArray)) 
-                                 : 'Ninguno';
-        @endphp
-        <div class="info-grid">
-        <p><strong>Antecedentes Personales:</strong> {{ $antecedentesTexto }}</p>
-        <p><strong>Tratamiento:</strong> {{ $consulta->tratamiento }}</p>
+        <!-- TRATAMIENTO -->
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Tratamiento:</label>
+                <textarea readonly>{{ $consulta->tratamiento }}</textarea>
+            </div>
         </div>
+
+        <!-- BOTÓN -->
         <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
             Descargar PDF
         </button>
+
     </div>
+</div>
 @endforeach
     </div>
 </main>

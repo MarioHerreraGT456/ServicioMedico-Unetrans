@@ -14,10 +14,10 @@
         100% { transform: rotate(360deg); }
     }
 </style>
-    <h1 class="hero__title-historial">Historial de Consultas</h1>
+        <h1 class="hero__title-historial">Historial de Consultas</h1>
 
     {{-- MOSTRAR BUSCADOR SOLO A MÉDICOS --}}
-    @if ($persona->rol === 'medico')
+    @if ($persona->rol === 'medico' or $persona->rol === 'especial')
         <div class="container-search">
             <span class="container-search__icon material-symbols-outlined">search</span>
             <form method="GET" action="{{ route('consultas') }}" class="form-buscar">
@@ -37,18 +37,74 @@
     {{-- LISTADO DE RESULTADOS --}}
     <div id="view-perfil" class="view" style="margin-top: 20px;">
         @forelse ($consultas as $index => $consulta)
-            <div class="card-consulta " id="card-{{ $index }}">
-                <h2>Cédula Paciente: {{ $consulta->cedula }}</h2>
-                <p><strong>Paciente:</strong> {{ $consulta->nombre }} {{ $consulta->apellido }}</p>
-                <p><strong>Doctor:</strong> {{ $consulta->nombre_doctor }} </p>
-                <p><strong>Fecha Consulta:</strong> {{ $consulta->fecha_consulta }}</p>
-                <p><strong>Especialidad:</strong> {{ $consulta->especialidad }}</p>
-                <p><strong>Motivo:</strong> {{ $consulta->motivo }}</p>
-                <p><strong>Tratamiento:</strong> {{ $consulta->tratamiento }}</p>
-                <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
+            <div class="historia-doc" id="card-{{ $index }}">
+
+    <div class="historia-doc__cintillo">
+        <img src="img/cintillo.jpeg" class="logo-left">
+    </div>
+    
+    <div class="historia-doc__header">
+        <h3 class="historia-doc__titulo-central">CONSULTA MÉDICA</h3>
+    </div>
+
+    <div class="historia-doc__body">
+
+        <div class="historia-doc__row historia-doc__row--two">
+            <div class="historia-doc__field">
+                <label>Cédula:</label>
+                <input type="text" value="{{ $consulta->cedula }}" readonly>
+            </div>
+
+            <div class="historia-doc__field">
+                <label>Fecha:</label>
+                <input type="text" value="{{ $consulta->fecha_consulta }}" readonly>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--two">
+            <div class="historia-doc__field">
+                <label>Paciente:</label>
+                <input type="text" value="{{ $consulta->nombre }} {{ $consulta->apellido }}" readonly>
+            </div>
+
+            <div class="historia-doc__field">
+                <label>Doctor:</label>
+                <input type="text" value="{{ $consulta->nombre_doctor }}" readonly>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--two">
+            <div class="historia-doc__field">
+                <label>Especialidad:</label>
+                <input type="text" value="{{ $consulta->especialidad }}" readonly>
+            </div>
+
+            <div class="historia-doc__field">
+                <label>Tensión Arterial:</label>
+                <input type="text" value="{{ $consulta->TA }}" readonly>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Motivo:</label>
+                <textarea readonly>{{ $consulta->motivo }}</textarea>
+            </div>
+        </div>
+
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>Tratamiento:</label>
+                <textarea readonly>{{ $consulta->tratamiento }}</textarea>
+            </div>
+        </div>
+
+       <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
             Descargar PDF
         </button>
-            </div>
+
+    </div>
+</div>
         @empty
             {{-- Si se buscó algo y no hay nada, o si el paciente no tiene historial --}}
             @if ($buscar || $persona->rol === 'paciente')
@@ -80,8 +136,16 @@ function exportarPDF(idElemento, cedulaPaciente) {
 
         // Opciones del PDF: márgenes mínimos para que el contenido empiece arriba
         const opciones = {
-            margin: [0, 0, 0, 0], // [top, right, bottom, left] en mm 
+            margin: [0, 0, 0, 0], // [top, right, bottom, left] en mm (puedes poner 0 si quieres)
             filename: `Consulta_${cedulaPaciente}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                letterRendering: true,
+                 scrollY: 0, 
+            },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
@@ -104,7 +168,7 @@ function exportarPDF(idElemento, cedulaPaciente) {
                 overlay.style.display = 'none';
                 alert('Hubo un error al generar el PDF. Intenta de nuevo.');
             });
-    }, 1000); 
+    }, 1000); // 50ms es suficiente para que el overlay aparezca
 }
 </script>
 @endsection

@@ -34,11 +34,22 @@
   <div class="sidebar__header">
     @auth
     @php
-        $perfil = Auth::user()->perfil();
-        $foto = $perfil ? $perfil->foto : null;
+        $user = auth()->user();
+        $foto = $user->foto;
     @endphp
-    <img src="{{ asset('storage/' . $foto) }}" alt="Foto de Perfil" onerror="this.style.display='none'">
-    <span class="sidebar__name">{{ Auth::user()->nombre }}</span>
+
+    @if($foto)
+        <img src="{{ asset('storage/' . $foto) }}" 
+            alt="Foto de Perfil"
+            style="object-fit: cover;"
+            onerror="this.style.display='none'">
+    @else
+        <img src="{{ asset('img/perfil.jpg') }}" 
+            alt="Foto por defecto"
+            style="object-fit: cover;">
+    @endif
+
+    <span class="sidebar__name">{{ $user->nombre }} {{ $user->apellido}}</span>
     @endauth
   </div>
 
@@ -62,12 +73,13 @@
         <span class="material-symbols-outlined">person</span>
         Perfil
       </button>
-    </a>
+    </a>  
+
     <a href="{{ route('consultas') }}" style="text-decoration: none;">
-      <button class="sidebar__item" data-view="perfil">
-        <span class="material-symbols-outlined">person</span>
-        Consultas
-      </button>
+        <button class="sidebar__item" data-view="solicitar">
+            <span class="material-symbols-outlined">search</span>
+            Consultas
+        </button>
     </a>
     
     @auth
@@ -75,11 +87,11 @@
         $user = auth()->user();
     @endphp
 
-    @if($user->rol === 'paciente' && $user->paciente && $user->paciente->categoria === 'personal'&& $user->familiar && $user->familiar->tipo_personal !== null)
+    @if($user->rol === 'paciente' && $user->paciente && $user->paciente->categoria === 'personal')
       <a href="{{ route('agregar-familiar') }}" style="text-decoration: none;">
-        <button class="sidebar__item" data-view="solicitar">
-            <span class="material-symbols-outlined">person</span>
-            Agregar familiar
+        <button class="sidebar__item" data-view="agregar-familiar">
+          <span class="material-symbols-outlined">person_add</span>
+          Agregar Familiar
         </button>
       </a>
     @endif

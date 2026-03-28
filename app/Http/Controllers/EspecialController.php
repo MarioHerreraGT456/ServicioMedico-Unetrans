@@ -114,7 +114,7 @@ class EspecialController extends Controller
         }
      }
 
-      public function index(Request $request) 
+public function index(Request $request) 
 {
     $user = Auth::user();
     // $medico = $user->medico;
@@ -131,6 +131,8 @@ class EspecialController extends Controller
             // Lógica para categoría personal (búsqueda cruzada)
             $relaciones = Familiar::where('cedula', 'LIKE', "$buscar%")
                 ->orWhere('cedula2', 'LIKE', "$buscar%")
+                ->orWhere('nombre', 'LIKE', "$buscar%")
+                ->orWhere('apellido', 'LIKE', "$buscar%")
                 ->get();
 
             $cedulas = $relaciones->pluck('cedula')
@@ -146,11 +148,12 @@ class EspecialController extends Controller
             // Lógica de búsqueda normal
             $resultados = Persona::where('cedula', 'LIKE', "$buscar%")
                 ->orWhere('nombre', 'LIKE', "%$buscar%")
-                ->orWhere('apellido', 'LIKE', "%$buscar%")
+                 ->orWhere('apellido', 'LIKE', "%$buscar%")
                 ->get();
         }
     }
 
     return view('medico', compact('user', 'medico', 'buscar', 'resultados'));
 }
+
 }

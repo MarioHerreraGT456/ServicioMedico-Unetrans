@@ -16,9 +16,9 @@ class JefeMedico extends Seeder
     {
         // Datos del médico jefe
         $nombre = 'Nahara';
-        $nombre2 = 'María';
+        $nombre2 = 'Yenyré';
         $apellido = 'Rivera'; 
-        $apellido2 = 'Fulana'; 
+        $apellido2 = 'Gonzalez'; 
         $cedula = 32540243; // Cédula única, cámbiala si es necesario
         $correo = 'nahararivera20@gmail.com';
         $tipo = 'V'; // Tipo de cédula: V o E
@@ -40,7 +40,7 @@ class JefeMedico extends Seeder
             'fecha_nacimiento' => '2006-11-22', // Fecha de nacimiento ficticia
             'direccion'   => 'Los Teques', // Dirección ficticia
             'codigo'      => '0412',
-            'telefono'    => '0000000', // Teléfono ficticio
+            'telefono'    => '6335800', // Teléfono ficticio
             'correo'      => $correo,
             'sexo'        => 'femenino', // Sexo ficticio
             'created_at'  => Carbon::now(),

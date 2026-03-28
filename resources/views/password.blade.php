@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-  <h2 class="title-form">Agregar contraseña</h2>
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -16,7 +14,27 @@
     </div>
     @endif
 
-    <form id="formRegistroPaciente" method="POST" action="{{ route('password.register') }}" enctype="multipart/form-data">
+    <div class="auth-page">
+    <div class="auth-card">
+        <aside class="auth-side">
+            <h2>UNETRANS</h2>
+            <p>Completa tu registro creando una contraseña segura</p>
+        </aside>
+
+        <section class="auth-main">
+            <h1 class="auth-title">Crear Contraseña</h1>
+            <p class="auth-sub">Completa el siguiente formulario para completar tu registro.</p>                       
+            @if ($errors->any())
+                <div class="auth-alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+        <form id="formRegistroPaciente" class="auth-form" method="POST" action="{{ route('password.register') }}" enctype="multipart/form-data">
       @csrf
       
         <div class="campo hidden">
@@ -159,7 +177,7 @@
         </div>
         @endif
         @endisset
-      <div class="campo ">
+        <div class="campo"> 
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
             @error('password')
@@ -167,7 +185,7 @@
             @enderror
         </div>
 
-        <div class="campo ">
+        <div class="campo">
             <label for="password_confirmation">Confirme contraseña:</label>
             <input type="password" id="password_confirmation" name="password_confirmation" required>
             @error('password_confirmation')
@@ -180,15 +198,13 @@
             <input type="hidden" name="rol" value="{{ $rol }}">
         </div>
         
-      {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
-      <div class="campo">
-        <button type="submit" id="btnRegistroContinuar">Confirmar</button>
-
-      </div>
-
-
+        {{-- <div id="registroPacienteMsg" class="form-msg oai-hidden"></div> --}}
+        <div class="campo">
+            <button type="submit" id="btnRegistroContinuar">Confirmar</button>
+        </div>
+       </div>
+       </section>
     </form>
     <script src="js/app.js" defer></script>
-
 @endsection
 

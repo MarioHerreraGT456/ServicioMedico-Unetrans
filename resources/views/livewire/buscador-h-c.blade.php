@@ -1,15 +1,25 @@
+
 <div class="historia-doc__encabezado">
 
-    <form id="formRegistroConsulta" method="POST" action="{{ route('consultas.store') }}" enctype="multipart/form-data">
+    <form id="formRegistroConsulta" method="POST" action="{{ route('consultas.store') }}" enctype="multipart/form-data" style="width: 100%; display: flex; justify-content: center;">
     @csrf
+    <div class="historia-doc">
 
-    <div class="historia-doc__row historia-doc__row--two">
+    <div class="historia-doc__cintillo">
+        <img src="img/cintillo.jpeg" class="logo-left">
+    </div>
 
-        <div class="campo historia-doc__field">
+    <div class="historia-doc__header">
+        <h3 class="historia-doc__titulo-central">CONSULTA MÉDICA</h3>
+    </div>
+
+    <div class="historia-doc__body">
+    <div class="historia-doc__row historia-doc__row--search">
+        <div class="campo historia-doc__field historia-doc__field--tipo-busqueda">
             <label for="cedula">Cédula:</label>
-            <div id="campoCedula">
+            <div id="campoCedula" class="historia-doc__inline-group">
+                <label for="tipo" class="hidden">Tipo:</label>
                 <input type="text" id="tipo" name="tipo" wire:model="tipo" required>
-
                 <input 
                     type="text" 
                     wire:model.live.debounce.500ms="buscar" 
@@ -18,12 +28,11 @@
                 >
             </div>
         </div>
+    </div>
 
-        <div class="campo historia-doc__field hidden">
-            <label for="cedula">Cédula:</label>
-            <input type="text" name="cedula" wire:model="cedula" required>
-        </div>
-
+    <div class="campo hidden">
+        <label for="cedula">Cédula:</label>
+        <input type="text" name="cedula" wire:model="cedula" required>
     </div>
 
 
@@ -72,7 +81,7 @@
     </div>
 
 
-    <div class="historia-doc__row historia-doc__row--three">
+    <div class="historia-doc__row historia-doc__row--four">
 
         <div class="campo historia-doc__field">
             <label for="sexo">Sexo:</label>
@@ -131,7 +140,7 @@
     <div class="historia-doc__actions">
         <button type="submit" id="btnRegistroContinuar">Registrar</button>
     </div>
-
+</div>
     </form>      
 
 </div>

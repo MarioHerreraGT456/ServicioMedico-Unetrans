@@ -25,6 +25,11 @@ body {
     box-shadow: none;
     font-family: "Times New Roman", serif;
     color: #000;
+    min-height: auto;
+}
+
+.historia-doc {
+    max-width: 900px !important;
 }
 
 /* =====================================
@@ -250,6 +255,32 @@ textarea {
 .historia-doc--odontologia .odontograma-container {
     transform: scale(0.9);
     transform-origin: top center;
+}
+
+.odontograma-container2 {
+    transform: scale(0.7);
+    transform-origin: top left;
+    width: 140%;
+    margin-bottom: 0;
+}
+
+.diente-center img {
+    width: 40px;
+    height: auto;
+}
+
+.alert-success {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 14px 18px;
+    border-radius: 10px;
+
+    background: #d1e7dd;
+    color: #0f5132;
+
+    display: flex;
+    align-items: center;
 }
 
 /* =====================================

@@ -719,7 +719,7 @@ body.menu-open .main-content {
 .histories-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 30px;
+    margin-top: 5px;
 }
 
 /* ===== HEADER ===== */
@@ -2462,4 +2462,16 @@ button.btn-cerrar-overlay:active {
 
 .password-recovery:hover {
     text-decoration: underline;
+}
+
+/*PARA  CUANDO NO HAY RESULTADOS EN BUSQUEDAS*/
+.alert-no-results {
+    text-align: center;
+    padding: 20px;
+    background: #ffe5e5;
+    color: #b30000;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 60%;
+    margin: 20px auto;
 }

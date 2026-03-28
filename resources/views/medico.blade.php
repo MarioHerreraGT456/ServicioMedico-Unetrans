@@ -31,16 +31,64 @@
         </button>
         </form>
     </div>
+     @if (!request('buscar'))
+      <div class="" id="mensajeBuscarPaciente">
+        <span>Por favor, ingresar la cédula del paciente</span>
+      </div>
+      @endif
     <div class="contenedor-principal">
     <div class="columna-setenta">
       <!--<p>Esta es la columna del 70%.</p>-->
       
       <!--MENSAJE PARA CUANDO NO HAY NADA EN EL BUSCADOR-->
-      @if (!request('buscar'))
-      <div class="" id="mensajeBuscarPaciente">
-        <span>Por favor, ingresar la cédula del paciente</span>
-      </div>
-      @endif
+      <!--@if (!request('buscar'))
+      <section id="view-perfil" class="view" style="display: flex; flex-direction: column; gap: 20px;">
+      @if($medico->especialidad === 'general')
+        <div class="info-medica-card general">
+            <h3>Medicina General</h3>
+            <p>
+              La medicina general es la puerta de entrada al sistema de salud, orientada a la atención integral del paciente en todas las etapas de la vida. Se enfoca en la prevención, diagnóstico y tratamiento de enfermedades comunes, así como en la promoción de hábitos saludables. El médico general evalúa de forma global el estado físico del paciente, identifica factores de riesgo y, de ser necesario, refiere a otras especialidades. Su objetivo principal es brindar una atención continua, accesible y centrada en el bienestar general del individuo.
+            </p>
+        </div>
+    @endif
+
+    @if($medico->especialidad === 'odontologia')
+        <div class="info-medica-card odontologia">
+            <h3>Odontología</h3>
+            <p>
+                La odontología es la especialidad encargada del cuidado de la salud bucal, incluyendo dientes, encías y estructuras asociadas. Se enfoca en la prevención, diagnóstico y tratamiento de afecciones como caries, enfermedades periodontales y problemas de oclusión. Además, promueve hábitos de higiene oral adecuados para evitar complicaciones a largo plazo. Una buena salud bucal no solo mejora la estética, sino que también contribuye al bienestar general del organismo.
+            </p>
+        </div>
+    @endif
+
+    @if($medico->especialidad === 'psiquiatria')
+        <div class="info-medica-card psiquiatria">
+            <h3>Psiquiatría</h3>
+            <p>
+                La psiquiatría es la rama de la medicina dedicada al estudio, diagnóstico y tratamiento de los trastornos mentales, emocionales y del comportamiento. Su enfoque incluye la evaluación integral del paciente, considerando factores biológicos, psicológicos y sociales. A través de diferentes herramientas terapéuticas, busca mejorar la calidad de vida, el funcionamiento diario y el bienestar emocional del individuo, promoviendo una salud mental equilibrada.
+            </p>
+        </div>
+    @endif
+
+    @if($medico->especialidad === 'fisiatria')
+        <div class="info-medica-card fisiatria">
+            <h3>Fisiatría</h3>
+            <p>
+                La fisiatría, también conocida como medicina física y rehabilitación, se centra en la recuperación funcional de pacientes con limitaciones físicas o discapacidades. Su objetivo es mejorar la movilidad, reducir el dolor y optimizar la independencia del paciente mediante programas de rehabilitación personalizados. Trabaja en conjunto con terapias físicas y ocupacionales para lograr una reintegración efectiva a las actividades diarias.
+            </p>
+        </div>
+    @endif
+
+    @if($medico->especialidad === 'traumatologia')
+        <div class="info-medica-card traumatologia">
+            <h3>Traumatología</h3>
+            <p>
+                La fisiatría, también conocida como medicina física y rehabilitación, se centra en la recuperación funcional de pacientes con limitaciones físicas o discapacidades. Su objetivo es mejorar la movilidad, reducir el dolor y optimizar la independencia del paciente mediante programas de rehabilitación personalizados. Trabaja en conjunto con terapias físicas y ocupacionales para lograr una reintegración efectiva a las actividades diarias.
+            </p>
+        </div>
+    @endif
+      </section>
+      @endif-->
       
       <!--DE AQUI EN ADELANTE EL PERFIL-->
       <section id="view-perfil" class="view" style="display: flex; flex-direction: column; gap: 20px;">
@@ -92,22 +140,22 @@
                             <h3 class="profile-card-title">Contacto</h3>
                             <div class="profile-contact-list">
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Correo</span>
-                                    <div class="contact-value">
-                                        <span class="value2">{{ $persona->correo }}</span>
-                                    </div>
+                                    <div class="profile-field">
+                                    <span class="label">Correo</span>
+                                    <span class="value2">{{ $persona->correo }}</span>
+                                </div>
                                 </div>
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Teléfono</span>
-                                    <div class="contact-value">
-                                        <span class="value2">{{ $persona->codigo }}{{ $persona->telefono }}</span>
-                                    </div>
+                                    <div class="profile-field">
+                                    <span class="label">Telefono</span>
+                                    <span class="value2">{{ $persona->codigo }}-{{ $persona->telefono }}</span>
+                                </div>
                                 </div>
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Dirección</span>
-                                    <div class="contact-value">
-                                        <span class="value2">{{ $persona->direccion }}</span>
-                                    </div>
+                                    <div class="profile-field">
+                                    <span class="label">Dirección</span>
+                                    <span class="value2">{{ $persona->direccion }}</span>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -141,28 +189,38 @@
                                         <span class="label">Estado Civil</span>
                                         <span class="value2">{{ $titular->estado_civil }}</span>  
                                     </div>
+
+                                    <div class="profile-field">
+                                        <span class="label">Edad</span>
+                                        <span class="value2">{{ \Carbon\Carbon::parse($titular->fecha_nacimiento)->age }} años</span>  
+                                    </div>
+
+                                    <div class="profile-field">
+                                        <span class="label">Sexo</span>
+                                        <span class="value2">{{ $titular->sexo }}</span>  
+                                    </div>
                                 </div>
                             </div>
                             <div class="profile-item">
                             <h3 class="profile-card-title">Contacto</h3>
                             <div class="profile-contact-list">
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Correo</span>
-                                    <div class="contact-value">
+                                    <div class="profile-field">
+                                        <span class="label">Correo</span>
                                         <span class="value2">{{ $titular->correo }}</span>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Teléfono</span>
-                                    <div class="contact-value">
-                                        <span class="value2">{{ $titular->codigo }}{{ $titular->telefono }}</span>
-                                    </div>
+                                    <div class="profile-field">
+                                        <span class="label">Telefono</span>
+                                        <span class="value2">{{ $titular->codigo }}-{{ $persona->telefono }}</span>
+                                    </div> 
                                 </div>
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Dirección</span>
-                                    <div class="contact-value">
+                                    <div class="profile-field">
+                                        <span class="label">Dirección</span>
                                         <span class="value2">{{ $titular->direccion }}</span>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
                         </div>
@@ -195,28 +253,38 @@
                                     <span class="label">Estado Civil</span>
                                     <span class="value2">{{ $persona->estado_civil }}</span>
                                 </div>
+
+                                <div class="profile-field">
+                                    <span class="label">Edad</span>
+                                    <span class="value2">{{ \Carbon\Carbon::parse($persona->fecha_nacimiento)->age }} años</span>
+                                </div>
+
+                                <div class="profile-field">
+                                    <span class="label">Sexo</span>
+                                    <span class="value2">{{ $persona->sexo }}</span>
+                                </div>                                
                             </div>
                         </div>
                         <div class="profile-item">
                             <h3 class="profile-card-title">Contacto</h3>
                             <div class="profile-contact-list">
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Correo</span>
-                                    <div class="contact-value">
-                                        <span class="value2">{{ $persona->correo }}</span>
-                                    </div>
+                                    <div class="profile-field">
+                                      <span class="label">Correo</span>
+                                      <span class="value2">{{ $persona->correo }}</span>
+                                    </div>  
                                 </div>
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Teléfono</span>
-                                    <div class="contact-value">
-                                        <span class="value2">{{ $persona->codigo }}{{ $persona->telefono }}</span>
-                                    </div>
+                                    <div class="profile-field">
+                                        <span class="label">Telefono</span>
+                                        <span class="value2">{{ $persona->codigo }}-{{ $persona->telefono }}</span>
+                                    </div>  
                                 </div>
                                 <div class="profile-contact-item2">
-                                    <span class="contact-label2">Dirección</span>
-                                    <div class="contact-value">
+                                    <div class="profile-field">
+                                        <span class="label">Dirección</span>
                                         <span class="value2">{{ $persona->direccion }}</span>
-                                    </div>
+                                    </div>  
                                 </div>
                             </div>
                         </div>
@@ -224,7 +292,6 @@
                 </div>
             @endif
         @endforeach
-
     {{-- botones
      --}}
     </section>
