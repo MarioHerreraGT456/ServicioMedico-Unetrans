@@ -119,6 +119,32 @@
                                     <span class="value2"><?php echo e($persona->direccion); ?></span>
                                 </div>
                             </div>
+                            <form method="POST" 
+                                action="<?php echo e(route('usuarios.estado', $persona->cedula)); ?>" 
+                                class="form-estado">
+
+                              <?php echo csrf_field(); ?>
+                              <?php echo method_field('PATCH'); ?>
+
+                              <button type="submit" 
+                                  class="btn-estado <?php echo e($persona->estado ? 'btn-inactivar' : 'btn-activar'); ?>">
+                                  
+                                  <?php echo e($persona->estado ? 'Inactivar Usuario' : 'Activar Usuario'); ?>
+
+
+                              </button>
+                          </form>
+
+                          <form method="POST" 
+                                action="<?php echo e(route('perfil')); ?>">
+
+                              <?php echo csrf_field(); ?>
+                              <?php echo method_field('PATCH'); ?>
+
+                              <button type="submit" class="btn-inactivar">
+                                  Inactivar Usuario
+                              </button>
+                          </form>
                         </div>
                     </div>
                 </div>
@@ -143,7 +169,9 @@
 
   </main>
 </div>
-
+<script> window.csrfToken = "<?php echo e(csrf_token()); ?>"; </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/inactivar.js"></script>
 <script src="js/profile.js" defer></script>
 <script src="js/auth-overlay.js" defer></script>
 <script src="js/app.js"></script>

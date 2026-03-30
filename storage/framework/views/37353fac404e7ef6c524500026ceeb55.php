@@ -76,9 +76,10 @@
 
     <?php
         $cargo = $user->medico->cargo ?? null;
+    
     ?>
     <!-- MÉDICO NORMAL -->
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo !== 'jefe' && $cargo !== 'asistente'): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo !== 'jefe' && $cargo !== 'asistente' && !auth('admin')->check()): ?>
     <a href="<?php echo e(route('consultas')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">search</span>
@@ -105,7 +106,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     
     <!-- MÉDICO NORMAL -->
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo !== 'jefe' && $cargo !== 'asistente'): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cargo !== 'jefe' && $cargo !== 'asistente' && !auth('admin')->check()): ?>
     <a href="<?php echo e(route('crear-historias')); ?>" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">note_add</span>
@@ -115,7 +116,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!-- JEFE -->
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe'): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe') || auth('admin')->check()): ?>
         <a href="<?php echo e(route('registrar-medico')); ?>" style="text-decoration: none;">
             <button class="sidebar__item" data-view="solicitar">
                 <span class="material-symbols-outlined">group_add</span>

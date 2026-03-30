@@ -60,7 +60,7 @@ Route::middleware(ValidateLinkPassword::class)->group(function () {
 Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:web,admin'])->group(function () {
 
  Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
  Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas');
@@ -86,8 +86,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/crear-consultas', [ConsultasController::class, 'showConsultaForm'])->name('crear-consultas');
         Route::get('/crear-historias', [HistoriasController::class, 'showHistoriaForm'])->name('crear-historias');
         Route::get('/historias', [HistoriasController::class, 'index'])->name('historias');
-        Route::get('/inactivar-usuarios', [MedicoController::class, 'inactivarUsuarios'])
+        Route::get('/inactivar-usuarios', [AuthController::class, 'inactivarUsuarios'])
         ->name('usuarios.inactivar');
+        Route::patch('/inactivar-usuario/{cedula}', [AuthController::class, 'inactivarCuenta'])
+        ->name('usuarios.inactivar.cuenta');
+        Route::patch('/usuario/estado/{cedula}', [AuthController::class, 'cambiarEstado'])
+        ->name('usuarios.estado');
         
     //});
 

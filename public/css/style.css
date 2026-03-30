@@ -154,7 +154,7 @@ img {
     margin-bottom: 40px;
 }
 
-.hero__title-historial{
+.hero__title-historial {
     font-size: 28px;
     line-height: 1.15;
     color: #0b0135;
@@ -404,62 +404,62 @@ img {
 }
 
 /* Footer */
-.footer{
-    background:#ffffff;
-    color:#000000;
-    padding:40px 20px 15px;
-    margin-top:50px;
+.footer {
+    background: #ffffff;
+    color: #000000;
+    padding: 40px 20px 15px;
+    margin-top: 50px;
 }
 
-.footer-container{
-    display:flex;
-    justify-content:space-between;
-    max-width:1200px;
-    margin:auto;
-    flex-wrap:wrap;
-    gap:30px;
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 .footer h4,
-.footer h5{
-    margin-bottom:10px;
+.footer h5 {
+    margin-bottom: 10px;
 }
 
-.footer a:hover{
-    color:white;
+.footer a:hover {
+    color: white;
 }
 
-.footer-social{
-    text-align:center;
+.footer-social {
+    text-align: center;
 }
 
-.instagram-circle{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);
-    color:white;
-    font-size:20px;
-    text-decoration:none;
-    margin-top:8px;
-    transition:0.3s;
+.instagram-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: 0.3s;
 }
 
-.instagram-circle:hover{
-    transform:scale(1.15);
-    box-shadow:0 6px 12px rgba(0,0,0,0.25);
+.instagram-circle:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
-.footer-copyright{
-    width:100%;
-    text-align:center;
-    margin-top:20px;
-    padding-top:10px;
-    font-size:14px;
-    color:#000000;
+.footer-copyright {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    font-size: 14px;
+    color: #000000;
 }
 
 /* Botones y mejoras visuales */
@@ -533,20 +533,20 @@ textarea {
 }
 
 /* Contenedor de servicios */
-.container-services{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-    margin-top:30px;
+.container-services {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
 }
 
-.container-services > div{
-    width:300px;
-    height:340px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+.container-services > div {
+    width: 300px;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Estilos comunes para todas las secciones de servicios */
@@ -555,7 +555,8 @@ textarea {
 .container-services__psychiatry,
 .container-services__traumatology,
 .container-services__physiatry,
-.container-services__calendario {
+.container-services__calendario,
+.container-services__admin {
     margin-top: 10px;
     background-color: white;
     border-radius: 12px;
@@ -577,31 +578,40 @@ textarea {
 .container-services__dentistry:hover,
 .container-services__psychiatry:hover,
 .container-services__traumatology:hover,
-.container-services__physiatry:hover,  
-.container-services__calendario:hover {
+.container-services__physiatry:hover,
+.container-services__calendario:hover,
+.container-services__admin:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Contenedores de imágenes */
 .container-services__img,
-.container-services__container-img{
-    width:100%;
-    height:180px;
-    border-radius:10px;
-    overflow:hidden;
-    margin-bottom:15px;
+.container-services__container-img {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
 }
 
 .container-services__img img,
-.container-services__container-img img{
-    width:100%;
-    height:110%;
-    object-fit:cover;
-    aspect-ratio:16/9;
+.container-services__container-img img {
+    width: 100%;
+    height: 110%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
 }
 
 /* Títulos de servicios */
+.container-services__admin::after {
+    content: "Jefe Médico";
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 10px;
+    display: block;
+}
 .container-services__general-medicine::after {
     content: "Medicina General";
     font-size: 1.3rem;
@@ -620,7 +630,7 @@ textarea {
     display: block;
 }
 
-.container-services__calendario::after{
+.container-services__calendario::after {
     content: "Calendario";
     font-size: 1.3rem;
     font-weight: bold;
@@ -1346,7 +1356,7 @@ textarea {
 
     border-radius: 18px;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
     transition: all 0.25s ease;
 
@@ -1358,7 +1368,7 @@ textarea {
 /* HOVER SUAVE */
 .info-medica-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* ===== TITULO ===== */
@@ -1669,4 +1679,4 @@ textarea {
     .user-query__user h1 {
         font-size: 24px;
     }
-}   
+}

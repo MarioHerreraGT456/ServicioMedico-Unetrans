@@ -19,19 +19,42 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
     {
         $credentials = $request->validate([
-            'cedula' => 'required|integer',
+            'cedula' => 'required|numeric',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $request->session()->regenerate();
-            return $this->redirectByRole();
+        // 1. EVALUAR LA TABLA PRINCIPAL (Persona)
+        $user = \App\Models\Persona::where('cedula', $request->cedula)->first();
+
+        // Si el usuario existe en la tabla principal, validamos su estado
+        if ($user) {
+            if (!$user->estado) {
+                return back()->withErrors([
+                    'cedula' => 'Esta cuenta se encuentra inactiva'
+                ])->onlyInput('cedula');
+            }
+
+            // Intento de login normal (Guard por defecto 'web')
+            if (Auth::attempt($credentials, $request->filled('remember'))) {
+                $request->session()->regenerate();
+                return $this->redirectByRole();
+            }
         }
-        
-        
+
+        // 2. EVALUAR LA TABLA SECUNDARIA (Usuario del Seeder)
+        if (Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            
+            // Puedes redirigirlo a una ruta específica para este tipo de usuario
+            return $this->redirectByRole(); 
+            
+            // O si comparten lógica, podrías enviarlo a $this->redirectByRole() dependiendo de tu estructura
+        }
+
+        // 3. SI AMBOS FALLAN
         return back()->withErrors([
             'cedula' => 'Credenciales incorrectas.',
         ])->onlyInput('cedula');
@@ -416,16 +439,95 @@ class AuthController extends Controller
     
     // Lo hacemos public static o protected para poder reusarlo si hiciera falta
     public function redirectByRole()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
+    $admin = Auth::guard('admin')->user();
 
+    // 1. PRIORIDAD: ¿Es un administrador de la tabla secundaria?
+    if ($admin) {
+        // Redirigimos al dashboard de médico/especial
+        return redirect()->route('medico.dashboard');
+    }
+
+    // 2. ¿Es un usuario de la tabla principal (Persona)?
+    if ($user) {
         if ($user->rol === 'paciente') {
             return redirect()->route('paciente.dashboard');
-        } elseif ($user->rol === 'medico' || $user->rol === 'especial') {
+        } 
+
+        if ($user->rol === 'medico' || $user->rol === 'especial') {
             return redirect()->route('medico.dashboard');
         }
+    }
 
-        // Fallback por seguridad
-        return redirect('/');
+    // 3. Fallback por seguridad
+    return redirect('/');
+}
+
+    public function inactivarUsuarios(Request $request)
+    {
+        $buscar = $request->get('buscar');
+
+        $resultados = collect();
+        $noEsMedico = false;
+
+        if ($buscar) {
+
+            $persona = \App\Models\Persona::where('cedula', $buscar)->first();
+
+            if ($persona && !\App\Models\Medico::where('cedula', $persona->cedula)->exists()) {
+                $noEsMedico = true;
+            }
+
+            $resultados = \App\Models\Persona::join('medicos', 'personas.cedula', '=', 'medicos.cedula')
+                ->where(function ($query) use ($buscar) {
+                    $query->where('personas.cedula', 'LIKE', "$buscar%")
+                        ->orWhere('personas.nombre', 'LIKE', "%$buscar%")
+                        ->orWhere('personas.apellido', 'LIKE', "%$buscar%");
+                })
+                ->select('personas.*', 'medicos.cargo', 'medicos.especialidad')
+                ->get();
+        }
+
+        return view('inactivarUsuarios', compact('resultados', 'buscar', 'noEsMedico'));
+    }
+
+    public function inactivarCuenta($cedula)
+    {
+        $persona = \App\Models\Persona::where('cedula', $cedula)->first();
+
+        if ($persona) {
+            $persona->estado = false;
+            $persona->save();
+
+            return response()->json([
+                'message' => 'Se ha desactivado el usuario'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Usuario no encontrado'
+        ], 404);
+    }
+
+    public function cambiarEstado($cedula)
+    {
+        $persona = \App\Models\Persona::where('cedula', $cedula)->first();
+
+        if ($persona) {
+            $persona->estado = !$persona->estado; //alterna true/false
+            $persona->save();
+
+            return response()->json([
+                'estado' => $persona->estado,
+                'message' => $persona->estado 
+                    ? 'El usuario se encuentra activo nuevamente' 
+                    : 'El usuario se encuentra inactivo'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Usuario no encontrado'
+        ], 404);
     }
 }

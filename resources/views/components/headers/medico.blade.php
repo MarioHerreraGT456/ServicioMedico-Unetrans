@@ -76,9 +76,10 @@
 
     @php
         $cargo = $user->medico->cargo ?? null;
+    
     @endphp
     <!-- MÉDICO NORMAL -->
-    @if($cargo !== 'jefe' && $cargo !== 'asistente')
+    @if($cargo !== 'jefe' && $cargo !== 'asistente' && !auth('admin')->check())
     <a href="{{ route('consultas') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">search</span>
@@ -105,7 +106,7 @@
     @endif
     
     <!-- MÉDICO NORMAL -->
-    @if($cargo !== 'jefe' && $cargo !== 'asistente')
+    @if($cargo !== 'jefe' && $cargo !== 'asistente' && !auth('admin')->check())
     <a href="{{ route('crear-historias') }}" style="text-decoration: none;">
         <button class="sidebar__item" data-view="solicitar">
             <span class="material-symbols-outlined">note_add</span>
@@ -115,7 +116,7 @@
     @endif
 
     <!-- JEFE -->
-    @if($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe')
+    @if(($user->rol === 'medico' && $user->medico && $user->medico->cargo === 'jefe') || auth('admin')->check())
         <a href="{{ route('registrar-medico') }}" style="text-decoration: none;">
             <button class="sidebar__item" data-view="solicitar">
                 <span class="material-symbols-outlined">group_add</span>
