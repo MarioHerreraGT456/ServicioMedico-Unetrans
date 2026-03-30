@@ -19,19 +19,28 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
     {
         $credentials = $request->validate([
             'cedula' => 'required|integer',
             'password' => 'required',
         ]);
 
+        // VALIDAR SI EL USUARIO ESTÁ INACTIVO
+        $user = \App\Models\Persona::where('cedula', $request->cedula)->first();
+
+        if ($user && !$user->estado) {
+            return back()->withErrors([
+                'cedula' => 'Esta cuenta se encuentra inactiva'
+            ])->onlyInput('cedula');
+        }
+
+        // LOGIN NORMAL
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             return $this->redirectByRole();
         }
-        
-        
+
         return back()->withErrors([
             'cedula' => 'Credenciales incorrectas.',
         ])->onlyInput('cedula');
@@ -427,5 +436,72 @@ class AuthController extends Controller
 
         // Fallback por seguridad
         return redirect('/');
+    }
+
+    public function inactivarUsuarios(Request $request)
+    {
+        $buscar = $request->get('buscar');
+
+        $resultados = collect();
+        $noEsMedico = false;
+
+        if ($buscar) {
+
+            $persona = \App\Models\Persona::where('cedula', $buscar)->first();
+
+            if ($persona && !\App\Models\Medico::where('cedula', $persona->cedula)->exists()) {
+                $noEsMedico = true;
+            }
+
+            $resultados = \App\Models\Persona::join('medicos', 'personas.cedula', '=', 'medicos.cedula')
+                ->where(function ($query) use ($buscar) {
+                    $query->where('personas.cedula', 'LIKE', "$buscar%")
+                        ->orWhere('personas.nombre', 'LIKE', "%$buscar%")
+                        ->orWhere('personas.apellido', 'LIKE', "%$buscar%");
+                })
+                ->select('personas.*', 'medicos.cargo', 'medicos.especialidad')
+                ->get();
+        }
+
+        return view('inactivarUsuarios', compact('resultados', 'buscar', 'noEsMedico'));
+    }
+
+    public function inactivarCuenta($cedula)
+    {
+        $persona = \App\Models\Persona::where('cedula', $cedula)->first();
+
+        if ($persona) {
+            $persona->estado = false;
+            $persona->save();
+
+            return response()->json([
+                'message' => 'Se ha desactivado el usuario'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Usuario no encontrado'
+        ], 404);
+    }
+
+    public function cambiarEstado($cedula)
+    {
+        $persona = \App\Models\Persona::where('cedula', $cedula)->first();
+
+        if ($persona) {
+            $persona->estado = !$persona->estado; //alterna true/false
+            $persona->save();
+
+            return response()->json([
+                'estado' => $persona->estado,
+                'message' => $persona->estado 
+                    ? 'El usuario se encuentra activo nuevamente' 
+                    : 'El usuario se encuentra inactivo'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Usuario no encontrado'
+        ], 404);
     }
 }

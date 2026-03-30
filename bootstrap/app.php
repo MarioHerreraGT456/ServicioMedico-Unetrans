@@ -1,10 +1,10 @@
 <?php
-
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Configuration\Exceptions;
+use App\Http\Middleware\CheckUserActive;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Configuration\Exceptions;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,14 +13,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //$middleware->alias('ValidateLinkPassword', \App\Http\Middleware\ValidateLinkPassword::class);
-        
+
+        $middleware->alias([
+            'active' => CheckUserActive::class,
+        ]);
+
+        // si quieres mantener otros:
+        // $middleware->alias('ValidateLinkPassword', \App\Http\Middleware\ValidateLinkPassword::class);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (HttpException $e, Request $request) {
-        if ($e->getStatusCode() === 419) {
-            return redirect()->route('login')
-                ->with('message', 'Tu sesión expiró por inactividad. Por favor, inicia sesión de nuevo.');
-        }
-         });
+            if ($e->getStatusCode() === 419) {
+                return redirect()->route('login')
+                    ->with('message', 'Tu sesión expiró por inactividad. Por favor, inicia sesión de nuevo.');
+            }
+        });
     })->create();

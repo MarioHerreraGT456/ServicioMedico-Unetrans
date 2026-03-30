@@ -121,6 +121,31 @@
                                     <span class="value2">{{ $persona->direccion }}</span>
                                 </div>
                             </div>
+                            <form method="POST" 
+                                action="{{ route('usuarios.estado', $persona->cedula) }}" 
+                                class="form-estado">
+
+                              @csrf
+                              @method('PATCH')
+
+                              <button type="submit" 
+                                  class="btn-estado {{ $persona->estado ? 'btn-inactivar' : 'btn-activar' }}">
+                                  
+                                  {{ $persona->estado ? 'Inactivar Usuario' : 'Activar Usuario' }}
+
+                              </button>
+                          </form>
+
+                          <form method="POST" 
+                                action="{{ route('perfil') }}">
+
+                              @csrf
+                              @method('PATCH')
+
+                              <button type="submit" class="btn-inactivar">
+                                  Inactivar Usuario
+                              </button>
+                          </form>
                         </div>
                     </div>
                 </div>
@@ -268,7 +293,9 @@
 
   </main>
 </div>
-
+<script> window.csrfToken = "{{ csrf_token() }}"; </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/inactivar.js"></script>
 <script src="js/profile.js" defer></script>
 <script src="js/auth-overlay.js" defer></script>
 <script src="js/app.js"></script>
