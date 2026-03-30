@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
 <div class="dashboard">
 
@@ -54,7 +52,7 @@
     
     <?php elseif($resultados->isEmpty()): ?>
         <div class="alert-no-results">
-            <span>No se encontraron médicos con ese criterio</span>
+            <span>No se encontraron médicos con este número de documento</span>
         </div>
 
     
