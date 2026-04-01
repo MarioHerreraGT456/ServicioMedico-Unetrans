@@ -278,6 +278,151 @@
   transform: translateY(-1px);
 }
 
+/*ESTO ES PARA QUE LOS BOTONES EN EL CARD DE INACTIVAR CUENTA SE VEAN UNO AL LDO DEL OTRO*/
+/* Contenedor Principal */
+.perfil-container-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 30px;
+    max-width: 900px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-main-content {
+    display: flex;
+    gap: 40px;
+}
+
+/* Sidebar (Foto) */
+.profile-sidebar {
+    flex: 0 0 200px;
+    text-align: center;
+}
+
+.profile-avatar img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px; /* Esquinas ligeramente redondeadas como en la imagen */
+    margin-bottom: 15px;
+}
+
+.profile-full-name {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.status-active {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Detalles */
+.profile-details-wrapper {
+    flex: 1;
+}
+
+.profile-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.section-title {
+    font-size: 0.85rem;
+    color: #777;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.data-row {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.label {
+    color: #999;
+    font-size: 0.8rem;
+    width: 100px;
+}
+
+.value {
+    color: #333;
+    font-weight: 500;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* Footer y Botones */
+.profile-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.btn-revisar-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #2c5d8f;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.status-active {
+    color: green;
+    font-weight: 600;
+}
+
+.status-inactive {
+    color: red;
+    font-weight: 600;
+}
+
+.btn-estado {
+    background: transparent;
+    border: 2px solid;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 🔴 INACTIVAR */
+.btn-inactivar {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-inactivar:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+/* 🟢 ACTIVAR */
+.btn-activar {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+.btn-activar:hover {
+    background: #28a745;
+    color: #fff;
+}
 /* ===== RESPONSIVE ===== */
 @media (min-width: 600px) {
   form {

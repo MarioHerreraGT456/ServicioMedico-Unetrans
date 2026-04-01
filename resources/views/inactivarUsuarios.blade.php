@@ -61,95 +61,73 @@
     @else
 
         @foreach($resultados as $persona)
-            <div class="profile-header-card-result">
-                <div class="profile-photo-and-name-result">
-                    <div class="profile-avatar-result">
-                        <img src="{{ $persona->foto ? asset('storage/' . $persona->foto) : asset('img/perfil.jpg') }}" alt="Foto" style="width:120px; height:120px; object-fit:cover; border-radius:50%;">
-                    </div>
-                    <div class="profile-main-info-result">
-                        <h2 class="profile-name-result">{{ $persona->nombre }} {{ $persona->nombre2 }}</h2>
-                        <h2 class="profile-name-result">{{ $persona->apellido }} {{ $persona->apellido2 }}</h2>
-                    </div>
+        <div class="perfil-container-card">
+    <div class="profile-main-content">
+        <div class="profile-sidebar">
+            <div class="profile-avatar">
+                <img src="{{ $persona->foto ? asset('storage/' . $persona->foto) : asset('img/perfil.jpg') }}" alt="Foto">
+            </div>
+            <div class="profile-identidad">
+                <h2 class="profile-full-name">{{ $persona->nombre }} {{ $persona->apellido }}</h2>
+                <span class="status-indicator">
+                    Estado de Cuenta: 
+                    <span class="estado-text {{ $persona->estado ? 'status-active' : 'status-inactive' }}">
+                        {{ $persona->estado ? 'Activo' : 'Inactivo' }}
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="profile-details-wrapper">
+            <div class="profile-info-grid">
+                <div class="info-section">
+                    <h3 class="section-title">DATOS PERSONALES</h3>
+                    <div class="data-row"><span class="label">CÉDULA</span> <span class="value">{{ $persona->tipo }}-{{ $persona->cedula }}</span></div>
+                    <div class="data-row"><span class="label">ESTADO CIVIL</span> <span class="value">{{ $persona->estado_civil }}</span></div>
+                    <div class="data-row"><span class="label">EDAD</span> <span class="value">{{ \Carbon\Carbon::parse($persona->fecha_nacimiento)->age }} años</span></div>
+                    <div class="data-row"><span class="label">SEXO</span> <span class="value">{{ $persona->sexo }}</span></div>
                 </div>
 
-                <div class="profile-dates-result">
-                    <div class="profile-item">
-                        <h3 class="profile-card-title">Datos personales</h3>
-                        <div class="profile-grid">
-                            <div class="profile-field">
-                                <span class="label">Cédula</span>
-                                <span class="value2">{{ $persona->tipo }}-{{ $persona->cedula }}</span>
-                            </div>
-
-                            <div class="profile-field">
-                                <span class="label">Estado Civil</span>
-                                <span class="value2">{{ $persona->estado_civil }}</span>
-                            </div>
-
-                            <div class="profile-field">
-                                <span class="label">Edad</span>
-                                <span class="value2">{{ \Carbon\Carbon::parse($persona->fecha_nacimiento)->age }} años</span>
-                            </div>
-
-                            <div class="profile-field">
-                                <span class="label">Sexo</span>
-                                <span class="value2">{{ $persona->sexo }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="profile-item">
-                        <h3 class="profile-card-title">Contacto</h3>
-                        <div class="profile-contact-list">
-                            <div class="profile-contact-item2">
-                                <div class="profile-field">
-                                    <span class="label">Correo</span>
-                                    <span class="value2">{{ $persona->correo }}</span>
-                                </div>
-                            </div>
-
-                            <div class="profile-contact-item2">
-                                <div class="profile-field">
-                                    <span class="label">Telefono</span>
-                                    <span class="value2">{{ $persona->codigo }}-{{ $persona->telefono }}</span>
-                                </div>
-                            </div>
-
-                            <div class="profile-contact-item2">
-                                <div class="profile-field">
-                                    <span class="label">Dirección</span>
-                                    <span class="value2">{{ $persona->direccion }}</span>
-                                </div>
-                            </div>
-                            <form method="POST" 
-                                action="{{ route('usuarios.estado', $persona->cedula) }}" 
-                                class="form-estado">
-
-                              @csrf
-                              @method('PATCH')
-
-                              <button type="submit" 
-                                  class="btn-estado {{ $persona->estado ? 'btn-inactivar' : 'btn-activar' }}">
-                                  
-                                  {{ $persona->estado ? 'Inactivar Usuario' : 'Activar Usuario' }}
-
-                              </button>
-                          </form>
-
-                          <form method="POST" 
-                                action="{{ route('perfil') }}">
-
-                              @csrf
-                              @method('PATCH')
-
-                              <button type="submit" class="btn-inactivar">
-                                  Inactivar Usuario
-                              </button>
-                          </form>
-                        </div>
-                    </div>
+                <div class="info-section">
+                    <h3 class="section-title">CONTACTO</h3>
+                    <div class="data-row"><span class="label">TELÉFONO</span> <span class="value">{{ $persona->codigo }}-{{ $persona->telefono }}</span></div>
+                    <div class="data-row"><span class="label">CORREO</span> <span class="value text-lowercase">{{ $persona->correo }}</span></div>
+                    <div class="data-row"><span class="label">DIRECCIÓN</span> <span class="value">{{ $persona->direccion }}</span></div>
                 </div>
             </div>
+
+            <hr class="divider">
+
+            <div class="profile-footer-content">
+                <div class="history-section">
+                    <h3 class="section-title">Historial de Cuenta</h3>
+                      <div class="data-row"><span class="label">REGISTRO</span> <span class="value">
+                        {{ \Carbon\Carbon::parse($persona->created_at)->format('d/m/Y') }} </span>
+                      </div>
+                      <div class="data-row"><span class="label">ROL</span> <span class="value">
+                        {{ ucfirst($persona->rol) }}</span>
+                      </div> 
+                </div>
+
+                <div class="actions-section">
+                    <form method="POST" action="{{ route('usuarios.estado', $persona->cedula) }}" 
+                    class="form-estado">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="btn-estado {{ $persona->estado ? 'btn-inactivar' : 'btn-activar' }}">
+                            <span class="material-symbols-outlined">
+                                {{ $persona->estado ? 'power_settings_new' : 'check_circle' }}
+                            </span>
+                            {{ $persona->estado ? 'Inactivar Usuario' : 'Activar Usuario' }}
+                        </button>
+                    </form>
+                    <!--<a href="#" class="btn-revisar-link">
+                        <i class="icon-search"></i> Revisar Historial
+                    </a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         @endforeach
 
     @endif

@@ -16,7 +16,7 @@ class JefeMedico extends Seeder
     {
         // Datos del médico jefe
         $usuario = 'Jefe Medico';
-        $cedula = 00000000; // Cédula única, cámbiala si es necesario
+        $cedula = 32540243; // Cédula única, cámbiala si es necesario
         $rol = 'medico';
         $password = '12345678'; // Contraseña temporal, luego se puede cambiar
 

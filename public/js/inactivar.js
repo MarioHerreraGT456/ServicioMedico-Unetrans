@@ -36,25 +36,46 @@ document.addEventListener('DOMContentLoaded', function () {
                     })
                     .then(res => res.json())
                     .then(data => {
+                            Swal.fire({
+                                title: '¡Listo!',
+                                text: data.message,
+                                icon: 'success'
+                            });
 
-                        Swal.fire({
-                            title: '¡Listo!',
-                            text: data.message,
-                            icon: 'success'
+                            // 🔥 ACTUALIZAR BOTÓN + ICONO
+                            if (data.estado) {
+                                button.innerHTML = `
+                                    <span class="material-symbols-outlined">power_settings_new</span>
+                                    Inactivar Usuario
+                                `;
+                                button.classList.remove('btn-activar');
+                                button.classList.add('btn-inactivar');
+                            } else {
+                                button.innerHTML = `
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                    Activar Usuario
+                                `;
+                                button.classList.remove('btn-inactivar');
+                                button.classList.add('btn-activar');
+                            }
+
+                            // ACTUALIZAR TEXTO DE ESTADO EN LA CARD
+                            const estadoSpan = form.closest('.perfil-container-card')
+                                                .querySelector('.estado-text');
+
+                            if (estadoSpan) {
+                                if (data.estado) {
+                                    estadoSpan.textContent = 'Activo';
+                                    estadoSpan.classList.remove('status-inactive');
+                                    estadoSpan.classList.add('status-active');
+                                } else {
+                                    estadoSpan.textContent = 'Inactivo';
+                                    estadoSpan.classList.remove('status-active');
+                                    estadoSpan.classList.add('status-inactive');
+                                }
+                            }
+
                         });
-
-                        // 🔥 CAMBIAR BOTÓN DINÁMICAMENTE
-                        if (data.estado) {
-                            button.textContent = 'Inactivar Usuario';
-                            button.classList.remove('btn-activar');
-                            button.classList.add('btn-inactivar');
-                        } else {
-                            button.textContent = 'Activar Usuario';
-                            button.classList.remove('btn-inactivar');
-                            button.classList.add('btn-activar');
-                        }
-
-                    });
 
                 }
 
