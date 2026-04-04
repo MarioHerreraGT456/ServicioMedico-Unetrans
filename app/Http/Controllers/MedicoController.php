@@ -24,6 +24,16 @@ class MedicoController extends Controller
     // Inicializamos como una colección vacía
     $resultados = collect();
 
+    $consultasPendientes = collect();
+
+    if ($medico && $medico->cargo === 'asistente') {
+        $consultasPendientes = DB::table('table_consultas')
+            ->where('estado', 'pendiente')
+            ->where('especialidad', $medico->especialidad) 
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
+
     // SOLO si el usuario escribió algo en el buscador, realizamos la consulta
     if ($buscar) {
         if ($medico->categoria === 'personal') {
@@ -52,8 +62,15 @@ class MedicoController extends Controller
         }
     }
 
-    return view('medico', compact('user', 'medico', 'buscar', 'resultados'));
-}
+        return view('medico', compact(
+            'user',
+            'medico',
+            'buscar',
+            'resultados',
+            'consultasPendientes'
+        ));
+    }
+
     //PARA LA BUSQUEDA DE MEDICOS PARA ACTIVAR/INACTIVAR USUARIOS
     public function inactivarUsuarios(Request $request){
         $buscar = $request->get('buscar');
@@ -167,5 +184,16 @@ class MedicoController extends Controller
             DB::rollBack();
             return back()->withErrors(['error' => 'Error al registrar médico: ' . $e->getMessage()])->withInput();
         }
+    }
+
+    public function atenderConsulta($id)
+    {
+        DB::table('table_consultas')
+            ->where('id', $id)
+            ->update([
+                'estado' => 'completada'
+            ]);
+
+        return response()->json(['success' => true]);
     }
 }

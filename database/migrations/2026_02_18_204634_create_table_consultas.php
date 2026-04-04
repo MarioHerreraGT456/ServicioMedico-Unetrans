@@ -27,6 +27,8 @@ return new class extends Migration
             $table->integer('TA');
             $table->string('motivo');
             $table->string('tratamiento');
+            $table->enum('estado', ['pendiente', 'completada'])
+            ->default('pendiente');
             $table->timestamps();
             // $table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');
         });

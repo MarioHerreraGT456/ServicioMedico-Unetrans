@@ -92,7 +92,7 @@ Route::middleware(['auth:web,admin'])->group(function () {
         ->name('usuarios.inactivar.cuenta');
         Route::patch('/usuario/estado/{cedula}', [AuthController::class, 'cambiarEstado'])
         ->name('usuarios.estado');
-        
+        Route::post('/consultas/{id}/atender', [MedicoController::class, 'atenderConsulta']);
     //});
 
     Route::middleware([CheckRole::class . ':medico,especial'])->group(function () {
