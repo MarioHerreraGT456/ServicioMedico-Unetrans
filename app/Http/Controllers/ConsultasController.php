@@ -31,8 +31,19 @@ class ConsultasController extends Controller
             'TA'              => 'required|integer',
             'motivo'       => 'required|string|max:255',
             'tratamiento'       => 'required|string|max:255',
+            'visitante'       => 'required|in:si,no',
+            
             
         ]);
+        if ($request->especialidad === 'general') {
+    $request->validate([
+        'tipo_consulta' => 'required|in:niños,parto,pesquisa,vital',
+    ]);
+} else {
+    $request->validate([
+        'tipo_consulta' => 'nullable|in:niños,parto,pesquisa,vital',
+    ]);
+}
       
 
         DB::beginTransaction();
@@ -53,6 +64,8 @@ class ConsultasController extends Controller
                 'TA'              => $request->TA,
                 'motivo'       => $request->motivo,
                 'tratamiento'       => $request->tratamiento,
+                'visitante'       => $request->visitante,
+                'tipo_consulta'       => $request->tipo_consulta,
             ]);
 
             DB::commit();

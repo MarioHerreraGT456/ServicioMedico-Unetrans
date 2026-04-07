@@ -39,10 +39,12 @@ class HistoriasOdontologo extends Model
         'examen',
         'dientes',
         'odontograma',
+        'foto'
     ];
     protected $casts = [
         'antecedentes_personales' => 'array', 
         'dientes' => 'array',
+        'foto' => 'array',
     ];
 
     

@@ -33,7 +33,8 @@ return new class extends Migration
        $table->json('antecedentes_personales')->nullable();
        $table->string('radiodiagnóstico');
        $table->string('tratamiento');
-     
+       $table->enum('visitante', ['si', 'no'])->default('no');
+       $table->string('foto')->nullable();
     
         $table->rememberToken();
         $table->timestamps();

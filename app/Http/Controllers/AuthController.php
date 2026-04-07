@@ -92,7 +92,7 @@ class AuthController extends Controller
     }
 
     public function enviarCorreo (Request $request) {
-    
+     
         if ($request->rol === 'paciente') {
         return $this->emailRegisterPaciente($request);
     } elseif ($request->rol === 'medico') {
@@ -103,6 +103,7 @@ class AuthController extends Controller
 
     public function emailRegisterEspecial (Request $request) {
         Log::info('Iniciando emailRegisterEspecial', $request->all());
+        
         $data = $request->validate([
             'nombre'            => 'required|string|max:255', 
             'nombre2'            => 'required|string|max:255',
@@ -158,7 +159,8 @@ class AuthController extends Controller
         ]);
     //    dd($data, $url);
     Log::info($url);
-       
+        
+        
         
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
@@ -170,7 +172,7 @@ class AuthController extends Controller
     }
     
     public function emailRegisterMedico (Request $request) {
-
+  
         $data = $request->validate([
             'nombre'            => 'required|string|max:255', 
             'nombre2'            => 'required|string|max:255',
@@ -218,7 +220,7 @@ class AuthController extends Controller
         ]);
       
        //dd($data, $url);
-        
+        // dd(config('mail.mailers.smtp'));
         Mail::to($data['correo'])->send(new CorreoRegistro($url,$data));
 
         //return view('envio-correo', ['nombre' => $data['nombre']]);

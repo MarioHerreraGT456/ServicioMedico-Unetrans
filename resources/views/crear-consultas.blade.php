@@ -39,4 +39,6 @@
     <livewire:buscador-h-c />
     
     <script src="js/app.js" defer></script>
+    <script src="js/generalHistorias.js" defer></script>
+    <script src="js/generalConsultas.js" defer></script>
     @endsection

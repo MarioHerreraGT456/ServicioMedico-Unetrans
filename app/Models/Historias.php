@@ -34,9 +34,11 @@ class Historias extends Model
         'antecedentes_personales',
         'radiodiagnóstico',
         'tratamiento',
+        'foto'
     ];
     protected $casts = [
         'antecedentes_personales' => 'array', 
+        'foto' => 'array',
     ];
 
     /**

@@ -396,6 +396,24 @@
                             @enderror
                         </div>
                     </div>
+                    {{-- input de la foto --}}
+                    <div class="foto-upload" id="foto-upload">
+                        <label for="foto">Recipes, Justifivativos...</label>
+    <input type="file" id="foto" name="foto[]" accept="image/*" multiple hidden>
+
+    <div class="drop-area" >
+        <p>Arrastra tus fotos aquí o toca para seleccionar (máx. 5)</p>
+    </div>
+
+    <div class="preview" id="preview"></div>
+</div>
+                    <div>
+        <label for="visitante">¿Es visitante?</label>
+        
+        <input type="hidden" name="visitante" value="no">
+        
+        <input type="checkbox" name="visitante" id="visitante" value="si">
+    </div>
 
                     <div class="submit-button historia-doc__actions">
                         <button type="submit" id="btnRegistroContinuar">Registrar Historia</button>

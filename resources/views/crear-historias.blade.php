@@ -37,4 +37,8 @@
     </script>
     <script src="js/diente.js" defer></script>
     <script src="js/antecendentes.js" defer></script>
+    <script src="js/fotoHistorias.js" defer></script>
+    <script>
+    handleFotos();
+</script>
 @endsection

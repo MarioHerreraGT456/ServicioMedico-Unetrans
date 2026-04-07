@@ -2021,10 +2021,9 @@ button.btn-cerrar-overlay:active {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #f9f9f9;
+
     padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+
     margin-top: 10px;
     width: 100%;
 }
@@ -2142,7 +2141,8 @@ button.btn-cerrar-overlay:active {
     margin-top: 10px;
 }
 
-.btn-ant {
+.btn-ant,
+.btn-ant1 {
     padding: 10px 18px;
     border: 1px solid #ccc;
     background-color: #fff;
@@ -2152,11 +2152,13 @@ button.btn-cerrar-overlay:active {
     font-size: 14px;
 }
 
-.btn-ant:hover {
+.btn-ant:hover,
+.btn-ant1:hover {
     border-color: #007bff;
 }
 
-.btn-ant.activo {
+.btn-ant.activo,
+.btn-ant1.activo {
     background-color: #007bff;
     color: white;
     border-color: #0056b3;
@@ -2474,4 +2476,54 @@ button.btn-cerrar-overlay:active {
     font-weight: bold;
     width: 60%;
     margin: 20px auto;
+}
+
+.foto-upload {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    font-family: sans-serif;
+}
+
+.drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.drop-area:hover {
+    border-color: #666;
+}
+
+.preview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.preview img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
+    .preview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .preview img {
+        height: 90px;
+    }
+
+    .drop-area {
+        padding: 20px;
+        font-size: 14px;
+    }
 }

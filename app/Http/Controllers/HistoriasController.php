@@ -32,29 +32,30 @@ class HistoriasController extends Controller
         return view('historias', ['consultas' => collect(), 'buscar' => $buscar]);
     }
     
-    // 1. Definir campos comunes (asegúrate de que coincidan exactamente con la DB)
-    $camposComunes = [
-        'id', 'cedula', 'nombre', 'apellido', 'tipo', 'sexo', 
-        'fecha_nacimiento', 'direccion', 'telefono', 
-        'motivo_consulta', 'enfermedad', 'antecedentes_familiares', 
-        'antecedentes_personales', 'radiodiagnóstico', 'tratamiento', 'created_at'
-    ];
+    
 
     // 2. Query para Historias Generales
-    $queryGeneral = DB::table('historias')
-        ->select(array_merge($camposComunes, [
-            DB::raw('NULL as examen'), 
-            DB::raw('NULL as diente'), // Alias unificado
-            DB::raw("'General' as especialidad")
-        ]));
+    $queryGeneral = Historias::select([
+    'id', 'cedula', 'nombre', 'apellido', 'tipo', 'sexo', 
+    'fecha_nacimiento', 'direccion', 'telefono', 
+    'motivo_consulta', 'enfermedad', 'antecedentes_familiares', 
+    'antecedentes_personales', 'radiodiagnóstico', 'tratamiento', 
+    'created_at', 'foto', 'visitante',
+    DB::raw('NULL as examen'), 
+    DB::raw('NULL as diente'),
+    DB::raw("'General' as especialidad")
+]);
 
-    // 3. Query para Historias Odontología
-    $queryOdonto = DB::table('historias-odontologo')
-        ->select(array_merge($camposComunes, [
-            'examen', 
-            'dientes as diente', // Renombramos 'dientes' a 'diente' para el UNION
-            DB::raw("'Odontología' as especialidad")
-        ]));
+$queryOdonto = HistoriasOdontologo::select([
+    'id', 'cedula', 'nombre', 'apellido', 'tipo', 'sexo', 
+    'fecha_nacimiento', 'direccion', 'telefono', 
+    'motivo_consulta', 'enfermedad', 'antecedentes_familiares', 
+    'antecedentes_personales', 'radiodiagnóstico', 'tratamiento', 
+    'created_at', 'foto', 'visitante',
+    'examen',
+    'dientes as diente',
+    DB::raw("'Odontología' as especialidad")
+]);
 
     // 4. Aplicar filtros si existe una búsqueda
     if ($buscar) {
@@ -81,6 +82,15 @@ class HistoriasController extends Controller
     
     public function store(Request $request)
     {
+
+        $rutasFotos = [];
+        if ($request->hasFile('foto')) {
+            foreach ($request->file('foto') as $foto) {
+                // Guardar en public/historias y obtener la ruta
+                $ruta = $foto->store('historias', 'public');
+                $rutasFotos[] = $ruta;
+            }
+        }
         // 1. Definimos las reglas básicas comunes para ambas tablas
         $rules = [
             'nombre'                  => 'required|string|max:255',
@@ -100,6 +110,10 @@ class HistoriasController extends Controller
             'antecedentes_personales' => 'required|json',
             'radiodiagnóstico'        => 'required|string',
             'tratamiento'             => 'required|string',
+            'visitante'               => 'required|in:si,no',
+            'foto' => 'nullable|array|max:5',
+            'foto.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
 
         // 2. Validación para Odontología: Si viene el campo 'diente', hacemos obligatorios sus campos
@@ -111,7 +125,10 @@ class HistoriasController extends Controller
             $rules['odontograma'] = 'nullable|string';
         }
 
+        
+        
         $validatedData = $request->validate($rules);
+        $validatedData['foto'] = $rutasFotos;
 
         // dd($validatedData, $esOdontologia);
         

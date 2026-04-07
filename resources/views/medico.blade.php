@@ -145,6 +145,10 @@
                                     {{ $consulta->apellido }} {{ $consulta->apellido2 }}
                                 </span>
 
+                                <span class="waiting-badge">
+                                    {{ $consulta->visitante === 'si' ? 'Visitante' : 'No Visitante' }}
+                                </span>
+
                             </div>
 
                             <div class="waiting-row-bottom">

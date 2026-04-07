@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Si se hace click fuera del contenido (en el modal de fondo), cerrar
-        window.onclick = function (event) {
-            if (event.target == sidebar) {
-                sidebar.style.display = "none";
-            }
-        };
+        // window.onclick = function (event) {
+        //     if (event.target == sidebar) {
+        //         sidebar.style.display = "none";
+        //     }
+        // };
     }
 });

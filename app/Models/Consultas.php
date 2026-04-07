@@ -27,6 +27,8 @@ class Consultas extends Model
         'TA',
         'motivo',
         'tratamiento',
+        'visitante',
+        'tipo_consulta',
     ];
     
 }

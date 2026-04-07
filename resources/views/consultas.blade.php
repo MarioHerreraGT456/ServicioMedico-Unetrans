@@ -98,6 +98,12 @@
                 <textarea readonly>{{ $consulta->tratamiento }}</textarea>
             </div>
         </div>
+        <div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>¿Es visitante?</label>
+                <input type="text" value="{{ $consulta->visitante }}" readonly>
+            </div>
+        </div>
 
        <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
             Descargar PDF
