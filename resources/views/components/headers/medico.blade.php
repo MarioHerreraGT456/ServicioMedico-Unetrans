@@ -31,7 +31,7 @@
 
 <aside id="sidebarMedico" class="sidebar">
   
-  <div class="close">&times;</div>
+
   
  <div class="close">&times;</div>
   

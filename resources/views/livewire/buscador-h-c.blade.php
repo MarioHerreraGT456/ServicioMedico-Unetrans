@@ -91,8 +91,8 @@
         <div class="campo historia-doc__field">
             <label for="especialidad">Especialidad:</label>
             <select id="especialidad" name="especialidad" required>
-                <option value="general">Medicina General</option>
                 <option value="odontologia">Odontología</option>
+                <option value="general">Medicina General</option>
                 <option value="psiquiatria">Psiquiatría</option>    
                 <option value="fisiatria">Fisiatria</option>  
                 <option value="traumatologia">Traumatología</option>  
@@ -111,6 +111,18 @@
 
         <div class="campo historia-doc__field historia-doc__field--full">
             <label for="motivo">Motivo de Consulta:</label>
+            <div id="contenedor_tipo_consulta" style="display: none;">
+    
+    <input type="hidden" id="tipo_consulta" name="tipo_consulta">
+
+    <div class="antecedentes-selector historia-doc__selector">
+        <button type="button" class="btn-ant1" data-valor="niños">Control de niños sanos</button>
+        <button type="button" class="btn-ant1" data-valor="parto">Consulta parto humanizado</button>
+        <button type="button" class="btn-ant1" data-valor="pesquisa">Pesquisa de CA</button>
+        <button type="button" class="btn-ant1" data-valor="vital">Apoyo Vital</button>
+    </div>
+
+</div>
             <input type="text" id="motivo" name="motivo" value="{{ old('motivo') }}" required>
         </div>
 
@@ -134,6 +146,13 @@
             <textarea id="tratamiento" name="tratamiento" required>{{ old('tratamiento') }}</textarea>
         </div>
 
+    </div>
+    <div>
+        <label for="visitante">¿Es visitante?</label>
+        
+        <input type="hidden" name="visitante" value="no">
+        
+        <input type="checkbox" name="visitante" id="visitante" value="si">
     </div>
 
 

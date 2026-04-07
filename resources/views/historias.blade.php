@@ -284,6 +284,27 @@
             </div>
         </div>
 
+<div class="historia-doc__row historia-doc__row--one">
+    <div class="historia-doc__field historia-doc__field--full">
+        <label>Imágenes:</label>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            @foreach($consulta->foto as $foto)
+                <img src="{{ asset('storage/' . $foto) }}" 
+                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer;"
+                     onclick="window.open(this.src, '_blank')">
+            @endforeach
+        </div>
+
+    </div>
+</div>
+<div class="historia-doc__row historia-doc__row--one">
+            <div class="historia-doc__field historia-doc__field--full">
+                <label>¿Es visitante?</label>
+                <input type="text" value="{{ $consulta->visitante }}" readonly>
+            </div>
+        </div>
+
         <!-- BOTÓN -->
         <button type="button" class="btn-download" onclick="exportarPDF('card-{{ $index }}', '{{ $consulta->cedula }}')">
             Descargar PDF
