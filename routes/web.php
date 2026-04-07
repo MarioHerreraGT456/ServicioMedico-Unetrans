@@ -13,6 +13,7 @@ use App\Http\Middleware\CheckRole; // Asegúrate de importar tu middleware
 use App\Http\Middleware\ValidateLinkPassword;
 use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\EspecialController;
+use App\Http\Controllers\EstadisticasController;
 use App\Http\Controllers\SearchCH;
 use App\Livewire\BuscadorHC;
 
@@ -93,6 +94,7 @@ Route::middleware(['auth:web,admin'])->group(function () {
         Route::patch('/usuario/estado/{cedula}', [AuthController::class, 'cambiarEstado'])
         ->name('usuarios.estado');
         Route::post('/consultas/{id}/atender', [MedicoController::class, 'atenderConsulta']);
+        Route::get('/estadisticas', [EstadisticasController::class, 'mostrarEstadisticas'])->name('estadisticas');
     //});
 
     Route::middleware([CheckRole::class . ':medico,especial'])->group(function () {

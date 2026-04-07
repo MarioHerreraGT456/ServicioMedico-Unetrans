@@ -123,6 +123,12 @@
                 Crear Médicos
             </button>
         </a>
+        <a href="{{ route('estadisticas') }}" style="text-decoration: none;">
+            <button class="sidebar__item" data-view="solicitar">
+                <span class="material-symbols-outlined">bar_chart</span>
+                Estadísticas
+            </button>
+        </a>
 
         <a href="{{ route('usuarios.inactivar') }}" style="text-decoration: none;">
             <button class="sidebar__item" data-view="solicitar">
