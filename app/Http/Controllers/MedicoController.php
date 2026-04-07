@@ -29,7 +29,8 @@ class MedicoController extends Controller
     if ($medico && $medico->cargo === 'asistente') {
         $consultasPendientes = DB::table('table_consultas')
             ->where('estado', 'pendiente')
-            ->where('especialidad', $medico->especialidad) 
+            // ->where('especialidad', $medico->especialidad) esta linea hacia que no se mostrara los registros en asistente
+            // hace una restriccion y hacia que no se mostrara todos los registros de la tabla de consultas
             ->orderBy('created_at', 'asc')
             ->get();
     }

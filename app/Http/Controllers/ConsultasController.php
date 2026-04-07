@@ -69,6 +69,7 @@ class ConsultasController extends Controller
             ]);
 
             DB::commit();
+           
 
             return redirect()->route('crear-consultas')->with('success', 'Consulta creada exitosamente.');
 
