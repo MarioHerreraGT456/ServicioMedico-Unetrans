@@ -20,6 +20,10 @@ class PersonalController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user && session('especial')) {
+            $user = (object) session('especial_user');
+        }
         $personal = $user->personal; 
         // dd( $paciente->foto);
         if (!$personal) {

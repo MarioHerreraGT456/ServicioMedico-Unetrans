@@ -60,7 +60,7 @@ Route::middleware(ValidateLinkPassword::class)->group(function () {
 Route::get('/agregar-familiar', [PersonalController::class, 'showPersonalForm'])->name('agregar-familiar');
 // --- PRIVADAS (Protegidas por Auth y Rol) ---
 
-Route::middleware(['auth:web,admin'])->group(function () {
+Route::middleware(['auth:web,admin,especial'])->group(function () {
 
  Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
  Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas');
@@ -93,14 +93,17 @@ Route::middleware(['auth:web,admin'])->group(function () {
         Route::patch('/usuario/estado/{cedula}', [AuthController::class, 'cambiarEstado'])
         ->name('usuarios.estado');
         Route::post('/consultas/{id}/atender', [MedicoController::class, 'atenderConsulta']);
+        //PARA EL CSV
+        Route::get('/importar', [ImportController::class, 'index'])->name('import.index');
+        Route::post('/importar', [ImportController::class, 'import'])->name('import.store');
     //});
 
     Route::middleware([CheckRole::class . ':medico,especial'])->group(function () {
     Route::get('/medico', function () {
-        // Si necesitas lógica diferente según el rol
-        if (Auth::user()->rol === 'especial') {
+        if (Auth::guard('especial')->check()) {
             return app(EspecialController::class)->index(request());
         }
+
         return app(MedicoController::class)->index(request());
     })->name('medico.dashboard');
 });

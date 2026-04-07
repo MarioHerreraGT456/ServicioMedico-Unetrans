@@ -67,7 +67,12 @@ class ConsultasController extends Controller
 
     public function index(Request $request)
 {
-    $persona = Auth::user(); // Usuario logueado
+    $persona = Auth::user();
+
+    if (!$persona && session('especial')) {
+        $persona = (object) session('especial_user');
+    } // Usuario logueado
+    
     $buscar = $request->get('buscar');
     $consultas = collect();
 

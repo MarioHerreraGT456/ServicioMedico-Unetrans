@@ -10,26 +10,38 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        $user = Auth::user();
-        
+        $user = null;
+        $rolActual = null;
+
+        if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+            $rolActual = $user->rol;
+        } elseif (Auth::guard('admin')->check()) {
+            $user = Auth::guard('admin')->user();
+            $rolActual = $user->rol;
+        } elseif (Auth::guard('especial')->check()) {
+            $user = Auth::guard('especial')->user();
+            $rolActual = 'especial';
+        }
+
         if (!$user) {
             return redirect()->route('login');
         }
-        
-        // CORREGIDO: Usamos $user->rol (no roles en plural)
-        if (!in_array($user->rol, $roles)) {
-            // Redirigir según el rol del usuario
-            if ($user->rol === 'paciente') {
+
+        if (!in_array($rolActual, $roles)) {
+            if ($rolActual === 'paciente') {
                 return redirect()->route('paciente.dashboard')
                     ->with('error', 'No tienes permiso para acceder a esa área');
-            } elseif ($user->rol === 'medico' || $user->rol === 'especial') {
+            }
+
+            if ($rolActual === 'medico' || $rolActual === 'especial') {
                 return redirect()->route('medico.dashboard')
                     ->with('error', 'No tienes permiso para acceder a esa área');
             }
-            
+
             return redirect('/')->with('error', 'Acceso no autorizado');
         }
-        
+
         return $next($request);
     }
 }

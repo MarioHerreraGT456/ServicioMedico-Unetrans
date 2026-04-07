@@ -15,6 +15,10 @@ class HistoriasController extends Controller
     public function showHistoriaForm()
     {
         $persona = Auth::user();
+
+        if (!$persona && session('especial')) {
+            $persona = (object) session('especial_user');
+        }
         $medico = $persona->medico;
         return view('crear-historias', compact('persona', 'medico'));
     }

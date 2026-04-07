@@ -15,7 +15,11 @@ class MedicoController extends Controller
     // Vista del Dashboard (protegida)
    public function index(Request $request) 
 {
-    $user = Auth::user();
+   $user = Auth::user();
+
+    if (!$user && session('especial')) {
+        $user = (object) session('especial_user');
+    }
     // $medico = $user->medico;
     $medico = Medico::where('cedula', $user->cedula)->first();
 

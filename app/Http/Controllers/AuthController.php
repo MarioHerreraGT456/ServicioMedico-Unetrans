@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use App\Rules\ExisteEnUniversidad; 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -19,42 +21,33 @@ class AuthController extends Controller
         return view('login');
     }
 
-   public function login(Request $request)
+   
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'cedula' => 'required|numeric',
             'password' => 'required',
         ]);
 
-        // 1. EVALUAR LA TABLA PRINCIPAL (Persona)
-        $user = \App\Models\Persona::where('cedula', $request->cedula)->first();
-
-        // Si el usuario existe en la tabla principal, validamos su estado
-        if ($user) {
-            if (!$user->estado) {
-                return back()->withErrors([
-                    'cedula' => 'Esta cuenta se encuentra inactiva'
-                ])->onlyInput('cedula');
-            }
-
-            // Intento de login normal (Guard por defecto 'web')
-            if (Auth::attempt($credentials, $request->filled('remember'))) {
-                $request->session()->regenerate();
-                return $this->redirectByRole();
-            }
+        // INTENTAR LOGIN NORMAL (PERSONAS)
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            return $this->redirectByRole();
         }
 
-        // 2. EVALUAR LA TABLA SECUNDARIA (Usuario del Seeder)
+        // ADMIN
         if (Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            
-            // Puedes redirigirlo a una ruta específica para este tipo de usuario
             return $this->redirectByRole(); 
-            
-            // O si comparten lógica, podrías enviarlo a $this->redirectByRole() dependiendo de tu estructura
         }
 
-        // 3. SI AMBOS FALLAN
+        // ESPECIAL (CORREGIDO)
+        if (Auth::guard('especial')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            return $this->redirectByRole();
+        }
+
+        // ERROR
         return back()->withErrors([
             'cedula' => 'Credenciales incorrectas.',
         ])->onlyInput('cedula');
@@ -116,7 +109,7 @@ class AuthController extends Controller
             'apellido'          => 'required|string|max:255',  
             'apellido2'         => 'required|string|max:255',    // <-- NUEVO
             'tipo'              => 'required|in:V,E',
-            'cedula' => ['required', 'integer', 'unique:personas,cedula', new ExisteEnUniversidad],
+            'cedula' => ['required', 'integer', new ExisteEnUniversidad],
             'fecha_nacimiento'  => 'required|date',
             'categoria'         => 'required|in:estudiante,personal',
          
@@ -438,31 +431,33 @@ class AuthController extends Controller
     // --- HELPER PARA REDIRECCIONAR ---
     
     // Lo hacemos public static o protected para poder reusarlo si hiciera falta
-    public function redirectByRole()
-{
-    $user = Auth::user();
-    $admin = Auth::guard('admin')->user();
-
-    // 1. PRIORIDAD: ¿Es un administrador de la tabla secundaria?
-    if ($admin) {
-        // Redirigimos al dashboard de médico/especial
-        return redirect()->route('medico.dashboard');
-    }
-
-    // 2. ¿Es un usuario de la tabla principal (Persona)?
-    if ($user) {
-        if ($user->rol === 'paciente') {
-            return redirect()->route('paciente.dashboard');
-        } 
-
-        if ($user->rol === 'medico' || $user->rol === 'especial') {
+   public function redirectByRole()
+    {
+        // Admin
+        if (Auth::guard('admin')->check()) {
             return redirect()->route('medico.dashboard');
         }
-    }
 
-    // 3. Fallback por seguridad
-    return redirect('/');
-}
+        // Especial
+        if (Auth::guard('especial')->check()) {
+            return redirect()->route('medico.dashboard');
+        }
+
+        // Usuario normal
+        $user = Auth::user();
+
+        if ($user) {
+            if ($user->rol === 'paciente') {
+                return redirect()->route('paciente.dashboard');
+            }
+
+            if ($user->rol === 'medico' || $user->rol === 'especial') {
+                return redirect()->route('medico.dashboard');
+            }
+        }
+
+        return redirect('/');
+    }
 
     public function inactivarUsuarios(Request $request)
     {

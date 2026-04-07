@@ -16,6 +16,10 @@ class PacienteController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user && session('especial')) {
+            $user = (object) session('especial_user');
+        }
         $paciente = $user->paciente; 
         // dd( $paciente->foto);
         if (!$paciente) {

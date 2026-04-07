@@ -21,6 +21,10 @@ class PerfilController extends Controller
     {   
         //cambie esto porque me estaba dando error, me decia que no estaba definido user
         $user = Auth::user();
+
+        if (!$user && session('especial')) {
+            $user = (object) session('especial_user');
+        }
         // Aquí puedes obtener los datos del usuario autenticado y pasarlos a la vista
         return view('perfil', compact('user'));
     }
@@ -33,6 +37,10 @@ class PerfilController extends Controller
         try {
 
             $user = Auth::user();
+
+            if (!$user && session('especial')) {
+                $user = (object) session('especial_user');
+            }
 
             if ($request->hasFile('foto')) {
 
@@ -75,6 +83,10 @@ class PerfilController extends Controller
 
             $user = Auth::user();
 
+            if (!$user && session('especial')) {
+                $user = (object) session('especial_user');
+            }
+
             if($request->correo){
                 $user->correo = $request->correo;
             }
@@ -107,6 +119,10 @@ class PerfilController extends Controller
     public function updateClave(Request $request)
     {   
         $user = Auth::user();
+
+        if (!$user && session('especial')) {
+            $user = (object) session('especial_user');
+        }
         
         $data = ['correo' => $user->correo];
 
