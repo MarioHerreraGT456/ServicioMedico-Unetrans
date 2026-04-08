@@ -130,6 +130,26 @@
                 Inactivar Cuentas
             </button>
         </a>
+
+        <div class="sidebar__group">
+
+            <!-- BOTÓN PRINCIPAL -->
+            <button class="sidebar__item" onclick="toggleImportMenu()">
+                <span class="material-symbols-outlined">folder_open</span>
+                Cargar Data
+            </button>
+
+            <!-- SUBMENÚ -->
+            <div id="submenu-import" class="submenu-import">
+
+                <button class="submenu-item" onclick="abrirImportCSV()">
+                    <span class="material-symbols-outlined">upload_file</span>
+                    Subir archivo CSV
+                </button>
+
+            </div>
+
+        </div>
     @endif
 
     <div class="mobile-only" style="width: 100%; margin-top: 10px;">
@@ -146,5 +166,11 @@
   </nav>
 </aside>
 
+<form id="form-import" action="{{ route('import.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="file" id="input-csv" name="archivo" accept=".csv" hidden>
+</form>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/cerrarSesion.js') }}"></script>
+<script src="{{ asset('js/import.js') }}"></script>

@@ -20,9 +20,41 @@ class ImportController extends Controller
 
         $file = fopen($request->file('archivo'), 'r');
 
-        $header = fgetcsv($file); // saltar encabezado
+        $header = fgetcsv($file);
+
+        $errores = [];
+        $filasValidas = [];
+
+        $filaNum = 1;
 
         while (($row = fgetcsv($file)) !== false) {
+
+            $filaNum++;
+
+            if (!$row[0] || !$row[1] || !$row[3] || !$row[5]) {
+                $errores[] = "Fila $filaNum incompleta";
+                continue;
+            }
+
+            if (!in_array($row[5], ['estudiante','personal'])) {
+                $errores[] = "Fila $filaNum tipo inválido";
+                continue;
+            }
+
+            $filasValidas[] = $row;
+        }
+
+        fclose($file);
+
+        // SI HAY ERRORES --- NO GUARDAR
+        if (count($errores) > 0) {
+            return back()->withErrors([
+                'error' => 'Se encontraron errores en el archivo. No se importó nada.'
+            ])->with('errores_detalle', $errores);
+        }
+
+        // GUARDAR SOLO SI TODO OK
+        foreach ($filasValidas as $row) {
 
             PacienteBase::updateOrCreate(
                 ['cedula' => $row[0]],
@@ -37,8 +69,6 @@ class ImportController extends Controller
                 ]
             );
         }
-
-        fclose($file);
 
         return back()->with('success', 'Datos importados correctamente');
     }
