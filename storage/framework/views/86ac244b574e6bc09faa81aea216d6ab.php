@@ -1,8 +1,8 @@
 
 <div class="historia-doc__encabezado">
 
-    <form id="formRegistroConsulta" method="POST" action="{{ route('consultas.store') }}" enctype="multipart/form-data" style="width: 100%; display: flex; justify-content: center;">
-    @csrf
+    <form id="formRegistroConsulta" method="POST" action="<?php echo e(route('consultas.store')); ?>" enctype="multipart/form-data" style="width: 100%; display: flex; justify-content: center;">
+    <?php echo csrf_field(); ?>
     <div class="historia-doc">
 
     <div class="historia-doc__cintillo">
@@ -78,7 +78,7 @@
 
         <div class="campo historia-doc__field">
             <label for="fecha_consulta">Fecha de Consulta:</label>
-            <input type="date" id="fecha_consulta" name="fecha_consulta" value="{{ now('America/Caracas')->toDateString() }}" required>
+            <input type="date" id="fecha_consulta" name="fecha_consulta" value="<?php echo e(now('America/Caracas')->toDateString()); ?>" required>
         </div>
 
     </div>
@@ -89,12 +89,19 @@
         <div class="campo historia-doc__field">
             <label for="sexo">Sexo:</label>
              <select id="sexo" name="sexo" required>
-                        <option value="masculino" {{ old('sexo') == 'masculino' ? 'selected' : '' }}>Masculino</option>
-                        <option value="femenino" {{ old('sexo') == 'femenino' ? 'selected' : '' }}>Femenino</option>
+                        <option value="masculino" <?php echo e(old('sexo') == 'masculino' ? 'selected' : ''); ?>>Masculino</option>
+                        <option value="femenino" <?php echo e(old('sexo') == 'femenino' ? 'selected' : ''); ?>>Femenino</option>
                     </select>
-                    @error('sexo')
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['sexo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <span class="error-message">Dato inválido</span>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
 
         <div class="campo historia-doc__field">
@@ -110,7 +117,7 @@
 
         <div class="campo historia-doc__field">
             <label for="TA">Tensión Arterial:</label>
-            <input type="text" id="TA" name="TA" value="{{ old('TA') }}" required>
+            <input type="text" id="TA" name="TA" value="<?php echo e(old('TA')); ?>" required>
         </div>
 
     </div>
@@ -133,7 +140,7 @@
     </div>
 
 </div>
-            <input type="text" id="motivo" name="motivo" value="{{ old('motivo') }}" required>
+            <input type="text" id="motivo" name="motivo" value="<?php echo e(old('motivo')); ?>" required>
         </div>
 
     </div>
@@ -143,7 +150,7 @@
 
         <div class="campo historia-doc__field historia-doc__field--full">
             <label for="nombre_doctor">Nombre del Doctor:</label>
-            <input type="text" id="nombre_doctor" name="nombre_doctor" value="{{ old('nombre_doctor') }}" required>
+            <input type="text" id="nombre_doctor" name="nombre_doctor" value="<?php echo e(old('nombre_doctor')); ?>" required>
         </div>
 
     </div>
@@ -153,7 +160,7 @@
 
         <div class="campo historia-doc__field historia-doc__field--full">
             <label for="tratamiento">Tratamiento:</label>
-            <textarea id="tratamiento" name="tratamiento" required>{{ old('tratamiento') }}</textarea>
+            <textarea id="tratamiento" name="tratamiento" required><?php echo e(old('tratamiento')); ?></textarea>
         </div>
 
     </div>
@@ -173,3 +180,4 @@
     </form>      
 
 </div>
+<?php /**PATH C:\xampp\htdocs\Unetrans\resources\views/livewire/buscador-h-c.blade.php ENDPATH**/ ?>

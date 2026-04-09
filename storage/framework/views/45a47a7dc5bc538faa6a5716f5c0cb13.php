@@ -7,15 +7,17 @@
 
   <title>Inicio Paciente</title>
 
-    <link href="css/style.css" rel="stylesheet"/>
-    <link href="css/overlays.css" rel="stylesheet"/>
-    <link href="css/auth.css" rel="stylesheet"/>
-    <link href="css/reportes.css" rel="stylesheet"/>
+    <link href="<?php echo e(asset('css/style.css')); ?>" rel="stylesheet"/>
+    <link href="<?php echo e(asset('css/overlays.css')); ?>" rel="stylesheet"/>
+    <link href="<?php echo e(asset('css/auth.css')); ?>" rel="stylesheet"/>
+    <link href="<?php echo e(asset('css/reportes.css')); ?>" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
             rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
-    <script src="js/menu-header.js" defer></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="<?php echo e(asset('js/menu-header.js')); ?>" defer></script>
 
 </head>
 <body>

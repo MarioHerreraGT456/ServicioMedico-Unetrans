@@ -37,11 +37,11 @@ class ConsultasController extends Controller
         ]);
         if ($request->especialidad === 'general') {
     $request->validate([
-        'tipo_consulta' => 'required|in:niños,parto,pesquisa,vital',
+        'tipo_consulta' => 'required|in:niños,parto,pesquisa,vital,otros',
     ]);
 } else {
     $request->validate([
-        'tipo_consulta' => 'nullable|in:niños,parto,pesquisa,vital',
+        'tipo_consulta' => 'nullable|in:niños,parto,pesquisa,vital,otros',
     ]);
 }
       
@@ -69,6 +69,7 @@ class ConsultasController extends Controller
             ]);
 
             DB::commit();
+           
 
             return redirect()->route('crear-consultas')->with('success', 'Consulta creada exitosamente.');
 

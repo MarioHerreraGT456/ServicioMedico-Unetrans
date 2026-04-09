@@ -41,69 +41,7 @@
       <!--<p>Esta es la columna del 70%.</p>-->
       
       <!--MENSAJE PARA CUANDO NO HAY NADA EN EL BUSCADOR-->
-      <!--<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!request('buscar')): ?>
-      <section id="view-perfil" class="view" style="display: flex; flex-direction: column; gap: 20px;">
-        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard('admin')->check()): ?>
-        <div class="profile-header-card-result" style="border-left: 5px solid #ffc107;">
-            <div class="profile-photo-and-name-result">
-                <div class="profile-avatar-result">
-                    <img src="<?php echo e(asset('img/perfil.jpg')); ?>" alt="Foto Admin" style="width:120px; height:120px; border-radius:50%;">
-                </div>
-                <div class="profile-main-info-result">
-                    <h2 class="profile-name-result"><?php echo e(Auth::guard('admin')->user()->usuario); ?></h2>
-                    <span class="badge-admin" style="color: #856404; background-color: #fff3cd; padding: 5px 10px; border-radius: 5px; font-weight: bold;">
-                        Jefe Médico
-                    </span>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medico) && $medico->especialidad === 'general'): ?>
-        <div class="info-medica-card general">
-            <h3>Medicina General</h3>
-            <p>
-              La medicina general es la puerta de entrada al sistema de salud, orientada a la atención integral del paciente en todas las etapas de la vida. Se enfoca en la prevención, diagnóstico y tratamiento de enfermedades comunes, así como en la promoción de hábitos saludables. El médico general evalúa de forma global el estado físico del paciente, identifica factores de riesgo y, de ser necesario, refiere a otras especialidades. Su objetivo principal es brindar una atención continua, accesible y centrada en el bienestar general del individuo.
-            </p>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medico) && $medico->especialidad === 'odontologia'): ?>
-        <div class="info-medica-card odontologia">
-            <h3>Odontología</h3>
-            <p>
-                La odontología es la especialidad encargada del cuidado de la salud bucal, incluyendo dientes, encías y estructuras asociadas. Se enfoca en la prevención, diagnóstico y tratamiento de afecciones como caries, enfermedades periodontales y problemas de oclusión. Además, promueve hábitos de higiene oral adecuados para evitar complicaciones a largo plazo. Una buena salud bucal no solo mejora la estética, sino que también contribuye al bienestar general del organismo.
-            </p>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medico) && $medico->especialidad === 'psiquiatria'): ?>
-        <div class="info-medica-card psiquiatria">
-            <h3>Psiquiatría</h3>
-            <p>
-                La psiquiatría es la rama de la medicina dedicada al estudio, diagnóstico y tratamiento de los trastornos mentales, emocionales y del comportamiento. Su enfoque incluye la evaluación integral del paciente, considerando factores biológicos, psicológicos y sociales. A través de diferentes herramientas terapéuticas, busca mejorar la calidad de vida, el funcionamiento diario y el bienestar emocional del individuo, promoviendo una salud mental equilibrada.
-            </p>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medico) && $medico->especialidad === 'fisiatria'): ?>
-        <div class="info-medica-card fisiatria">
-            <h3>Fisiatría</h3>
-            <p>
-                La fisiatría, también conocida como medicina física y rehabilitación, se centra en la recuperación funcional de pacientes con limitaciones físicas o discapacidades. Su objetivo es mejorar la movilidad, reducir el dolor y optimizar la independencia del paciente mediante programas de rehabilitación personalizados. Trabaja en conjunto con terapias físicas y ocupacionales para lograr una reintegración efectiva a las actividades diarias.
-            </p>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medico) && $medico->especialidad === 'traumatologia'): ?>
-        <div class="info-medica-card traumatologia">
-            <h3>Traumatología</h3>
-            <p>
-                La fisiatría, también conocida como medicina física y rehabilitación, se centra en la recuperación funcional de pacientes con limitaciones físicas o discapacidades. Su objetivo es mejorar la movilidad, reducir el dolor y optimizar la independencia del paciente mediante programas de rehabilitación personalizados. Trabaja en conjunto con terapias físicas y ocupacionales para lograr una reintegración efectiva a las actividades diarias.
-            </p>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-      </section>
-      <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>-->
+      
       
       <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medico) && $medico->cargo === 'asistente'): ?>
 
@@ -145,11 +83,15 @@
                                     <?php echo e($consulta->apellido); ?> <?php echo e($consulta->apellido2); ?>
 
                                 </span>
-
+                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($consulta->visitante === 'si'): ?>
                                 <span class="waiting-badge">
-                                    <?php echo e($consulta->visitante === 'si' ? 'Visitante' : 'No Visitante'); ?>
-
+                                    Visitante
                                 </span>
+                                <?php else: ?>
+                                <span class="waiting-badge">
+                                    No visitante
+                                </span>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                             </div>
 

@@ -43,7 +43,7 @@
       <!--<p>Esta es la columna del 70%.</p>-->
       
       <!--MENSAJE PARA CUANDO NO HAY NADA EN EL BUSCADOR-->
-      <!--@if (!request('buscar'))
+      {{-- @if (!request('buscar'))
       <section id="view-perfil" class="view" style="display: flex; flex-direction: column; gap: 20px;">
         @auth('admin')
         <div class="profile-header-card-result" style="border-left: 5px solid #ffc107;">
@@ -105,7 +105,7 @@
         </div>
     @endif
       </section>
-      @endif-->
+      @endif --}}
       
       @if(isset($medico) && $medico->cargo === 'asistente')
 
@@ -144,10 +144,15 @@
                                     {{ $consulta->nombre }} {{ $consulta->nombre2 }} 
                                     {{ $consulta->apellido }} {{ $consulta->apellido2 }}
                                 </span>
-
+                             @if ($consulta->visitante === 'si')
                                 <span class="waiting-badge">
-                                    {{ $consulta->visitante === 'si' ? 'Visitante' : 'No Visitante' }}
+                                    Visitante
                                 </span>
+                                @else
+                                <span class="waiting-badge">
+                                    No visitante
+                                </span>
+                                @endif
 
                             </div>
 

@@ -30,7 +30,7 @@ return new class extends Migration
             $table->enum('estado', ['pendiente', 'completada'])
             ->default('pendiente');
             $table->enum('visitante', ['si', 'no'])->default('no');
-            $table->enum('tipo_consulta', ['niños', 'parto', 'pesquisa', 'vital'])->nullable();
+            $table->enum('tipo_consulta', ['niños', 'parto', 'pesquisa', 'vital', 'otros'])->nullable();
             $table->timestamps();
             // $table->foreign('cedula')->references('cedula')->on('pacientes')->onDelete('cascade');
         });
