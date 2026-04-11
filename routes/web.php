@@ -16,6 +16,7 @@ use App\Http\Controllers\EspecialController;
 use App\Http\Controllers\EstadisticasController;
 use App\Http\Controllers\SearchCH;
 use App\Livewire\BuscadorHC;
+use App\Http\Controllers\ImportController;
 
 // --- PÚBLICAS ---
 Route::get('/', function () {
@@ -95,6 +96,8 @@ Route::middleware(['auth:web,admin,especial'])->group(function () {
         ->name('usuarios.estado');
         Route::post('/consultas/{id}/atender', [MedicoController::class, 'atenderConsulta']);
         Route::get('/estadisticas', [EstadisticasController::class, 'mostrarEstadisticas'])->name('estadisticas');
+        Route::get('/estadisticas/descargar-datos', [EstadisticasController::class, 'descargarReporte'])
+    ->name('estadisticas.pdf');
         //PARA EL CSV
         Route::get('/importar', [ImportController::class, 'index'])->name('import.index');
         Route::post('/importar', [ImportController::class, 'import'])->name('import.store');

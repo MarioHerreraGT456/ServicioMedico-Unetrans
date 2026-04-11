@@ -1,4 +1,7 @@
 <?php $__env->startSection('content'); ?>
+<div id="pdf-alert" style="display: none; background: #d1fae5; color: #065f46; border: 1px solid #10b981; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 500;">
+        <i class='bx bx-cloud-download'></i> ¡Descarga con éxito! El reporte se ha generado correctamente.
+    </div>
 <div class="dashboard-estadisticas">
     <h1 class="titulo-principal">Panel de Estadísticas Médicas</h1>
 
@@ -178,8 +181,25 @@
         </div>
 
     </div>
+    <a href="<?php echo e(route('estadisticas.pdf')); ?>" 
+           onclick="mostrarExito()"
+           class="btn-descarga" 
+           style="background: #10b981; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: bold; border: none; cursor: pointer;">
+            <i class='bx bxs-file-pdf'></i> Descargar Datos PDF
+        </a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function mostrarExito() {
+        const alerta = document.getElementById('pdf-alert');
+        alerta.style.display = 'block';
+
+        // Desaparece tras 5 segundos
+        setTimeout(() => {
+            alerta.style.display = 'none';
+        }, 5000);
+    }
+</script>
 
 <script>
     const especialidadesLabels = ['Medicina General', 'Odontología', 'Psiquiatría', 'Fisiatría', 'Traumatología'];
