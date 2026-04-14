@@ -1,3 +1,21 @@
+🤝 Créditos y Colaboración
+
+Este proyecto ha sido desarrollado como parte del proceso de formación académica para la obtención del título de **Técnico Superior Universitario (TSU)**.
+
+ Equipo del Proyecto
+Nahara Rivera *Rol: Desarrolladora Frontend y Autora Académica. Responsable del diseño de interfaz, experiencia de usuario y lógica de cliente.
+  
+Mario Herrera Rol: Mentor y Desarrollador Backend. Responsable de la definición de la arquitectura técnica, estructura de base de datos, desarrollo del core del sistema y supervisión técnica integral.
+
+---
+
+🛠️ Notas de Desarrollo (Mentoría)
+Para garantizar la escalabilidad y seguridad del proyecto durante la colaboración:
+1. Arquitectura: Se estableció una estructura base robusta para separar las responsabilidades del Frontend y Backend.
+2. Seguridad: Se implementó un archivo `.gitignore` estricto para asegurar que ninguna credencial académica o técnica sea expuesta en el historial de Git.
+3. Flujo de Trabajo: El desarrollo se realizó bajo supervisión constante, aplicando buenas prácticas de código y control de versiones.
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
